@@ -244,7 +244,20 @@ public class Joycon
             return Quaternion.identity;
         }
     }
-	public int Attach(byte leds_ = 0x0)
+    //public Quaternion GetRotation()
+    //{
+    //    Vector3 forward = new Vector3(-i_b.y, i_b.z, i_b.x);
+    //    Vector3 upwards = (new Vector3(-k_b.y, k_b.z, k_b.x));
+    //    if (upwards != Vector3.zero)
+    //    {
+    //        return Quaternion.LookRotation(forward, upwards);
+    //    }
+    //    else
+    //    {
+    //        return Quaternion.identity;
+    //    }
+    //}
+    public int Attach(byte leds_ = 0x0)
     {
         state = state_.ATTACHED;
         byte[] a = { 0x0 };
