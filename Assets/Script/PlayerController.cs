@@ -18,7 +18,7 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    void FixedUpdate()
+    void Update()
     {
 
         Vector3 move = speed * (transform.forward * Input.GetAxis("Vertical") + transform.right * Input.GetAxis("Horizontal"));
