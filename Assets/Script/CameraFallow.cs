@@ -2,24 +2,38 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-
-[RequireComponent(typeof(Transform))]
-public class CameraFallow : MonoBehaviour {
+[ExecuteInEditMode]
+public class CameraFallow : MonoBehaviour
+{
 
     public Transform target;
+    public Transform lookat;
 
-    private Vector3 pos_offset;
-    private Quaternion init_rotation;
+    static public float Angle { get; set; } = 0.397f;
+    static public float Distance { get; set; } = 10.0f;
 
-	// Use this for initialization
-	void Start () {
-        pos_offset = transform.position - target.transform.position;
-        init_rotation = transform.rotation;
+    void Start()
+    {
+        if (target == null)
+            enabled = false;
     }
-	
-	// Update is called once per frame
-	void Update () {
-        transform.position = target.transform.position + target.rotation * pos_offset;
-        transform.rotation = target.rotation * init_rotation;
+
+    void Update()
+    {
+        UpdataPosition();
+    }
+
+    public void UpdataPosition()
+    {
+        var pos = new Vector3();
+        var rot_y = target.eulerAngles.y * Mathf.Deg2Rad;
+
+        pos.y =  Distance * Mathf.Sin(Angle);
+        pos.x = -Distance * Mathf.Cos(Angle) * Mathf.Sin(rot_y);
+        pos.z = -Distance * Mathf.Cos(Angle) * Mathf.Cos(rot_y);
+        pos += target.position;
+
+        transform.position = pos;
+        transform.LookAt(lookat ? lookat : target);
     }
 }

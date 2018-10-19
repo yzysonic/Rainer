@@ -4,14 +4,12 @@ Shader "Custom/Paint"{
 	Properties{
 		[HideInInspector]
 		_MainTex("MainTex", 2D) = "white"
-		[HideInInspector]
-		_Blush("Blush", 2D) = "white"
-		[HideInInspector]
-		_BlushScale("BlushScale", FLOAT) = 0.1
-		[HideInInspector]
-		_BlushColor("BlushColor", VECTOR) = (0,0,0,0)
-		[HideInInspector]
-		_PaintUV("Hit UV Position", VECTOR) = (0,0,0,0)
+		//[HideInInspector]
+		//_Blush("Blush", 2D) = "white"
+		//[HideInInspector]
+		//_BlushScale("BlushScale", FLOAT) = 0.1
+		//[HideInInspector]
+		//_PaintUV("Hit UV Position", VECTOR) = (0,0,0,0)
 	}
 
 		SubShader{
@@ -49,12 +47,15 @@ Shader "Custom/Paint"{
 
 
 				float4 frag(v2f i) : SV_TARGET {
-					float h = _BlushScale;
-					if (_PaintUV.x - h < i.uv.x && i.uv.x < _PaintUV.x + h &&
-							_PaintUV.y - h < i.uv.y && i.uv.y < _PaintUV.y + h) {
-						float4 col = tex2D(_Blush, (_PaintUV.xy - i.uv) / h * 0.5 + 0.5);
-						if (col.a - 1 >= 0)
-							return _BlushColor;
+					float2 v = i.uv - _PaintUV;
+					float rv = dot(v, v);
+					float rb = _BlushScale*_BlushScale;
+
+					if (rv < rb)
+					{
+						float blend = rv / rb;
+
+						return tex2D(_Blush, i.uv)*(1 - blend) + tex2D(_MainTex, i.uv)*blend;
 					}
 
 					return tex2D(_MainTex, i.uv);

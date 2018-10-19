@@ -8,15 +8,15 @@ namespace Es.TexturePaint.Sample
     {
         private void Update()
         {
-            if (Input.GetMouseButtonDown(0))
+            if (Input.GetMouseButton(1))
             {
-                var ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+                var ray = Camera.allCameras[0].ScreenPointToRay(Input.mousePosition);
                 RaycastHit hitInfo;
                 if (Physics.Raycast(ray, out hitInfo))
                 {
                     var paintObject = hitInfo.transform.GetComponent<DynamicPaintObject>();
                     if (paintObject != null)
-                        paintObject.Paint(hitInfo);
+                        paintObject.Paint(hitInfo.textureCoord);
                 }
             }
         }
