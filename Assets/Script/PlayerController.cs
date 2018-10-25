@@ -2,9 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+
 public class PlayerController : MonoBehaviour {
 
-    public bool use_joycon;
+    public enum ControllType
+    {
+        Joycon,
+        KeyboardMouse,
+        None
+    }
+
+    public Canvas canvas;
+    public ControllType controllType;
 
     [Range(1.0f, 30.0f)]
     public float max_speed = 10.0f;
@@ -15,28 +24,25 @@ public class PlayerController : MonoBehaviour {
     [Range(10.0f, 90.0f)]
     public float max_angle = 40.0f;
 
+
+    private int playerNo;
     private Joycon joycon;
     private CharacterController controller;
+    private RainerCount rainerCount;
 
     // Use this for initialization
     void Start () {
-
-        if(JoyconManager.Instance != null)
-        {
-            var joycons = JoyconManager.Instance.j;
-
-            if (joycons != null && joycons.Count > 0)
-                joycon = joycons[0];
-        }
-
-        controller = GetComponent<CharacterController>();
+        playerNo    = int.Parse(gameObject.name.Substring(6, 1))-1;
+        joycon      = GameSetting.PlayerJoycons[playerNo];
+        controller  = GetComponent<CharacterController>();
+        rainerCount = canvas.transform.Find("RainerCount").GetComponent<RainerCount>();
     }
 	
 	// Update is called once per frame
 	void FixedUpdate () {
 
         // Joycon
-        if(joycon != null && use_joycon)
+        if(joycon != null && controllType == ControllType.Joycon)
         {
 
             #region Rotate
@@ -71,7 +77,7 @@ public class PlayerController : MonoBehaviour {
 
         }
         // キーボード・マウス
-        else
+        else if(controllType == ControllType.KeyboardMouse)
         {
             if(Input.GetMouseButton(0))
             {
@@ -87,7 +93,6 @@ public class PlayerController : MonoBehaviour {
             controller.SimpleMove(dir * max_speed);
 
         }
-
 
 
     }

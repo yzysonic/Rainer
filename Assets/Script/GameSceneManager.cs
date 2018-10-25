@@ -2,12 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 
 public class GameSceneManager : Singleton<GameSceneManager>
 {
-    private bool hasPlayerSetted;
-    private int numPlayer;
 
     [SerializeField]
     private List<GameObject> players = new List<GameObject>();
@@ -15,32 +14,73 @@ public class GameSceneManager : Singleton<GameSceneManager>
     [SerializeField]
     private List<GameObject> cameras = new List<GameObject>();
 
-    private void Awake()
-    {
-    }
+    [SerializeField]
+    private List<GameObject> canvas = new List<GameObject>();
+
+    [SerializeField]
+    private StartLogo startLogo;
+
+    [SerializeField]
+    private Timer timer;
+
+    private bool hasPlayerSetted;
+    private int numPlayer;
+    private int state;
 
     private void Start()
     {
-        SetPlayerAndCamera();
+        SetPlayer();
+        startLogo.Active = true;
+        state = 0;
     }
 
     public void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Return))
+        switch (state)
         {
-            SceneManager.LoadScene("TitleScene");
+            case 0:
+                // カメラワーク
+                state++;
+                break;
+
+            case 1:
+                if (startLogo.Active != false)
+                    break;
+
+                timer.enabled = true;
+                players.ForEach(p => p.GetComponent<PlayerController>().enabled = true);
+                state++;
+                break;
+
+
+            case 2:
+
+                if (timer.RemainingTime <= 0.0f)
+                {
+                    timer.enabled = false;
+                    startLogo.Text = "終了";
+                    startLogo.Active = true;
+                    state++;
+                }
+                break;
+
+            case 3:
+                // カメラワーク
+                state++;
+                break;
         }
     }
 
-    public void SetPlayerAndCamera()
+    public void SetPlayer()
     {
-        var numPlayer = GameSetting.NumPlayer;
+        numPlayer = GameSetting.NumPlayer;
 
-        for(var i = 0; i < 4; i++)
+        for (var i = 0; i < 4; i++)
         {
             var active = i < numPlayer;
             players[i].SetActive(active);
             cameras[i].SetActive(active);
+            canvas[i].SetActive(active);
         }
 
         // カメラの個別設定
