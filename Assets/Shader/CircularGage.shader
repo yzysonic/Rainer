@@ -79,6 +79,8 @@ Shader "Custom/CircularGage"
             fixed4 _TextureSampleAdd;
             float4 _ClipRect;
             float4 _MainTex_ST;
+            float _CircleWidth;
+            float _Radius;
 
             v2f vert(appdata_t v)
             {
@@ -106,7 +108,11 @@ Shader "Custom/CircularGage"
                 clip (color.a - 0.001);
                 #endif
 
-                return color;
+                if(IN.vertex.x >= 640)
+                    return color;
+                //else
+                    return fixed4(1,1,1,0);
+
             }
         ENDCG
         }
