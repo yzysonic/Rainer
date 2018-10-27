@@ -4,9 +4,22 @@ using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
+using RainerLib;
 
 public class GameSceneManager : Singleton<GameSceneManager>
 {
+    public enum State
+    {
+        Init,
+        CameraworkStart,
+        StartLogo,
+        Game,
+        EndLogo,
+        CameraworkEnd,
+        Result
+    }
+
+    public State startState = State.Init;
 
     [SerializeField]
     private List<GameObject> players = new List<GameObject>();
@@ -21,69 +34,100 @@ public class GameSceneManager : Singleton<GameSceneManager>
     private StartLogo startLogo;
 
     [SerializeField]
-    private Timer timer;
+    private GameTimer timer;
 
     [SerializeField]
     private ScoreManager scoreManager;
 
-    private bool hasPlayerSetted;
     private int numPlayer;
-    private int state;
+    private State currentState;
+
+    public State CurrentState
+    {
+        get
+        {
+            return currentState;
+        }
+        set
+        {
+            if(currentState != value)
+            {
+                currentState = value;
+                Start();
+            }
+        }
+    }
 
     private void Start()
     {
-        SetPlayer();
-        startLogo.Active = true;
-        state = 0;
+        switch (CurrentState)
+        {
+            case State.Init:
+                SetPlayer();
+                CurrentState++;
+                break;
+
+            case State.CameraworkStart:
+                break;
+
+            case State.StartLogo:
+                startLogo.gameObject.SetActive(true);
+                startLogo.callback = () => CurrentState++;
+                break;
+
+            case State.Game:
+                timer.gameObject.SetActive(true);
+                players.TakeWhile(p => p.activeSelf)
+                    .ToList()
+                    .ForEach((p) => {
+                        var controller = p.GetComponent<PlayerController>();
+                        controller.enabled = true;
+                        controller.canvas.gameObject.SetActive(true);
+                    });
+                break;
+
+            case State.EndLogo:
+                startLogo.GetComponent<Text>().text = "終了";
+                startLogo.callback = () => CurrentState++;
+                startLogo.gameObject.SetActive(true);
+                break;
+        }
+
     }
 
     public void Update()
     {
-        switch (state)
+        switch (CurrentState)
         {
-            case 0:
-                // カメラワーク
-                state++;
+            case State.CameraworkStart:
+                CurrentState++;
                 break;
 
-            case 1:
-                if (startLogo.Active != false)
-                    break;
-
-                timer.enabled = true;
-                players.ForEach(p => p.GetComponent<PlayerController>().enabled = true);
-                state++;
-                break;
-
-
-            case 2:
-
-                if (timer.RemainingTime <= 0.0f)
+            case State.Game:
+                if (timer.TimesUp)
                 {
                     timer.enabled = false;
-                    startLogo.Text = "終了";
-                    startLogo.Active = true;
-                    state++;
+                    CurrentState++;
                 }
                 break;
 
-            case 3:
-                // カメラワーク
-                state++;
+            case State.CameraworkEnd:
+                CurrentState++;
                 break;
+
+            default: return;
         }
     }
 
     public void SetPlayer()
     {
-        numPlayer = GameSetting.NumPlayer;
-        scoreManager.Start();
+        numPlayer = GameSetting.PlayerCount;
+
         for (var i = 0; i < 4; i++)
         {
             var active = i < numPlayer;
             players[i].SetActive(active);
             cameras[i].SetActive(active);
-            canvas[i].SetActive(active);
         }
 
         // カメラの個別設定
@@ -111,4 +155,5 @@ public class GameSceneManager : Singleton<GameSceneManager>
         }
 
     }
+
 }

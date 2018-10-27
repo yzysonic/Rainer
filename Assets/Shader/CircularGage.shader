@@ -6,8 +6,10 @@ Shader "Custom/CircularGage"
     {
         [PerRendererData] _MainTex ("Sprite Texture", 2D) = "white" {}
 
-        _Division("Division", Range(1,4)) = 4
         _CircleRadius("CircleRadius", Float) = 0.5
+        _CircleWidth("CircleWidth", Float) = 0.5
+        _Division("Division", Range(1,4)) = 4
+        
         _StencilComp ("Stencil Comparison", Float) = 8
         _Stencil ("Stencil ID", Float) = 0
         _StencilOp ("Stencil Operation", Float) = 0
@@ -83,7 +85,6 @@ Shader "Custom/CircularGage"
             fixed4 _TextureSampleAdd;
             float4 _ClipRect;
             float4 _MainTex_ST;
-            float4 _MainTex_TexelSize;            
             float4 _CircleColors[4];
 			float _CircleRatios[4];
             float _CircleRadius;
@@ -124,6 +125,8 @@ Shader "Custom/CircularGage"
                     return fixed4(1,1,1,0);
                 }
 
+                // return color;
+
                 float theta = atan2(-p.x, -p.y) + PI;
                 float ratio = 0.0f;
                 for(int i=0; i<_Division; i++)
@@ -131,7 +134,7 @@ Shader "Custom/CircularGage"
                     ratio += _CircleRatios[i];
                     if(theta < 2.0f*PI*ratio)
                     {
-                        return color * _CircleColors[i];
+                        return color * _CircleColors[i]; 
                     }
                 } 
 

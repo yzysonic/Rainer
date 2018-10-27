@@ -3,9 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class RainerCount : MonoBehaviour {
+public class RainerCount : MonoBehaviour
+{
+    [Range(1,3)]
+    public int digit = 1;
 
     private Text text;
+
+    [SerializeField]
     private int value;
 
     public int Value
@@ -17,17 +22,25 @@ public class RainerCount : MonoBehaviour {
         set
         {
             this.value = value;
-            text.text = $"RainerCount {value}";
+            text.text = GetValueString();
         }
     }
 
-	// Use this for initialization
-	void Start () {
-        text = GetComponent<Text>();
+    private void OnValidate()
+    {
+        var text = GetComponent<Text>();
+        text.text = GetValueString();
+    }
+
+    // Use this for initialization
+    void Start () {
+        text = GetComponent<Graphic>() as Text;
+        //var test = GetComponent<Graphic>();
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+
+    string GetValueString()
+    {
+        return $"x{value.ToString($"d{digit}")}";
+    }
+
 }

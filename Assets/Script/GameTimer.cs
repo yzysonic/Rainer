@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class Timer : MonoBehaviour {
+public class GameTimer : MonoBehaviour {
 
     [Range(0, 200)]
     public int initTime = 60;

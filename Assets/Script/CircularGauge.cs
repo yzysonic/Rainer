@@ -92,18 +92,16 @@ public class CircularGauge : MonoBehaviour
     {
         GetComponent<RawImage>().enabled = enabled;
     }
+
     private void OnDisable()
     {
         GetComponent<RawImage>().enabled = enabled;
     }
-    private void Awake()
+
+    private void Start()
     {
-        Debug.Log("awake");
-        material    = GetComponent<RawImage>().material;
-        Radius      = radius;
-        Width       = width;
-        Division    = division;
-        Colors      = colors;
+        material = GetComponent<RawImage>().material;
+        Init();
     }
 
     private void Update()
@@ -133,10 +131,10 @@ public class CircularGauge : MonoBehaviour
 
     public void Init()
     {
-        for (var i = 0; i < division; i++)
-        {
-            DisplayValues[i] = Values[i] = 1;
-        }
+        Radius = radius;
+        Width = width;
+        Division = division;
+        Colors = colors;
 
         UpdateGauge();
     }

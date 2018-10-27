@@ -12,7 +12,7 @@ public class ScoreManager : MonoBehaviour
     // Use this for initialization
     public void Start () {
         circularGauge = GetComponent<CircularGauge>();
-        circularGauge.Division = GameSetting.NumPlayer;
+        circularGauge.Division = GameSetting.PlayerCount;
         circularGauge.Init();
 	}
 	
@@ -31,7 +31,7 @@ public class ScoreManager : MonoBehaviour
         scores[playerNo] += point;
 
         int index = 0;
-        switch(GameSetting.NumPlayer)
+        switch(GameSetting.PlayerCount)
         {
             case 2:
                 switch (playerNo)

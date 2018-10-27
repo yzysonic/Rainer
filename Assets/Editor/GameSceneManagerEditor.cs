@@ -15,7 +15,7 @@ public class GameSceneManagerEditor : Editor
 
         EditorGUI.BeginChangeCheck();
 
-        GameSetting.NumPlayer = EditorGUILayout.IntSlider("プレイ人数", GameSetting.NumPlayer, 2, 4);
+        GameSetting.PlayerCount = EditorGUILayout.IntSlider("PlayerCount", GameSetting.PlayerCount, 2, 4);
 
         if (EditorGUI.EndChangeCheck())
         {
