@@ -23,6 +23,9 @@ public class GameSceneManager : Singleton<GameSceneManager>
     [SerializeField]
     private Timer timer;
 
+    [SerializeField]
+    private ScoreManager scoreManager;
+
     private bool hasPlayerSetted;
     private int numPlayer;
     private int state;
@@ -74,7 +77,7 @@ public class GameSceneManager : Singleton<GameSceneManager>
     public void SetPlayer()
     {
         numPlayer = GameSetting.NumPlayer;
-
+        scoreManager.Start();
         for (var i = 0; i < 4; i++)
         {
             var active = i < numPlayer;

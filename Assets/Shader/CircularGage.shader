@@ -6,6 +6,8 @@ Shader "Custom/CircularGage"
     {
         [PerRendererData] _MainTex ("Sprite Texture", 2D) = "white" {}
 
+        _Division("Division", Range(1,4)) = 4
+        _CircleRadius("CircleRadius", Float) = 0.5
         _StencilComp ("Stencil Comparison", Float) = 8
         _Stencil ("Stencil ID", Float) = 0
         _StencilOp ("Stencil Operation", Float) = 0
@@ -52,6 +54,8 @@ Shader "Custom/CircularGage"
             #pragma fragment frag
             #pragma target 2.0
 
+            #define PI 3.1415926f
+
             #include "UnityCG.cginc"
             #include "UnityUI.cginc"
 
@@ -79,8 +83,12 @@ Shader "Custom/CircularGage"
             fixed4 _TextureSampleAdd;
             float4 _ClipRect;
             float4 _MainTex_ST;
+            float4 _MainTex_TexelSize;            
+            float4 _CircleColors[4];
+			float _CircleRatios[4];
+            float _CircleRadius;
             float _CircleWidth;
-            float _Radius;
+            int _Division;
 
             v2f vert(appdata_t v)
             {
@@ -108,10 +116,26 @@ Shader "Custom/CircularGage"
                 clip (color.a - 0.001);
                 #endif
 
-                if(IN.vertex.x >= 640)
-                    return color;
-                //else
+                float2 p = (IN.texcoord.xy - float2(0.5f, 0.5f));
+                float len = p.x*p.x+p.y*p.y;
+
+                if(len > _CircleRadius*_CircleRadius || len < (_CircleRadius-_CircleWidth)*(_CircleRadius-_CircleWidth))
+                {
                     return fixed4(1,1,1,0);
+                }
+
+                float theta = atan2(-p.x, -p.y) + PI;
+                float ratio = 0.0f;
+                for(int i=0; i<_Division; i++)
+                {
+                    ratio += _CircleRatios[i];
+                    if(theta < 2.0f*PI*ratio)
+                    {
+                        return color * _CircleColors[i];
+                    }
+                } 
+
+                return color;
 
             }
         ENDCG
