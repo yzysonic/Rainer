@@ -9,7 +9,7 @@ public class Timer : MonoBehaviour {
     public int initTime = 60;
 
     private Text text;
-    private CircularGage gage;
+    private CircularGauge gauge;
     private float remainingTime;
 
     public float RemainingTime
@@ -22,8 +22,8 @@ public class Timer : MonoBehaviour {
         {
             var displayTime = Mathf.RoundToInt(value);
             text.text = displayTime.ToString();
-            gage.Values[0] = initTime - value;
-            gage.Values[1] = value;
+            gauge.Values[0] = initTime - value;
+            gauge.Values[1] = value;
             remainingTime = value;
         }
     }
@@ -43,7 +43,7 @@ public class Timer : MonoBehaviour {
     // Use this for initialization
     void Start () {
         text = GetComponentInChildren<Text>();
-        gage = GetComponentInChildren<CircularGage>();
+        gauge = GetComponentInChildren<CircularGauge>();
         RemainingTime = initTime;
     }
 	

@@ -360,12 +360,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37ceeb2276cddfe46b3c2ffc696aed82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  circleRadius: 0.5
-  circleWidth: 0.247
-  circleColors:
-  - {r: 0.7264151, g: 0.7264151, b: 0.7264151, a: 1}
-  - {r: 0.41509432, g: 0.41509432, b: 0.41509432, a: 1}
   lerpSpeed: 10
+  radius: 0.5
+  width: 0.3
+  colors:
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
   division: 2
 --- !u!114 &112343660
 MonoBehaviour:
@@ -1168,14 +1170,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37ceeb2276cddfe46b3c2ffc696aed82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  circleRadius: 0.5
-  circleWidth: 0.075
-  circleColors:
+  lerpSpeed: 10
+  radius: 0.5
+  width: 0.19
+  colors:
   - {r: 1, g: 0, b: 0.40392157, a: 1}
+  - {r: 0, g: 0.59607846, b: 1, a: 1}
   - {r: 0, g: 1, b: 0.58431375, a: 1}
   - {r: 0.91764706, g: 1, b: 0, a: 1}
-  - {r: 0, g: 0.59607846, b: 1, a: 1}
-  lerpSpeed: 10
   division: 4
 --- !u!222 &1154374513
 CanvasRenderer:

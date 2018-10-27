@@ -2,18 +2,18 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(CircularGage))]
+[RequireComponent(typeof(CircularGauge))]
 public class ScoreManager : MonoBehaviour
 {
     private int[] scores = new int[4];
 
-    private CircularGage circularGage;
+    private CircularGauge circularGauge;
 
     // Use this for initialization
     public void Start () {
-        circularGage = GetComponent<CircularGage>();
-        circularGage.Division = GameSetting.NumPlayer;
-        circularGage.Init();
+        circularGauge = GetComponent<CircularGauge>();
+        circularGauge.Division = GameSetting.NumPlayer;
+        circularGauge.Init();
 	}
 	
 	// Update is called once per frame
@@ -61,6 +61,6 @@ public class ScoreManager : MonoBehaviour
                 break;
         }
 
-        circularGage.Values[index] = scores[playerNo];
+        circularGauge.Values[index] = scores[playerNo];
     }
 }
