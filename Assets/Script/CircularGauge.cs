@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Linq;
+using System;
 
 [RequireComponent(typeof(RawImage)), ExecuteInEditMode]
 public class CircularGauge : MonoBehaviour
 {
-    #region Menbers
+    #region Fields
 
     static readonly int MaxDivisoin = 4;
 
@@ -22,6 +23,9 @@ public class CircularGauge : MonoBehaviour
 
     [SerializeField]
     private List<Color> colors = new List<Color>(Enumerable.Repeat(Color.white, MaxDivisoin));
+
+    [SerializeField]
+    private float[] values = new float[MaxDivisoin];
 
     [SerializeField]
     private int division = MaxDivisoin;
@@ -81,12 +85,28 @@ public class CircularGauge : MonoBehaviour
             material.SetInt("_Division", division);
         }
     }
-    public float[] Values { get; set; } = new float[MaxDivisoin];
+    public float[] Values
+    {
+        get
+        {
+            return values;
+        }
+        set
+        {
+            Array.Copy(value, values, 4);
+        }
+    }
     public float[] DisplayValues { get; set; } = new float[MaxDivisoin];
 
     #endregion
 
     #region Unity Methods
+
+    private void OnValidate()
+    {
+        if (material == null)
+            material = GetComponent<RawImage>().material;
+    }
 
     private void OnEnable()
     {
@@ -98,9 +118,8 @@ public class CircularGauge : MonoBehaviour
         GetComponent<RawImage>().enabled = enabled;
     }
 
-    private void Start()
+    private void Awake()
     {
-        material = GetComponent<RawImage>().material;
         Init();
     }
 

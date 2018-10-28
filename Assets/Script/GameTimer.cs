@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class GameTimer : MonoBehaviour {
 
-    [Range(0, 200)]
+    [Range(0, 300)]
     public int initTime = 60;
 
     private Text text;

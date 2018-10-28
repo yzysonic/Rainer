@@ -125,8 +125,6 @@ Shader "Custom/CircularGage"
                     return fixed4(1,1,1,0);
                 }
 
-                // return color;
-
                 float theta = atan2(-p.x, -p.y) + PI;
                 float ratio = 0.0f;
                 for(int i=0; i<_Division; i++)

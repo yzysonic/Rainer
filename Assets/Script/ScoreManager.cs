@@ -13,7 +13,7 @@ public class ScoreManager : MonoBehaviour
     public void Start () {
         circularGauge = GetComponent<CircularGauge>();
         circularGauge.Division = GameSetting.PlayerCount;
-        circularGauge.Init();
+        circularGauge.UpdateGauge();
 	}
 	
 	// Update is called once per frame

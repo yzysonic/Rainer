@@ -12,8 +12,6 @@ using System.Linq;
 public class CircularGaugeEditor : Editor
 {
 
-    private float lastWidth;
-
     public override void OnInspectorGUI()
     {
         var gauge       = target as CircularGauge;
@@ -38,12 +36,14 @@ public class CircularGaugeEditor : Editor
             colors[i] = EditorGUILayout.ColorField($"Color{i + 1}", colors[i]);
         }
 
-        for(var i=0;i<gauge.Division;i++)
+        for (var i = 0; i < gauge.Division; i++)
         {
             values[i] = Mathf.Max(EditorGUILayout.FloatField($"Value{i + 1}", values[i]), 0.0f);
         }
 
-        if(EditorGUI.EndChangeCheck())
+
+
+        if (EditorGUI.EndChangeCheck())
         {
 
             gauge.Radius    = radius;
@@ -52,7 +52,6 @@ public class CircularGaugeEditor : Editor
             gauge.Colors    = colors;
             gauge.Values    = values;
 
-            lastWidth       = width;
             //gauge.UpdateGauge();
         }
 
