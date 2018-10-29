@@ -9,8 +9,11 @@ public class CameraFallow : MonoBehaviour
     public Transform target;
     public Transform lookat;
 
-    static public float Angle { get; set; } = 0.397f;
-    static public float Distance { get; set; } = 10.0f;
+    [SerializeField, Range(0.0f, 0.5f * Mathf.PI)]
+    private float angle = 0.397f;
+
+    [SerializeField]
+    private float distance = 10.0f;
 
     void Start()
     {
@@ -20,17 +23,17 @@ public class CameraFallow : MonoBehaviour
 
     void Update()
     {
-        UpdataPosition();
+        UpdatePosition();
     }
 
-    public void UpdataPosition()
+    public void UpdatePosition()
     {
         var pos = new Vector3();
         var rot_y = target.eulerAngles.y * Mathf.Deg2Rad;
 
-        pos.y =  Distance * Mathf.Sin(Angle);
-        pos.x = -Distance * Mathf.Cos(Angle) * Mathf.Sin(rot_y);
-        pos.z = -Distance * Mathf.Cos(Angle) * Mathf.Cos(rot_y);
+        pos.y =  distance * Mathf.Sin(angle);
+        pos.x = -distance * Mathf.Cos(angle) * Mathf.Sin(rot_y);
+        pos.z = -distance * Mathf.Cos(angle) * Mathf.Cos(rot_y);
         pos += target.position;
 
         transform.position = pos;

@@ -10,16 +10,26 @@ public class GameSceneManager : Singleton<GameSceneManager>
 {
     public enum State
     {
-        Init,
         CameraworkStart,
         StartLogo,
         Game,
         EndLogo,
         CameraworkEnd,
-        Result
+        EnterResult,
+        Result,
     }
 
-    public State startState = State.Init;
+    public enum PlayerCountSet
+    {
+        GetFromGameSetting,
+        TwoPlayer = 2,
+        ThreePlayer,
+        FourPlayer,
+    }
+
+    #region Fields
+
+    public State startState;
 
     [SerializeField]
     private List<GameObject> players = new List<GameObject>();
@@ -39,8 +49,18 @@ public class GameSceneManager : Singleton<GameSceneManager>
     [SerializeField]
     private ScoreManager scoreManager;
 
-    private int numPlayer;
+    [SerializeField]
+    private PlayerCountSet playerCountSet;
+
     private State currentState;
+    private int playerCount;
+    private List<GameObject> activePlayers;
+    private List<GameObject> activeCameras;
+    private List<GameObject> activeCanvas;
+
+    #endregion
+
+    #region Properties
 
     public State CurrentState
     {
@@ -57,40 +77,77 @@ public class GameSceneManager : Singleton<GameSceneManager>
             }
         }
     }
+    public List<GameObject> PlayerList
+    {
+        get
+        {
+            return new List<GameObject>(players);
+        }
+    }
+    public List<GameObject> CameraList
+    {
+        get
+        {
+            return new List<GameObject>(cameras);
+        }
+    }
+    public List<GameObject> CanvasList
+    {
+        get
+        {
+            return new List<GameObject>(canvas);
+        }
+    }
+
+    #endregion
+
+    #region Unity Methods
+
+    private void Awake()
+    {
+        SetPlayerCount();
+        SetPlayer();
+        SetCamera();
+        currentState = startState;
+    }
 
     private void Start()
     {
         switch (CurrentState)
         {
-            case State.Init:
-                SetPlayer();
-                CurrentState++;
-                break;
 
             case State.CameraworkStart:
-                break;
+                activeCameras.ForEach(c => c.GetComponent<Animation>().Play("CameraStart"));
+                return;
 
             case State.StartLogo:
                 startLogo.gameObject.SetActive(true);
                 startLogo.callback = () => CurrentState++;
-                break;
+                return;
 
             case State.Game:
                 timer.gameObject.SetActive(true);
-                players.TakeWhile(p => p.activeSelf)
-                    .ToList()
-                    .ForEach((p) => {
-                        var controller = p.GetComponent<PlayerController>();
-                        controller.enabled = true;
-                        controller.canvas.gameObject.SetActive(true);
-                    });
-                break;
+                activePlayers.ForEach(p => p.GetComponent<PlayerController>().enabled = true);
+                activeCanvas.ForEach(c => c.gameObject.SetActive(true));
+                return;
 
             case State.EndLogo:
+                activePlayers.ForEach(p => p.GetComponent<PlayerController>().enabled = false);
+                timer.enabled = false;
                 startLogo.GetComponent<Text>().text = "終了";
                 startLogo.callback = () => CurrentState++;
                 startLogo.gameObject.SetActive(true);
-                break;
+                return;
+
+            case State.CameraworkEnd:
+                timer.gameObject.SetActive(false);
+                activeCanvas.ForEach(c => c.gameObject.SetActive(false));
+                activeCameras.ForEach(c => c.GetComponent<Animation>().Play("CameraEnd"));
+                return;
+
+            case State.EnterResult:
+                cameras[0].GetComponent<Animation>().Play("CameraEnterResult");
+                return;
         }
 
     }
@@ -100,39 +157,97 @@ public class GameSceneManager : Singleton<GameSceneManager>
         switch (CurrentState)
         {
             case State.CameraworkStart:
+                foreach(var camera in activeCameras)
+                {
+                    if (camera.GetComponent<Animation>().isPlaying)
+                        return;
+                }
                 CurrentState++;
-                break;
+                return;
 
             case State.Game:
                 if (timer.TimesUp)
                 {
-                    timer.enabled = false;
                     CurrentState++;
                 }
-                break;
+                return;
 
             case State.CameraworkEnd:
+                foreach (var camera in activeCameras)
+                {
+                    if (camera.GetComponent<Animation>().isPlaying)
+                        return;
+                }
                 CurrentState++;
-                break;
+                return;
 
-            default: return;
+            case State.EnterResult:
+                if (cameras[0].GetComponent<Animation>().isPlaying)
+                    return;
+                CurrentState++;
+                return;
         }
+    }
+
+    #endregion
+
+    #region Methods
+
+    public void SetPlayerCount()
+    {
+        if (playerCountSet == PlayerCountSet.GetFromGameSetting)
+            playerCount = GameSetting.PlayerCount;
+        else
+            playerCount = (int)playerCountSet;
     }
 
     public void SetPlayer()
     {
-        numPlayer = GameSetting.PlayerCount;
-
+        // プレイ人数分オブジェクトを有効にする
         for (var i = 0; i < 4; i++)
         {
-            var active = i < numPlayer;
+            var active = i < playerCount;
             players[i].SetActive(active);
+        }
+
+        // 有効オブジェクトのリストを作成
+        activePlayers = new List<GameObject>();
+        activeCanvas = new List<GameObject>();
+
+        for (var i=0;i<playerCount;i++)
+        {
+            activePlayers.AddRange(players.GetRange(0, playerCount));
+            activeCanvas.AddRange(canvas.GetRange(0, playerCount));
+        }
+
+    }
+
+    public void SetCamera()
+    {
+
+        // プレイ人数分オブジェクトを有効にする
+        for (var i = 0; i < 4; i++)
+        {
+            var active = i < playerCount;
             cameras[i].SetActive(active);
         }
 
-        // カメラの個別設定
+        // 有効オブジェクトのリストを作成
+        activeCameras = new List<GameObject>();
+
+        for (var i = 0; i < playerCount; i++)
+        {
+            activeCameras.AddRange(cameras.GetRange(0, playerCount));
+        }
+
+        SetCameraRect();
+
+    }
+
+    public void SetCameraRect()
+    {
         var cameraComs = cameras.Select(c => c.GetComponent<Camera>()).ToList();
-        switch (numPlayer)
+        switch (GameSetting.PlayerCount)
         {
             case 1:
                 cameraComs[0].rect = new Rect(0.0f, 0.0f, 1.0f, 1.0f);
@@ -155,5 +270,8 @@ public class GameSceneManager : Singleton<GameSceneManager>
         }
 
     }
+
+
+    #endregion
 
 }

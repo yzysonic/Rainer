@@ -5,7 +5,6 @@ using UnityEngine.SceneManagement;
 
 public static class GameSetting
 {
-    [SerializeField]
     private static int numPlayer = 4;
 
     public static int PlayerCount
