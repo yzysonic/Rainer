@@ -144,6 +144,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 1188386044}
   lookat: {fileID: 0}
+  angle: 0.397
+  distance: 10
 --- !u!81 &79246529
 AudioListener:
   m_ObjectHideFlags: 0
@@ -778,6 +780,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 976879990}
   lookat: {fileID: 0}
+  angle: 0.397
+  distance: 10
 --- !u!81 &887050866
 AudioListener:
   m_ObjectHideFlags: 0
@@ -960,7 +964,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5ea52435258d46d4a97e77fb7f5062e0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startState: 0
   players:
   - {fileID: 976879989}
   - {fileID: 546991427}
@@ -977,8 +980,8 @@ MonoBehaviour:
   - {fileID: 1911050285}
   - {fileID: 562198366}
   startLogo: {fileID: 1736080832}
-  timer: {fileID: 1434576129}
-  scoreManager: {fileID: 1154374515}
+  startState: 0
+  playerCountSet: 0
 --- !u!4 &1082321933
 Transform:
   m_ObjectHideFlags: 0
@@ -1023,6 +1026,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 488842531}
   lookat: {fileID: 0}
+  angle: 0.397
+  distance: 10
 --- !u!81 &1121409612
 AudioListener:
   m_ObjectHideFlags: 0
@@ -1101,7 +1106,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1154374511
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1126,7 +1131,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1154374510}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 37ceeb2276cddfe46b3c2ffc696aed82, type: 3}
   m_Name: 
@@ -1158,7 +1163,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1154374510}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: -98529514, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
@@ -1189,6 +1194,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 368302e01c5aaad4b940817482ba8d8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  showPeriod: 10
+  showInterval: 3
 --- !u!1001 &1188386043
 Prefab:
   m_ObjectHideFlags: 0
@@ -1358,6 +1365,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 1663255746}
   lookat: {fileID: 0}
+  angle: 0.397
+  distance: 10
 --- !u!81 &1365038883
 AudioListener:
   m_ObjectHideFlags: 0
@@ -1847,7 +1856,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 75c01fcdffd99f346b0e22c4fc0c96d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  clip: {fileID: 7400000, guid: d75ee142b1621924fbb8375d3f6a1860, type: 2}
 --- !u!114 &1736080833
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -96,6 +96,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 20564986c80e6c34bb93ac7a3b820ef2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  canvas: {fileID: 0}
   controllType: 0
   max_speed: 10
   rotation_speed_scale: 1

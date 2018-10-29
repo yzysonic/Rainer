@@ -5,25 +5,39 @@ using System;
 
 namespace RainerLib
 {
-
-    public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
+    [DisallowMultipleComponent]
+    public class Singleton<T> : MonoBehaviour where T : Singleton<T>
     {
-        private static T instance;
+        private static Singleton<T> instance;
         public static T Instance
         {
             get
             {
-                if (instance != null)
-                    return instance;
-
-                var name = typeof(T).ToString();
-                var gameObject = GameObject.Find(name);
-
-                if (gameObject != null)
-                    return instance = gameObject.GetComponent<T>();
-
-                return instance = new GameObject(name).AddComponent<T>();
+                return instance ? (T)instance : new GameObject().AddComponent<T>();
             }
+        }
+
+        protected virtual void Awake()
+        {
+            name = typeof(T).ToString();
+
+            if (instance == this)
+            {
+                name += " (Singleton)";
+            }
+            else
+            {
+                name += " (Duplicated Singleton)";
+                gameObject.SetActive(false);
+            }
+        }
+
+        protected Singleton()
+        {
+            if (instance != null)
+                throw new Exception($"シングルトンのインスタンスが複数生成された: {typeof(T).ToString()}");
+
+            instance = this;
         }
 
     }
@@ -97,69 +111,6 @@ namespace RainerLib
         }
     }
 
-    public class StateMachine<StateType> where StateType : struct
-    {
-        private StateType currentState;
-        private Action<StateType> enterStateAction;
-        private Action<StateType> updateStateAction;
-
-        public Action<StateType> EnterStateAction
-        {
-            get
-            {
-                return enterStateAction;
-            }
-            set
-            {
-                enterStateAction = value ?? DoNothing;
-            }
-        }
-        public Action<StateType> UpdateStateAction
-        {
-            get
-            {
-                return updateStateAction;
-            }
-            set
-            {
-                updateStateAction = value ?? DoNothing;
-            }
-        }
-
-        public StateType CurrentState
-        {
-            get
-            {
-                return currentState;
-            }
-            set
-            {
-                if(!currentState.Equals(value))
-                {
-                    currentState = value;
-                    EnterStateAction(value);
-                }                
-            }
-        }
-
-        public StateMachine(Action<StateType> enterStateAction, Action<StateType> updateStateAction)
-        {
-            EnterStateAction = enterStateAction;
-            UpdateStateAction = updateStateAction;
-        }
-        public void Start(StateType initState)
-        {
-            currentState = initState;
-            EnterStateAction(initState);
-        }
-        public void Update()
-        {
-            UpdateStateAction(currentState);
-        }
-
-        private void DoNothing(StateType action) { }
-    }
-
 }
 
 namespace RainerLib.Development
@@ -175,15 +126,6 @@ namespace RainerLib.Development
             {
                 Type = type;
                 Host = host;
-            }
-
-            public static bool operator ==(State a, State b)
-            {
-                return a.Type.Equals(b.Type);
-            }
-            public static bool operator !=(State a, State b)
-            {
-                return !a.Type.Equals(b.Type);
             }
 
             public virtual void Enter() { }

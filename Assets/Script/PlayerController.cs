@@ -39,7 +39,7 @@ public class PlayerController : MonoBehaviour {
     }
 	
 	// Update is called once per frame
-	void FixedUpdate () {
+	void Update () {
 
         // Joycon
         if(joycon != null && controllType == ControllType.Joycon)

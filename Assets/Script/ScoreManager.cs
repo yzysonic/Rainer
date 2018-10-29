@@ -1,24 +1,24 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using RainerLib;
 
 [RequireComponent(typeof(CircularGauge))]
-public class ScoreManager : MonoBehaviour
+public class ScoreManager : Singleton<ScoreManager>
 {
-    private int[] scores = new int[4];
+    public float showPeriod = 10.0f;
+    public float showInterval = 3.0f;
 
+    private int[] scores = new int[4];
     private CircularGauge circularGauge;
+    private Timer timer;
 
     // Use this for initialization
     public void Start () {
         circularGauge = GetComponent<CircularGauge>();
         circularGauge.Division = GameSetting.PlayerCount;
         circularGauge.UpdateGauge();
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
+        GameTimer.Instance.AddPeriodEvent(showPeriod, ShowScoreGauge);
 	}
 
     public int GetScore(int playerNo)
@@ -62,5 +62,14 @@ public class ScoreManager : MonoBehaviour
         }
 
         circularGauge.Values[index] = scores[playerNo];
+    }
+
+    public void ShowScoreGauge()
+    {
+        if (circularGauge.enabled)
+            return;
+
+        circularGauge.enabled = true;
+        GameTimer.Instance.AddPeriodEvent(showInterval, () => circularGauge.enabled = false, 1);
     }
 }

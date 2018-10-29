@@ -29,8 +29,6 @@ public class GameSceneManager : Singleton<GameSceneManager>
 
     #region Fields
 
-    public State startState;
-
     [SerializeField]
     private List<GameObject> players = new List<GameObject>();
 
@@ -44,19 +42,18 @@ public class GameSceneManager : Singleton<GameSceneManager>
     private StartLogo startLogo;
 
     [SerializeField]
-    private GameTimer timer;
+    private MoveRange moveRange;
 
-    [SerializeField]
-    private ScoreManager scoreManager;
+    public State startState;
 
-    [SerializeField]
-    private PlayerCountSet playerCountSet;
+    public PlayerCountSet playerCountSet;
 
     private State currentState;
     private int playerCount;
     private List<GameObject> activePlayers;
     private List<GameObject> activeCameras;
     private List<GameObject> activeCanvas;
+    private GameTimer timer;
 
     #endregion
 
@@ -98,13 +95,28 @@ public class GameSceneManager : Singleton<GameSceneManager>
             return new List<GameObject>(canvas);
         }
     }
+    public StartLogo StartLogo
+    {
+        get { return startLogo; }
+    }
+    public MoveRange MoveRange
+    {
+        get
+        {
+            return moveRange;
+        }
+    }
 
     #endregion
 
     #region Unity Methods
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
+
+        timer = GameTimer.Instance;
+
         SetPlayerCount();
         SetPlayer();
         SetCamera();
@@ -134,6 +146,7 @@ public class GameSceneManager : Singleton<GameSceneManager>
             case State.EndLogo:
                 activePlayers.ForEach(p => p.GetComponent<PlayerController>().enabled = false);
                 timer.enabled = false;
+                ScoreManager.Instance.GetComponent<CircularGauge>().enabled = false;
                 startLogo.GetComponent<Text>().text = "終了";
                 startLogo.callback = () => CurrentState++;
                 startLogo.gameObject.SetActive(true);
@@ -146,7 +159,8 @@ public class GameSceneManager : Singleton<GameSceneManager>
                 return;
 
             case State.EnterResult:
-                cameras[0].GetComponent<Animation>().Play("CameraEnterResult");
+                var clipName = (playerCount > 2) ? "CameraEnterResult" : "CameraEnterResultTwoPlayer";
+                cameras[0].GetComponent<Animation>().Play(clipName);
                 return;
         }
 
@@ -166,6 +180,16 @@ public class GameSceneManager : Singleton<GameSceneManager>
                 return;
 
             case State.Game:
+                foreach(var player in activePlayers)
+                {
+                    var vPlayerToCenter = moveRange.transform.position - player.transform.position;
+                    var distance = vPlayerToCenter.magnitude;
+                    var diff = distance - moveRange.radius;
+                    if (diff > 0.0f)
+                    {
+                        player.transform.Translate(vPlayerToCenter / distance * diff);
+                    }
+                }
                 if (timer.TimesUp)
                 {
                     CurrentState++;
@@ -198,7 +222,7 @@ public class GameSceneManager : Singleton<GameSceneManager>
         if (playerCountSet == PlayerCountSet.GetFromGameSetting)
             playerCount = GameSetting.PlayerCount;
         else
-            playerCount = (int)playerCountSet;
+            playerCount = GameSetting.PlayerCount = (int)playerCountSet;
     }
 
     public void SetPlayer()

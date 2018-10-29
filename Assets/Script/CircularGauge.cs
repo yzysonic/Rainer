@@ -25,7 +25,7 @@ public class CircularGauge : MonoBehaviour
     private List<Color> colors = new List<Color>(Enumerable.Repeat(Color.white, MaxDivisoin));
 
     [SerializeField]
-    private float[] values = new float[MaxDivisoin];
+    private float[] values = Enumerable.Repeat(1.0f, MaxDivisoin).ToArray();
 
     [SerializeField]
     private int division = MaxDivisoin;
