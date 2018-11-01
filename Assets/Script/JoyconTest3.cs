@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class JoyconTest : MonoBehaviour
+public class JoyconTest3 : MonoBehaviour
 {
     public bool show_debug_info = true;
 
@@ -24,7 +24,7 @@ public class JoyconTest : MonoBehaviour
 
         if (m_joycons == null || m_joycons.Count <= 0) return;
 
-        m_joycon = m_joycons[0];
+        m_joycon = m_joycons[3];
     }
 
     private void Update()

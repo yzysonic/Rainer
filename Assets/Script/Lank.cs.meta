@@ -1,0 +1,27 @@
+fileFormatVersion: 2
+guid: 35b99190f50724d479f2b390c66e240d
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - player1: {instanceID: 0}
+  - player2: {instanceID: 0}
+  - player3: {instanceID: 0}
+  - player4: {instanceID: 0}
+  - pGraph1: {instanceID: 0}
+  - pGraph2: {instanceID: 0}
+  - pGraph3: {instanceID: 0}
+  - pGraph4: {instanceID: 0}
+  - pMedal1: {instanceID: 0}
+  - pMedal2: {instanceID: 0}
+  - pMedal3: {instanceID: 0}
+  - pMedal4: {instanceID: 0}
+  - Gold: {fileID: 10914, guid: 0000000000000000f000000000000000, type: 0}
+  - Silver: {instanceID: 0}
+  - Copper: {fileID: 2800000, guid: 5f1b3aa351e2f7d4eac2560d5075bf00, type: 3}
+  - Bronze: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
