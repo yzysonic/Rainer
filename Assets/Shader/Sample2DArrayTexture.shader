@@ -4,7 +4,7 @@ Shader "Example/Sample2DArrayTexture"
 {
     Properties
     {
-        _2DArray ("Tex", 2DArray) = "" {}
+        _MainTex ("Tex", 2DArray) = "" {}
         _SliceRange ("Slices", Range(0,16)) = 6
         _UVScale ("UVScale", Float) = 1.0
     }
@@ -27,11 +27,11 @@ Shader "Example/Sample2DArrayTexture"
                 float4 vertex : SV_POSITION;
             };
 
-            UNITY_DECLARE_TEX2DARRAY(_2DArray);
+            UNITY_DECLARE_TEX2DARRAY(_MainTex);
             float _SliceRange;
             float _UVScale;
             // sampler2D _MainTex;
-            float4 _2DArray_ST;
+            float4 _MainTex_ST;
 
 
             v2f vert (float4 vertex : POSITION, float2 uv : TEXCOORD0)
@@ -39,7 +39,7 @@ Shader "Example/Sample2DArrayTexture"
                 v2f o;
                 o.vertex = UnityObjectToClipPos(vertex);
                 // o.uv.xy = (vertex.xy + 0.5) * _UVScale;
-                o.uv.xy = TRANSFORM_TEX(uv, _2DArray);
+                o.uv.xy = TRANSFORM_TEX(uv, _MainTex);
                 o.uv.z = (vertex.z + 0.5) * _SliceRange;
                 return o;
             }
@@ -47,7 +47,7 @@ Shader "Example/Sample2DArrayTexture"
 
             half4 frag (v2f i) : SV_Target
             {
-                return UNITY_SAMPLE_TEX2DARRAY(_2DArray, i.uv);
+                return UNITY_SAMPLE_TEX2DARRAY(_MainTex, i.uv);
             }
             ENDCG
         }

@@ -8,21 +8,78 @@ public class TestEditor : Editor
     {
         DrawDefaultInspector();
 
-        if (GUILayout.Button("MakeTexture"))
+        if (GUILayout.Button("MakeTextureArray"))
         {
-            MakeTexture();
+            MakeTextureArray();
+        }
+
+        if(GUILayout.Button("SetRenderTex"))
+        {
+            MakeRenderTex();
         }
     }
 
-    void MakeTexture()
+    void MakeTextureArray()
     {
         var test = target as Test;
         var tex = test.tex;
-        var texArray = new Texture2DArray(tex.width, tex.height, 9, tex.format, tex.mipmapCount>0);
-        for (var i = 0; i < texArray.depth; i++)
-            Graphics.CopyTexture(tex, 0, texArray, i);
+        var texArray = new Texture2DArray(tex.width, tex.height, test.depth, tex.format, tex.mipmapCount > 0);
+        var renderTex = RenderTexture.GetTemporary(tex.width, tex.height, 0, RenderTextureFormat.Default, RenderTextureReadWrite.Default);
+        renderTex.useMipMap = true;
+        try
+        {
+            for (var i = 0; i < texArray.depth; i++)
+            {
+                test.gradationMaterial.SetFloat("_Factor", (texArray.depth - i) / texArray.depth);
+                Graphics.SetRenderTarget(renderTex, 0, CubemapFace.Unknown, i);
+                Graphics.Blit(tex, test.gradationMaterial);
+                
+                //Graphics.CopyTexture(renderTex, 0, texArray, i);
+            }
+        }
+        catch(System.Exception e)
+        {
+            RenderTexture.ReleaseTemporary(renderTex);
+            return;
+        }
+        RenderTexture.ReleaseTemporary(renderTex);
+
         AssetDatabase.CreateAsset(texArray, "Assets/Resources/Textures/texture_array.asset");
         Debug.Log(AssetDatabase.GetAssetPath(texArray));
+    }
+
+    void MakeRenderTex()
+    {
+        var test = target as Test;
+        var tex = test.tex;
+        var renderTex = new RenderTexture(tex.width, tex.height, 0, RenderTextureFormat.Default, RenderTextureReadWrite.Default);
+        renderTex.dimension = UnityEngine.Rendering.TextureDimension.Tex2DArray;
+        renderTex.volumeDepth = test.depth;
+        renderTex.useMipMap = true;
+        //renderTex.wrapMode = TextureWrapMode.Repeat;
+        renderTex.Create();
+
+        for (var i = 0; i < renderTex.volumeDepth; i++)
+        {
+            var f = i / (float)renderTex.volumeDepth;
+            Debug.Log(f);
+            test.gradationMaterial.SetFloat("_Factor", f);
+            Graphics.SetRenderTarget(renderTex, 0, CubemapFace.Unknown, i);
+            Graphics.Blit(tex, test.gradationMaterial);
+        }
+
+        //test.gradationMaterial.SetFloat("_Factor", 1.0f);
+        //Graphics.SetRenderTarget(renderTex, 0, CubemapFace.Unknown, 0);
+        //Graphics.SetRenderTarget(renderTex, 0, CubemapFace.Unknown, 2);
+        //Graphics.Blit(tex, test.gradationMaterial);
+
+        test.Material.mainTexture = renderTex;
+        //test.Material.SetTexture("_MainTex", renderTex);
+
+        //RenderTexture.active = null;
+
+        //AssetDatabase.CreateAsset(renderTex, "Assets/Resources/Textures/texture_array.asset");
+        //Debug.Log(AssetDatabase.GetAssetPath(renderTex));
 
     }
 }
