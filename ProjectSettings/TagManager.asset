@@ -17,9 +17,9 @@ TagManager:
   - PostProcessing
   - RainArea
   - Ground
-  - 
-  - 
-  - 
+  - RainerIdle
+  - RainerFollow
+  - Player
   - 
   - 
   - 

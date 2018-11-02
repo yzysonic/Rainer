@@ -29,6 +29,7 @@ public class PlayerController : MonoBehaviour {
     private Joycon joycon;
     private CharacterController controller;
     private RainerCount rainerCount;
+    private Stack<GameObject> followers;
 
     // Use this for initialization
     void Start () {
@@ -36,6 +37,7 @@ public class PlayerController : MonoBehaviour {
         joycon      = GameSetting.PlayerJoycons[playerNo];
         controller  = GetComponent<CharacterController>();
         rainerCount = canvas.transform.Find("RainerCount").GetComponent<RainerCount>();
+        followers   = new Stack<GameObject>();
     }
 	
 	// Update is called once per frame
@@ -79,6 +81,7 @@ public class PlayerController : MonoBehaviour {
         // キーボード・マウス
         else if(controllType == ControllType.KeyboardMouse)
         {
+            // カメラ回転
             if(Input.GetMouseButton(0))
             {
                 transform.Rotate(0.0f, Input.GetAxis("Mouse X") * rotation_speed_scale, 0.0f);
@@ -92,8 +95,29 @@ public class PlayerController : MonoBehaviour {
             // 移動する
             controller.SimpleMove(dir * max_speed);
 
+            // レインナー操作
+            if (Input.GetKeyDown(KeyCode.Space))
+            {
+                if (followers.Count > 0)
+                {
+                    followers.Pop().GetComponent<RainerController>().SetIdle(gameObject.transform.position);
+                }
+            }
+
         }
 
 
+    }
+
+    // 当たり判定
+    private void OnControllerColliderHit(ControllerColliderHit hit)
+    {
+        var target = hit.gameObject;
+        if (target.layer == LayerMask.NameToLayer("RainerIdle"))
+        {
+            target.GetComponent<RainerController>().SetFollow(gameObject);
+            followers.Push(target);
+            rainerCount.Value++;
+        }
     }
 }
