@@ -867,7 +867,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1434614299017164, guid: 87c459cc94a26f744ade05d0de058085, type: 2}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 87c459cc94a26f744ade05d0de058085, type: 2}
@@ -1174,7 +1174,7 @@ MonoBehaviour:
   startLogo: {fileID: 1736080832}
   moveRange: {fileID: 2098398098}
   startState: 2
-  playerCountSet: 0
+  playerCountSet: 2
 --- !u!4 &1082321933
 Transform:
   m_ObjectHideFlags: 0
@@ -2340,10 +2340,9 @@ GameObject:
   - component: {fileID: 2040448316}
   - component: {fileID: 2040448315}
   - component: {fileID: 2040448314}
-  - component: {fileID: 2040448318}
   - component: {fileID: 2040448319}
   - component: {fileID: 2040448320}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Ground
   m_TagString: RainArea
   m_Icon: {fileID: 0}
@@ -2420,20 +2419,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 20
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2040448318
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 2040448313}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b975245e3a363754e88fc34814a27e19, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  paintMaterial: {fileID: 2100000, guid: 91c4104de62e9a14da624f663753face, type: 2}
-  blushTexture: {fileID: 2800000, guid: 189018b9bad320d4882f7b1010d12a55, type: 3}
-  blushSize: 4
 --- !u!114 &2040448319
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2457,6 +2442,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 043820865f654f84fac78e44aa32e1b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tipResolution: 1024
+  tipDivision: 8
+  blushSize: 0.1
+  paintMat: {fileID: 2100000, guid: ee5c9fb9bcfb6b844ad61e6748a7cc91, type: 2}
+  testTex: {fileID: 2800000, guid: 189018b9bad320d4882f7b1010d12a55, type: 3}
 --- !u!1001 &2048042685
 Prefab:
   m_ObjectHideFlags: 0

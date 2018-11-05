@@ -36,11 +36,11 @@
 
 		void surf (Input IN, inout SurfaceOutputStandard o) {
 
-			// int2 index;
-			// index.x = IN.uv_MainTex.x * (_MainTex_TexelSize.z-1) / (_MainTex_TexelSize.z);
-			// index.y = IN.uv_MainTex.y * (_MainTex_TexelSize.w-1) / (_MainTex_TexelSize.w);
-			float2 index = floor(IN.uv_MainTex.xy * (1-1/_MainTex_TexelSize.zw));
-			float3 uv = float3(IN.uv_MainTex.xy, index.y * _Division + index.x);
+			// index = floor( uv * (Resolution-1) / (Resolution/Division) )
+			//       = floor( uv * (TipResolution*Division-1) * (Division/(TipResolution*Division)) )
+			//       = floor( uv * (Division-1/TipResolution) )
+			float2 index = floor(IN.uv_MainTex.xy * (_Division - 1/_MainTex_TexelSize.zw));
+			float3 uv = float3(IN.uv_MainTex.xy, index.y * _Division + (_Division - index.x));
 
 			// Albedo comes from a texture tinted by color
 			fixed4 c = UNITY_SAMPLE_TEX2DARRAY (_MainTex, uv) * _Color;
