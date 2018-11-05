@@ -2442,11 +2442,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 043820865f654f84fac78e44aa32e1b8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tipResolution: 128
-  tipDivision: 16
-  blushSize: 30
+  tipResolution: 1024
+  tipDivision: 1
+  blushSize: 15
   paintMat: {fileID: 2100000, guid: ee5c9fb9bcfb6b844ad61e6748a7cc91, type: 2}
-  testTex: {fileID: 2800000, guid: 189018b9bad320d4882f7b1010d12a55, type: 3}
+  grassTex: {fileID: 2800000, guid: 189018b9bad320d4882f7b1010d12a55, type: 3}
   sliceTest: 0
 --- !u!1001 &2048042685
 Prefab:

@@ -52,8 +52,13 @@
 
 				if(r2 > _BlushSize * _BlushSize)
 					return source;
-				
-				return fixed4(0,1,0,1);
+
+				float a = 1-r2/(_BlushSize * _BlushSize);
+
+				if(source.a > a)
+					return source;
+
+				return fixed4(0,1,0,1)*a;
 			}
 			ENDCG
 		}

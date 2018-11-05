@@ -9,7 +9,7 @@ public class Ground : MonoBehaviour {
     public int tipDivision = 8;
     public float blushSize = 4.0f;
     public Material paintMat;
-    public Texture2D testTex;
+    public Texture2D grassTex;
     public int sliceTest = 0;
 
     private new Renderer renderer;
@@ -38,7 +38,7 @@ public class Ground : MonoBehaviour {
         var mat = renderer.material;
         var tex = renderer.material.mainTexture;
 
-        mat.mainTextureScale = Vector2.one * tipDivision;
+        //mat.mainTextureScale = Vector2.one * tipDivision;
 
         renderTex = new RenderTexture(tipResolution, tipResolution, 0, RenderTextureFormat.ARGB32, RenderTextureReadWrite.Default);
         renderTex.volumeDepth = tipDivision * tipDivision;
@@ -48,14 +48,14 @@ public class Ground : MonoBehaviour {
         renderTex.filterMode = FilterMode.Point;
 
         defaultMat = new Material(Shader.Find("Hidden/BlitCopy"));
-        RenderTexture.active = renderTex;
-        for (var i = 0; i < renderTex.volumeDepth; i++)
-        {
-            Graphics.SetRenderTarget(renderTex, 0, CubemapFace.Unknown, i);
-            Graphics.Blit(tex, defaultMat);
-        }
+        //RenderTexture.active = renderTex;
+        //for (var i = 0; i < renderTex.volumeDepth; i++)
+        //{
+        //    Graphics.SetRenderTarget(renderTex, 0, CubemapFace.Unknown, i);
+        //    Graphics.Blit(tex, defaultMat);
+        //}
 
-        mat.mainTexture = null;
+        //mat.mainTexture = null;
         mat.shader = Shader.Find("Custom/Ground");
 
         //// UVToIndex    = (Resolution-1) / (Resolution/Division) 
@@ -67,7 +67,9 @@ public class Ground : MonoBehaviour {
         //mat.SetFloat("_UVToTipUV", 1);
 
         mat.SetFloat("_Division", tipDivision);
-        mat.mainTexture = renderTex;
+        mat.SetTexture("_GrassMask", renderTex);
+        mat.SetTexture("_GrassTex", grassTex);
+        //mat.mainTexture = renderTex;
     }
 
     private void InitPaintMaterial()
@@ -84,9 +86,9 @@ public class Ground : MonoBehaviour {
         x = Mathf.FloorToInt((uv.x-blushSizeNormalized) * (tipDivision - 1.0f / tipResolution));
         y = Mathf.FloorToInt((uv.y-blushSizeNormalized) * (tipDivision - 1.0f / tipResolution));
         RenderTip(x, y, uv);
-        RenderTip(x + 1, y, uv);
-        RenderTip(x, y + 1, uv);
-        RenderTip(x + 1, y + 1, uv);
+        //RenderTip(x + 1, y, uv);
+        //RenderTip(x, y + 1, uv);
+        //RenderTip(x + 1, y + 1, uv);
     }
 
     private void RenderTip(int x, int y, Vector2 uv)
