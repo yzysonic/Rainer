@@ -10,6 +10,7 @@ public class GameSceneManager : Singleton<GameSceneManager>
 {
     public enum State
     {
+        FadeIn,
         CameraworkStart,
         StartLogo,
         Game,
@@ -28,6 +29,8 @@ public class GameSceneManager : Singleton<GameSceneManager>
     }
 
     #region Fields
+
+    public string nextScene = "TitleScene";
 
     [SerializeField]
     private List<GameObject> players = new List<GameObject>();
@@ -131,6 +134,10 @@ public class GameSceneManager : Singleton<GameSceneManager>
     {
         switch (CurrentState)
         {
+            case State.FadeIn:
+                FadeInOut.Instance.FadeIn();
+                CurrentState++;
+                return;
 
             case State.CameraworkStart:
                 activeCameras.ForEach(c => c.GetComponent<Animation>().Play("CameraStart"));
@@ -198,7 +205,7 @@ public class GameSceneManager : Singleton<GameSceneManager>
                     var diff = distance - moveRange.radius;
                     if (diff > 0.0f)
                     {
-                        player.transform.Translate(vPlayerToCenter / distance * diff);
+                        player.transform.Translate(vPlayerToCenter / distance * diff, Space.World);
                     }
                 }
                 if (timer.TimesUp)
@@ -223,9 +230,9 @@ public class GameSceneManager : Singleton<GameSceneManager>
                 return;
 
             case State.Result:
-                if (Input.GetKeyDown(KeyCode.Return))
+                if (Input.GetKeyDown(KeyCode.Return) && !FadeInOut.Instance.enabled)
                 {
-                    SceneManager.LoadScene("TitleScene");
+                    FadeInOut.Instance.FadeOut(() => SceneManager.LoadScene(nextScene));
                 }
                 return;
         }
@@ -246,7 +253,7 @@ public class GameSceneManager : Singleton<GameSceneManager>
     public void SetPlayer()
     {
         // プレイ人数分オブジェクトを有効にする
-        for (var i = 0; i < 4; i++)
+        for (var i = 0; i < players.Count; i++)
         {
             var active = i < playerCount;
             players[i].SetActive(active);
@@ -271,10 +278,15 @@ public class GameSceneManager : Singleton<GameSceneManager>
     {
 
         // プレイ人数分オブジェクトを有効にする
-        for (var i = 0; i < 4; i++)
+        for (var i = 0; i < cameras.Count; i++)
         {
             var active = i < playerCount;
             cameras[i].SetActive(active);
+        }
+
+        if (playerCount == 3)
+        {
+            cameras[4].SetActive(true);
         }
 
         // 有効オブジェクトのリストを作成
@@ -286,7 +298,6 @@ public class GameSceneManager : Singleton<GameSceneManager>
         }
 
         SetCameraRect();
-
     }
 
     public void SetCameraRect()

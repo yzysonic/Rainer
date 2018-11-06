@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public static class GameSetting
 {
     private static int numPlayer = 4;
+    private static Dictionary<Joycon, int> joyconPlayerMap;
 
     public static int PlayerCount
     {
@@ -23,9 +24,20 @@ public static class GameSetting
 
     public static void BindPlayer(this Joycon joycon, int player)
     {
-        if (player < 0 || player > 4)
-            return;
+        if (player >= 0 && player < 4)
+        {
+            PlayerJoycons[player] = joycon;
+            joyconPlayerMap[joycon] = player;
+        }
+    }
 
-        PlayerJoycons[player] = joycon;
+    public static int GetPlayerNo(this Joycon joycon)
+    {
+        int no;
+
+        if (joyconPlayerMap.TryGetValue(joycon, out no) == false)
+            return -1;
+        else
+            return no;
     }
 }

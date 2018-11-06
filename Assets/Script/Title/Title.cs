@@ -8,28 +8,28 @@ public class Title : MonoBehaviour
 
     public Vector3 tSize;
     public float tRotY;
-    public FadeInOut fadeInOut;
+    private FadeInOut fadeInOut;
 
     private void Awake()
     {
         tSize = new Vector3(0.1f, 0.1f, 0.1f);
         tRotY = 0f;
+        fadeInOut = FadeInOut.Instance;
 
     }
 
     // Use this for initialization
     void Start ()
     {
-        fadeInOut.Alpha = 1.0f;
-        fadeInOut.fadeIn();
+        fadeInOut.FadeIn();
     }
-	
+
 	// Update is called once per frame
 	void Update ()
     {
-        if (Input.GetKeyDown(KeyCode.Return))
+        if (Input.GetKeyDown(KeyCode.Return) && !fadeInOut.enabled)
         {
-            fadeInOut.fadeOut(() => SceneManager.LoadScene("SettingScene"));
+            fadeInOut.FadeOut(() => SceneManager.LoadScene("SettingScene"));
         }
     }
 }

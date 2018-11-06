@@ -41,24 +41,6 @@ public class GrassField : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        //if(Input.GetKeyDown(KeyCode.W))
-        //{
-        //    centerPos.z++;
-        //}
-        //else if(Input.GetKeyDown(KeyCode.S))
-        //{
-        //    centerPos.z--;
-        //}
-
-        //if(Input.GetKeyDown(KeyCode.A))
-        //{
-        //    centerPos.x++;
-        //}
-        //else if(Input.GetKeyDown(KeyCode.D))
-        //{
-        //    centerPos.x--;
-        //}
-
         centerPos = player.position;
 
         SetCheckBlock(centerPos, 5);

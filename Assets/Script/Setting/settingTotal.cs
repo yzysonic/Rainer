@@ -6,11 +6,13 @@ using UnityEngine.SceneManagement;
 
 public class settingTotal : MonoBehaviour {
 
+    public string nextScene = "GameScene";
     public PlayerIcon[] playerIcon;
     public bool[] isJoin;
     public int[] numPlayer;
     public int countPlayer;
     public bool canStart;
+    private List<Joycon> joycons;
 
     // Use this for initialization
     void Start () {
@@ -19,11 +21,14 @@ public class settingTotal : MonoBehaviour {
         isJoin = new bool[4];
         numPlayer = new int[4];
         countPlayer = 0;
+        joycons = JoyconManager.Instance.j;
 
         playerIcon[0] = GameObject.Find("1P").GetComponent<PlayerIcon>();
         playerIcon[1] = GameObject.Find("2P").GetComponent<PlayerIcon>();
         playerIcon[2] = GameObject.Find("3P").GetComponent<PlayerIcon>();
         playerIcon[3] = GameObject.Find("4P").GetComponent<PlayerIcon>();
+
+        FadeInOut.Instance.FadeIn();
 
     }
 	
@@ -51,7 +56,18 @@ public class settingTotal : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.Alpha4))
         {
             playerIcon[3].setJoin();
+        }
 
+        foreach(var joycon in joycons)
+        {
+            if (!joycon.GetButton(Joycon.Button.DPAD_DOWN))
+                continue;
+            
+            var playerNo = joycon.GetPlayerNo();
+            if (playerNo == -1)
+                SetJoin(joycon);
+            else
+                playerIcon[playerNo].setJoin();
         }
 
         countPlayer = numPlayer[0] + numPlayer[1] + numPlayer[2] + numPlayer[3];
@@ -65,10 +81,22 @@ public class settingTotal : MonoBehaviour {
             canStart = true;
         }
 
-        if(canStart && Input.GetKeyDown(KeyCode.Return))
+        if(canStart && Input.GetKeyDown(KeyCode.Return) && !FadeInOut.Instance.enabled)
         {
             GameSetting.PlayerCount = countPlayer;
-            SceneManager.LoadScene("GameScene");
+            FadeInOut.Instance.FadeOut(() => SceneManager.LoadScene(nextScene));
+        }
+    }
+
+    void SetJoin(Joycon joycon)
+    {
+        for(var i = 0; i < 4; i++)
+        {
+            if(playerIcon[i].numJoin == 0)
+            {
+                playerIcon[i].setJoin();
+                joycon.BindPlayer(i);
+            }
         }
     }
 }

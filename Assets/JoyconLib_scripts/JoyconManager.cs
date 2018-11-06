@@ -4,7 +4,9 @@ using System.Runtime.InteropServices;
 
 using UnityEngine;
 using System;
-public class JoyconManager: MonoBehaviour
+using RainerLib;
+
+public class JoyconManager: Singleton<JoyconManager>
 {
 
     // Settings accessible via Unity
@@ -18,18 +20,14 @@ public class JoyconManager: MonoBehaviour
 	private const ushort product_r = 0x2007;
 
     public List<Joycon> j; // Array of all connected Joy-Cons
-    static JoyconManager instance;
 
-    public static JoyconManager Instance
+    protected override void Awake()
     {
-        get { return instance; }
-    }
+        base.Awake();
 
-    void Awake()
-    {
-        if (instance != null) Destroy(gameObject);
-        instance = this;
-		int i = 0;
+        DontDestroyOnLoad(this);
+
+        int i = 0;
 
 		j = new List<Joycon>();
 		bool isLeft = false;

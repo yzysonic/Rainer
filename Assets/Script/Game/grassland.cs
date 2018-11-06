@@ -27,6 +27,9 @@ public class grassland : MonoBehaviour {
 
             obj1.transform.position = new Vector3(x, -1.0f, z);
             obj2.transform.position = new Vector3(x, -1.0f, z);
+
+            obj1.transform.SetParent(transform);
+            obj2.transform.SetParent(transform);
         }
     }
 

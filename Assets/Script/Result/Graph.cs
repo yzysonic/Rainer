@@ -6,8 +6,6 @@ using UnityEngine.UI;
 public class Graph : MonoBehaviour
 {
 
-    delegate void MyScore(int Score);
-    MyScore myScore;
     public float myscore;
     private float mySclZ;
     public RawImage myMedal;
@@ -18,7 +16,6 @@ public class Graph : MonoBehaviour
 	// Use this for initialization
 	void Start ()
     {
-        myScore = GraphScore;
         mySclZ = transform.localScale.z;
         endGrowup = false;
         countScore = 0;

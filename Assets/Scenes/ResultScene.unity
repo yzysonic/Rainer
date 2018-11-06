@@ -89,7 +89,7 @@ LightmapSettings:
     m_PVRFilteringAtrousPositionSigmaIndirect: 2
     m_PVRFilteringAtrousPositionSigmaAO: 1
     m_ShowResolutionOverlay: 1
-  m_LightingDataAsset: {fileID: 112000006, guid: 65281c8ac82abbc43a68cc9e9436e88e,
+  m_LightingDataAsset: {fileID: 112000002, guid: e5892f43cc7bf2d479ce8eca8227ba86,
     type: 2}
   m_UseShadowmask: 1
 --- !u!196 &4
@@ -1066,10 +1066,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   texMedal:
-  - {fileID: 0}
-  - {fileID: 10914, guid: 0000000000000000f000000000000000, type: 0}
-  - {fileID: 10912, guid: 0000000000000000f000000000000000, type: 0}
-  - {fileID: 10900, guid: 0000000000000000f000000000000000, type: 0}
+  - {fileID: 2800000, guid: a9f6f63b05fd75546aecb61c204fe635, type: 3}
+  - {fileID: 2800000, guid: 56e2d906dbdba064584f53913d951620, type: 3}
+  - {fileID: 2800000, guid: 1b2c22e43a0aab847b62b8124dedc251, type: 3}
+  - {fileID: 2800000, guid: 8ddfd9e03b48d7748b3c0ed3098fcc31, type: 3}
   setWinner: 
 --- !u!4 &1426593816
 Transform:

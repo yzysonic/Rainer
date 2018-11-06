@@ -12,7 +12,6 @@ public class Lank : MonoBehaviour {
         public float score;
         public RawImage medal;
         public bool endGrowup;
-        public bool setGraph;
         public string setWinner;
     }
 
