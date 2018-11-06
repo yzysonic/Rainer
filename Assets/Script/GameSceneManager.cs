@@ -39,6 +39,9 @@ public class GameSceneManager : Singleton<GameSceneManager>
     private List<GameObject> canvas = new List<GameObject>();
 
     [SerializeField]
+    private List<GameObject> clouds = new List<GameObject>();
+
+    [SerializeField]
     private StartLogo startLogo;
 
     [SerializeField]
@@ -53,6 +56,7 @@ public class GameSceneManager : Singleton<GameSceneManager>
     private List<GameObject> activePlayers;
     private List<GameObject> activeCameras;
     private List<GameObject> activeCanvas;
+    private List<GameObject> activeClouds;
     private GameTimer timer;
 
     #endregion
@@ -232,16 +236,19 @@ public class GameSceneManager : Singleton<GameSceneManager>
         {
             var active = i < playerCount;
             players[i].SetActive(active);
+            clouds[i].SetActive(active);
         }
 
         // 有効オブジェクトのリストを作成
         activePlayers = new List<GameObject>();
         activeCanvas = new List<GameObject>();
+        activeClouds = new List<GameObject>();
 
         for (var i=0;i<playerCount;i++)
         {
             activePlayers.AddRange(players.GetRange(0, playerCount));
             activeCanvas.AddRange(canvas.GetRange(0, playerCount));
+            activeClouds.AddRange(clouds.GetRange(0, playerCount));
         }
 
     }

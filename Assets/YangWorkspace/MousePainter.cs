@@ -14,9 +14,11 @@ namespace Es.TexturePaint.Sample
                 RaycastHit hitInfo;
                 if (Physics.Raycast(ray, out hitInfo))
                 {
-                    var paintObject = hitInfo.transform.GetComponent<DynamicPaintObject>();
+                    var paintObject = hitInfo.transform.GetComponent<Ground>();
                     if (paintObject != null)
-                        paintObject.Paint(hitInfo.textureCoord);
+                    {
+                        paintObject.PaintGrass(hitInfo.textureCoord);
+                    }
                 }
             }
         }

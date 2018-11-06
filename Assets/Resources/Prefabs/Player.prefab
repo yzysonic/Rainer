@@ -97,7 +97,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   canvas: {fileID: 0}
-  controllType: 1
+  controllType: 0
   max_speed: 10
   rotation_speed_scale: 1
   dead_zone: 0.08

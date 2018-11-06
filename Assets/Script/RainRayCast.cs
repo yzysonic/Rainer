@@ -6,12 +6,16 @@ public class RainRayCast : MonoBehaviour {
 
     private RaycastHit hitInfo;
     private GrassSpawn grassSpawn;
+    private Ground ground;
     private float timer;
+    private int layerMask;
 
     // Use this for initialization
     void Start () {
-        grassSpawn = GameObject.Find("Ground").GetComponent<GrassSpawn>();
+        //grassSpawn = GameObject.Find("Ground").GetComponent<GrassSpawn>();
+        ground = GameObject.Find("Ground").GetComponent<Ground>();
         timer = 0.0f;
+        layerMask = LayerMask.GetMask("Ground");
 	}
 	
 	// Update is called once per frame
@@ -23,9 +27,10 @@ public class RainRayCast : MonoBehaviour {
         //    return;
         //}
 
-        if (Physics.Raycast(transform.position, Vector3.down, out hitInfo))
+        if (Physics.Raycast(transform.position, Vector3.down, out hitInfo, Mathf.Infinity, layerMask))
         {
-            grassSpawn.Spawn(hitInfo);
+            //grassSpawn.Spawn(hitInfo);
+            ground.PaintGrass(hitInfo.textureCoord);
         }
 
         timer = 0.0f;
