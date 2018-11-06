@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using RainerLib;
 
-public class RainerManager : MonoBehaviour {
+public class RainerManager : Singleton<RainerManager> {
     //[SerializeField]
     //List<GameObject> players;
     [SerializeField]

@@ -143,11 +143,13 @@ public class GameSceneManager : Singleton<GameSceneManager>
 
             case State.Game:
                 timer.gameObject.SetActive(true);
+                RainerManager.Instance.gameObject.SetActive(true);
                 activePlayers.ForEach(p => p.GetComponent<PlayerController>().enabled = true);
                 activeCanvas.ForEach(c => c.gameObject.SetActive(true));
                 return;
 
             case State.EndLogo:
+                RainerManager.Instance.gameObject.SetActive(false);
                 activePlayers.ForEach(p => p.GetComponent<PlayerController>().enabled = false);
                 timer.enabled = false;
                 ScoreManager.Instance.GetComponent<CircularGauge>().enabled = false;
@@ -165,6 +167,11 @@ public class GameSceneManager : Singleton<GameSceneManager>
             case State.EnterResult:
                 var clipName = (playerCount > 2) ? "CameraEnterResult" : "CameraEnterResultTwoPlayer";
                 cameras[0].GetComponent<Animation>().Play(clipName);
+                return;
+
+            case State.Result:
+                SceneManager.LoadSceneAsync("ResultScene", LoadSceneMode.Additive);
+                activeCameras.GetRange(1, playerCount - 1).ForEach(c => c.SetActive(false));
                 return;
         }
 
@@ -213,6 +220,13 @@ public class GameSceneManager : Singleton<GameSceneManager>
                 if (cameras[0].GetComponent<Animation>().isPlaying)
                     return;
                 CurrentState++;
+                return;
+
+            case State.Result:
+                if (Input.GetKeyDown(KeyCode.Return))
+                {
+                    SceneManager.LoadScene("TitleScene");
+                }
                 return;
         }
     }

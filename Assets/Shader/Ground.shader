@@ -1,12 +1,15 @@
 ﻿Shader "Custom/Ground" {
 	Properties {
 		_Division ("Division", Float) = 0.3
+		_RangeLineWidth ("RangeLineWidth", Float) = 0.01
+		_RangeRadius ("RangeRadius", Float) = 0.46
 		_Color ("Color", Color) = (1,1,1,1)
+		_RangeLineColor ("RangeLineColor", Color) = (1,0,0,1)
 		_GrassMask ("GrassMask", 2DArray) = "white" {}
 		_MainTex ("MainTex", 2D) = "white" {}
 		_GrassTex ("GrassTex", 2D) = "white" {}
 		_Glossiness ("Smoothness", Range(0,1)) = 0.5
-		_Metallic ("Metallic", Range(0,1)) = 0.0		
+		_Metallic ("Metallic", Range(0,1)) = 0.0
 	}
 	SubShader {
 		Tags { "RenderType"="Opaque" }
@@ -29,14 +32,16 @@
 		};
 
 		float _Division;
+		float _RangeRadius;
+		float _RangeLineWidth;
 		half _Glossiness;
 		half _Metallic;
 		fixed4 _Color;
+		fixed4 _RangeLineColor;
 
 
 		void vert (inout appdata_full v, out Input o) {
 			UNITY_INITIALIZE_OUTPUT(Input,o);
-
       	}
 
 		void surf (Input IN, inout SurfaceOutputStandard o) {
@@ -51,12 +56,19 @@
 			// if((uv.z+((uint)(uv.z/_Division)%2)) % 2 == 0) c *= 0.8f;
 
 			o.Albedo = c.rgb * _Color;
-			
+
 			// Metallic and smoothness come from slider variables
 			o.Metallic = _Metallic;
 			o.Smoothness = _Glossiness;
 			// o.Alpha = c.a;
 			o.Alpha = 1;
+
+			float2 r = IN.uv_GrassMask - float2(0.5f, 0.5f);
+			float r2 = dot(r,r);
+			if(r2 >= _RangeRadius*_RangeRadius && r2 <= (_RangeRadius+_RangeLineWidth)*(_RangeRadius+_RangeLineWidth)){
+				o.Albedo *= _RangeLineColor;
+			}
+
 		}
 		ENDCG
 	}

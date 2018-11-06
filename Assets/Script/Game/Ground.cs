@@ -26,12 +26,6 @@ public class Ground : MonoBehaviour {
         InitPaintMaterial();
     }
 
-
-    // Update is called once per frame
-    void Update () {
-		
-	}
-
     private void InitRenderTexture()
     {
         var mat = renderer.material;
@@ -50,6 +44,7 @@ public class Ground : MonoBehaviour {
         mat.SetFloat("_Division", tipDivision);
         mat.SetTexture("_GrassMask", renderTex);
         mat.SetTexture("_GrassTex", grassTex);
+        mat.SetFloat("_RangeRadius", GetMoveRangeRadiusInUV());
     }
 
     private void InitPaintMaterial()
@@ -88,5 +83,20 @@ public class Ground : MonoBehaviour {
         Graphics.Blit(tempTex, defaultMat);
 
         RenderTexture.ReleaseTemporary(tempTex);
+    }
+
+    private float GetMoveRangeRadiusInUV()
+    {
+        var radius = GetComponentInChildren<MoveRange>().radius;
+        var rayPos = transform.position + transform.rotation * new Vector3(radius, 1.0f, 0.0f);
+        RaycastHit hitInfo;
+
+        if (Physics.Raycast(rayPos, Vector3.down, out hitInfo, Mathf.Infinity, LayerMask.GetMask("Ground")))
+        {
+            return Mathf.Abs(hitInfo.textureCoord.x -0.5f);
+        }
+
+        return 0.0f;
+
     }
 }
