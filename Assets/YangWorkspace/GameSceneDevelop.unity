@@ -1174,7 +1174,7 @@ MonoBehaviour:
   startLogo: {fileID: 1736080832}
   moveRange: {fileID: 2098398098}
   startState: 2
-  playerCountSet: 2
+  playerCountSet: 0
 --- !u!4 &1082321933
 Transform:
   m_ObjectHideFlags: 0
@@ -2447,7 +2447,6 @@ MonoBehaviour:
   blushSize: 15
   paintMat: {fileID: 2100000, guid: ee5c9fb9bcfb6b844ad61e6748a7cc91, type: 2}
   grassTex: {fileID: 2800000, guid: 189018b9bad320d4882f7b1010d12a55, type: 3}
-  sliceTest: 0
 --- !u!1001 &2048042685
 Prefab:
   m_ObjectHideFlags: 0
