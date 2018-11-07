@@ -6,7 +6,6 @@ using UnityEngine.UI;
 public class StartButton : MonoBehaviour {
 
     public settingTotal total;
-    public bool canStart;
     public AnimationCurve Scl;
     private float myScl;
     public Button myButton;
@@ -24,9 +23,7 @@ public class StartButton : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
-        canStart = total.canStart;
-
-        if (canStart)
+        if (total.CanStart)
         {
             Red = 1f;
             Green = 0.5f;

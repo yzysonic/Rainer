@@ -34,7 +34,7 @@ public class PlayerController : MonoBehaviour {
     // Use this for initialization
     void Start () {
         playerNo    = int.Parse(gameObject.name.Substring(6, 1))-1;
-        joycon      = GameSetting.PlayerJoycons[playerNo] ?? JoyconManager.Instance.j[playerNo];
+        joycon      = GameSetting.PlayerJoycons[playerNo] ?? (JoyconManager.Instance.j.Count > playerNo ? JoyconManager.Instance.j[playerNo] : null);
         controller  = GetComponent<CharacterController>();
         rainerCount = canvas.transform.Find("RainerCount").GetComponent<RainerCount>();
         followers   = new Stack<GameObject>();

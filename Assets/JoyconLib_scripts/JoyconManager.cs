@@ -4,6 +4,7 @@ using System.Runtime.InteropServices;
 
 using UnityEngine;
 using System;
+using System.Linq;
 using RainerLib;
 
 public class JoyconManager: Singleton<JoyconManager>
@@ -98,4 +99,18 @@ public class JoyconManager: Singleton<JoyconManager>
 			j[i].Detach ();
 		}
     }
+
+    public bool GetAnyButton(Joycon.Button button)
+    {
+        return j.Any(j => j.GetButton(button));
+    }
+    public bool GetAnyButtonUp(Joycon.Button button)
+    {
+        return j.Any(j => j.GetButtonUp(button));
+    }
+    public bool GetAnyButtonDown(Joycon.Button button)
+    {
+        return j.Any(j => j.GetButtonDown(button));
+    }
+
 }

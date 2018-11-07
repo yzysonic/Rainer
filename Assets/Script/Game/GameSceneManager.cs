@@ -230,7 +230,7 @@ public class GameSceneManager : Singleton<GameSceneManager>
                 return;
 
             case State.Result:
-                if (Input.GetKeyDown(KeyCode.Return) && !FadeInOut.Instance.enabled)
+                if ((Input.GetButtonDown("Submit")) && !FadeInOut.Instance.enabled)
                 {
                     FadeInOut.Instance.FadeOut(() => SceneManager.LoadScene(nextScene));
                 }

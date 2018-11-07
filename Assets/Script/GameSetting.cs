@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 public static class GameSetting
 {
     private static int numPlayer = 4;
-    private static Dictionary<Joycon, int> joyconPlayerMap;
+    private static Dictionary<Joycon, int> joyconPlayerMap = new Dictionary<Joycon, int>();
 
     public static int PlayerCount
     {
@@ -24,11 +24,24 @@ public static class GameSetting
 
     public static void BindPlayer(this Joycon joycon, int player)
     {
+        joycon.UnbindPlayer();
+
         if (player >= 0 && player < 4)
         {
             PlayerJoycons[player] = joycon;
-            joyconPlayerMap[joycon] = player;
+            joyconPlayerMap.Add(joycon, player);
         }
+    }
+
+    public static void UnbindPlayer(this Joycon joycon)
+    {
+        var lastPlayer = -1;
+
+        if (!joyconPlayerMap.TryGetValue(joycon, out lastPlayer) || joycon == null)
+            return;
+
+        PlayerJoycons[lastPlayer] = null;
+        joyconPlayerMap.Remove(joycon);
     }
 
     public static int GetPlayerNo(this Joycon joycon)
@@ -40,4 +53,27 @@ public static class GameSetting
         else
             return no;
     }
+
+    public enum Button
+    {
+        Join = Joycon.Button.DPAD_DOWN,
+        Start = Joycon.Button.SHOULDER_1,
+    }
+
+
+    public static bool GetButton(this Joycon joycon, Button button)
+    {
+        return joycon.GetButton((Joycon.Button)button);
+    }
+
+    public static bool GetButtonUp(this Joycon joycon, Button button)
+    {
+        return joycon.GetButtonUp((Joycon.Button)button);
+    }
+
+    public static bool GetButtonDown(this Joycon joycon, Button button)
+    {
+        return joycon.GetButtonDown((Joycon.Button)button);
+    }
+
 }

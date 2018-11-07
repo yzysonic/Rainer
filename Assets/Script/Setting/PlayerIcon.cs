@@ -7,30 +7,56 @@ public class PlayerIcon : MonoBehaviour {
 
 
     private JoinState joinState;
-    public bool isJoin;
-    public int numJoin;
+    private Joycon joycon;
+    public bool IsJoin { get; set; } = false;
+    public int PlayerNo { get; set; }
+    public Joycon Joycon
+    {
+        get
+        {
+            return joycon;
+        }
+        set
+        {
+            IsJoin = value != null;
+            StartCoroutine(SetJoycon(value));
+        }
+    }
 	// Use this for initialization
 	void Start () {
 
         joinState = GetComponentInChildren<JoinState>();
-        isJoin = false;
-        numJoin = 0;
 
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	void LateUpdate () {
 
-        joinState.isJoin = isJoin;
+        joinState.isJoin = IsJoin;
+
+        if(Joycon?.GetButtonDown(GameSetting.Button.Join) ?? false)
+        {
+            //StartCoroutine(UnsetJoycon());
+            Joycon = null;
+        }
     }
 
-    public void setJoin()
+    IEnumerator UnsetJoycon()
     {
-        isJoin = !isJoin;
-
-        if (isJoin == true)
-            numJoin = 1;
-        else if (isJoin == false)
-            numJoin = 0;
+        var joycon = Joycon;
+        Joycon = null;
+        yield return new WaitForEndOfFrame();
+        joycon.UnbindPlayer();
     }
+
+    IEnumerator SetJoycon(Joycon joycon)
+    {
+        for(var i=0;i<2;i++)
+        {
+            yield return null;
+        }
+        this.joycon?.UnbindPlayer();
+        this.joycon = joycon;
+    }
+
 }

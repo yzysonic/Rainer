@@ -422,8 +422,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0dc90348fbb7bd94ca883c294c5dde00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isJoin: 0
-  numJoin: 0
 --- !u!114 &260500314
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -520,8 +518,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0dc90348fbb7bd94ca883c294c5dde00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isJoin: 0
-  numJoin: 0
 --- !u!114 &365706643
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1378,8 +1374,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0dc90348fbb7bd94ca883c294c5dde00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isJoin: 0
-  numJoin: 0
 --- !u!114 &1262595001
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1573,8 +1567,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0dc90348fbb7bd94ca883c294c5dde00, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isJoin: 0
-  numJoin: 0
 --- !u!114 &1312094454
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1714,6 +1706,48 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1330465092}
   m_CullTransparentMesh: 0
+--- !u!1 &1392730688
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1392730690}
+  - component: {fileID: 1392730689}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1392730689
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1392730688}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7e5c37eef76965a4eb0b23f39ae97ad5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EnableIMU: 1
+  EnableLocalize: 1
+--- !u!4 &1392730690
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1392730688}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 111.11922, y: 144.38567, z: -19.931997}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1416794633
 GameObject:
   m_ObjectHideFlags: 0
@@ -1944,11 +1978,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   nextScene: GameSceneDevelop
-  playerIcon: []
-  isJoin: 
-  numPlayer: 
-  countPlayer: 0
-  canStart: 0
 --- !u!1 &1509215517
 GameObject:
   m_ObjectHideFlags: 0
@@ -2384,7 +2413,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   total: {fileID: 0}
-  canStart: 0
   Scl:
     serializedVersion: 2
     m_Curve: []
