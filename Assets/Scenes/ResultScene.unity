@@ -390,25 +390,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0f90aca6774949489282d1336267c9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  medalScl: 0
+  medalRot: 0
   curve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: -0.0023040771
-      value: 0.20075713
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
+      time: 0
+      value: 0
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
       weightedMode: 0
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 1.0004275
-      value: 0.29988465
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
       weightedMode: 0
       inWeight: 0
       outWeight: 0
@@ -500,25 +500,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0f90aca6774949489282d1336267c9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  medalScl: 0
+  medalRot: 0
   curve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: -0.0023040771
-      value: 0.20075713
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
+      time: 0
+      value: 0
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
       weightedMode: 0
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 1.0004275
-      value: 0.29988465
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
       weightedMode: 0
       inWeight: 0
       outWeight: 0
@@ -1252,25 +1252,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0f90aca6774949489282d1336267c9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  medalScl: 0
+  medalRot: 0
   curve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: -0.0023040771
-      value: 0.20075713
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
+      time: 0
+      value: 0
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
       weightedMode: 0
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 1.0004275
-      value: 0.29988465
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
       weightedMode: 0
       inWeight: 0
       outWeight: 0
@@ -1554,25 +1554,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0f90aca6774949489282d1336267c9d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  medalScl: 0
+  medalRot: 0
   curve:
     serializedVersion: 2
     m_Curve:
     - serializedVersion: 3
-      time: -0.0023040771
-      value: 0.20075713
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
+      time: 0
+      value: 0
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
       weightedMode: 0
       inWeight: 0
       outWeight: 0
     - serializedVersion: 3
-      time: 1.0004275
-      value: 0.29988465
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
       weightedMode: 0
       inWeight: 0
       outWeight: 0
