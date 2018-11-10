@@ -24,24 +24,29 @@ public class PlayerController : MonoBehaviour {
     [Range(10.0f, 90.0f)]
     public float max_angle = 40.0f;
 
-
-    private int playerNo;
     private Joycon joycon;
     private CharacterController controller;
     private RainerCount rainerCount;
     private Stack<GameObject> followers;
 
-    // Use this for initialization
-    void Start () {
-        playerNo    = int.Parse(gameObject.name.Substring(6, 1))-1;
-        joycon      = GameSetting.PlayerJoycons[playerNo] ?? (JoyconManager.Instance.j.Count > playerNo ? JoyconManager.Instance.j[playerNo] : null);
+    public int PlayerNo { get;  private set; }
+
+    private void Awake()
+    {
+        followers = new Stack<GameObject>();
+        PlayerNo = int.Parse(gameObject.name.Substring(6, 1)) - 1;
+    }
+
+    void Start ()
+    {
+        joycon      = GameSetting.PlayerJoycons[PlayerNo] ?? (JoyconManager.Instance.j.Count > PlayerNo ? JoyconManager.Instance.j[PlayerNo] : null);
         controller  = GetComponent<CharacterController>();
         rainerCount = canvas.transform.Find("RainerCount").GetComponent<RainerCount>();
-        followers   = new Stack<GameObject>();
     }
 	
 	// Update is called once per frame
-	void Update () {
+	void Update ()
+    {
 
         // Joycon
         if(joycon != null && controllType == ControllType.Joycon)
@@ -105,7 +110,6 @@ public class PlayerController : MonoBehaviour {
             }
 
         }
-
 
     }
 

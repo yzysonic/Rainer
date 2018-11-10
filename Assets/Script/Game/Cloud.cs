@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CloudFallow : MonoBehaviour {
+public class Cloud : MonoBehaviour {
 
     public Transform target;
     public float fallow_speed = 2.0f;
@@ -11,7 +11,8 @@ public class CloudFallow : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
         height = transform.position.y;
-	}
+        transform.position = target.position;
+    }
 	
 	// Update is called once per frame
 	void Update () {

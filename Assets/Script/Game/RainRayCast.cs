@@ -9,6 +9,7 @@ public class RainRayCast : MonoBehaviour {
     private Ground ground;
     private float timer;
     private int layerMask;
+    private int playerNo;
 
     // Use this for initialization
     void Start () {
@@ -16,6 +17,7 @@ public class RainRayCast : MonoBehaviour {
         ground = GameObject.Find("Ground").GetComponent<Ground>();
         timer = 0.0f;
         layerMask = LayerMask.GetMask("Ground");
+        playerNo = transform.parent.GetComponent<Cloud>().target.GetComponent<PlayerController>().PlayerNo;
 	}
 	
 	// Update is called once per frame
@@ -29,8 +31,8 @@ public class RainRayCast : MonoBehaviour {
 
         if (Physics.Raycast(transform.position, Vector3.down, out hitInfo, Mathf.Infinity, layerMask))
         {
-            //grassSpawn.Spawn(hitInfo);
             ground.PaintGrass(hitInfo.textureCoord);
+            ground.GrassField.SetGrass(transform.position, playerNo);
         }
 
         timer = 0.0f;
