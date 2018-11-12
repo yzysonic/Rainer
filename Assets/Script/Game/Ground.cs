@@ -18,10 +18,13 @@ public class Ground : MonoBehaviour {
     private int centerUVPropertyID;
     private float blushSizeNormalized;
 
+    public GrassField GrassField { get; private set; }
+
     // Use this for initialization
     void Start () {
         blushSizeNormalized = blushSize / (tipResolution * tipDivision);
         renderer = GetComponent<Renderer>();
+        GrassField = GetComponent<GrassField>();
         InitRenderTexture();
         InitPaintMaterial();
     }

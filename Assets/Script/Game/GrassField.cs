@@ -1,102 +1,104 @@
 ﻿using System.Collections;
+using System.Linq;
 using System.Collections.Generic;
 using UnityEngine;
 
 public class GrassField : MonoBehaviour {
 
-    public float FieldX, FieldZ;
-    private float bFieldSizeX, bFieldSizeZ;
-    public Vector3 [][]bPos;
-    public bool [][]bChk;
-    public Vector3 fieldCenterPos, centerPos;
-    public grassland grassLand;
-    public Transform player;
+    public float fieldSize      = 300;
+    public int blockDivision    = 128;
+    public float grassRadius    = 4.35f;
+    public int grassDensity     = 10;
+    public int grassScore       = 1;
+
+    private byte [][]grassMap;
+    private int grassRadiusInBlock;
+    private int grassSqrRadiusInBlock;
+    private ScoreManager scoreManager;
+    private Terrain terrain;
+    private int[,] detailValue;
 
 
     // Use this for initialization
-    void Start () {
-
-        centerPos = new Vector3(0, 0, 0);
-
-        bPos = new Vector3[100][];
-        for(int i = 0; i < 100; i++)
-        {
-            bPos[i] = new Vector3[100];
-        }
-        bChk = new bool[100][];
-        for(int i = 0; i < 100; i++)
-        {
-            bChk[i] = new bool[100];
-        }
-
-        FieldX = 100;
-        FieldZ = 100;
-
-        bFieldSizeX = FieldX / 100;
-        bFieldSizeZ = FieldZ / 100;
-
-        SetBlockPos();
-    }
-	
-	// Update is called once per frame
-	void Update () {
-
-        centerPos = player.position;
-
-        SetCheckBlock(centerPos, 5);
-
-    }
-
-    public void SetBlockPos()
+    void Start ()
     {
-        fieldCenterPos = new Vector3(-50, 0, -50);
-        for (int i = 0; i < 100; i++)
+
+        grassMap = new byte[blockDivision][];
+        for(var i=0;i<blockDivision;i++)
         {
-            for (int j = 0; j < 100; j++)
+            grassMap[i] = new byte[blockDivision];
+        }
+
+        var radius = grassRadius / fieldSize * blockDivision;
+        grassRadiusInBlock = Mathf.RoundToInt(radius);
+        grassSqrRadiusInBlock = Mathf.RoundToInt(radius * radius);
+
+        scoreManager = ScoreManager.Instance;
+        terrain = GetComponentInChildren<Terrain>();
+
+        ClearDetailMap();
+
+        detailValue = new int[1, 1] { { grassDensity } };
+    }
+
+
+    public void SetGrass(Vector3 pos, int playerNo)
+    {
+        var posBlock = ((pos - transform.position) / fieldSize + Vector3.one * 0.5f) * blockDivision;
+        var posBlockX = (int)posBlock.x;
+        var posBlockZ = (int)posBlock.z;
+
+        for (int a = 0; a < grassRadiusInBlock * 2+1; a++)
+        {
+
+            for (int b = 0; b < grassRadiusInBlock * 2+1; b++)
             {
 
+                int bx = posBlockX - grassRadiusInBlock + a;
+                int bz = posBlockZ - grassRadiusInBlock + b;
 
-                float x = fieldCenterPos.x + (bFieldSizeX / 2 + i * bFieldSizeX);
-                float z = fieldCenterPos.z + (bFieldSizeZ / 2 + j * bFieldSizeZ);
+                if (!(bx >= 0 && bx < blockDivision && bz >= 0 && bz < blockDivision))
+                {
+                    continue;
+                }
 
-                bPos[i][j] = new Vector3(x, fieldCenterPos.y, z);
-                bChk[i][j] = false;
+                if (grassMap[bx][bz] > 0)
+                {
+                    continue;
+                }
 
+                var sqrLength = (bx - posBlockX) * (bx - posBlockX) + (bz - posBlockZ) * (bz - posBlockZ);
+
+                if (sqrLength > grassSqrRadiusInBlock)
+                {
+                    continue;
+                }
+
+                var grassPosW = (new Vector3(bx, 0.0f, bz) / blockDivision - Vector3.one * 0.5f) * fieldSize;
+                grassPosW.y = 0.338f;
+
+                terrain.terrainData.SetDetailLayer(bx, bz, playerNo, detailValue);
+                grassMap[bx][bz] = (byte)(playerNo + 1);
+                scoreManager.AddScore(playerNo, grassScore);
             }
         }
+
+        //terrain.terrainData.SetDetailLayer(posBlockX - grassRadiusInBlock, posBlockZ - grassRadiusInBlock, playerNo, grassMap);
+
     }
 
-    public void SetCheckBlock(Vector3 pos, float Radius)
+    private void ClearDetailMap()
     {
-        int blockLength = Mathf.RoundToInt(Radius);
-
-        for (int a = 0; a < blockLength * 2; a++)
+        var detailMap = new int[terrain.terrainData.detailWidth, terrain.terrainData.detailHeight];
+        for(var i=0;i<4;i++)
         {
-            for (int b = 0; b < blockLength * 2; b++)
-            {
-
-                float bx = pos.x - blockLength + (a);
-                float bz = pos.z - blockLength + (b);
-                var grassPosW = new Vector3(bx, -1.0f, bz);
-                var grassPosB = grassPosW + new Vector3(50.0f, -1.0f, 50.0f);
-
-
-                if (!(grassPosB.x >= 0 && grassPosB.x < 100 && grassPosB.z >= 0 && grassPosB.z < 100))
-                    continue;
-
-                if (bChk[(int)grassPosB.x][(int)grassPosB.z] == true)
-                    continue;
-
-                if ((grassPosW - pos).sqrMagnitude >= (Radius * Radius))
-                    continue;
-
-                grassLand.CreateGrass(grassPosW);
-                bChk[(int)grassPosB.x][(int)grassPosB.z] = true;
-                
-
-            }
+            terrain.terrainData.SetDetailLayer(0, 0, i, detailMap);
         }
     }
 
+    private void OnApplicationQuit()
+    {
+        ClearDetailMap();
+    }
 
 }
