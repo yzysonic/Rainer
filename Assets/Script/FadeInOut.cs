@@ -51,6 +51,7 @@ public class FadeInOut : Singleton<FadeInOut> {
         rectTransform.anchorMin = Vector2.zero;
         rectTransform.anchorMax = Vector2.one;
         rectTransform.localPosition = Vector3.zero;
+        rectTransform.localScale = Vector3.one;
 
         FI = false;
         FO = false;

@@ -42,11 +42,11 @@ public class GrassField : MonoBehaviour {
     }
 
 
-    public void SetGrass(Vector3 pos, int playerNo)
+    public void SetGrass(Vector2 uv, int playerNo)
     {
-        var posBlock = ((pos - transform.position) / fieldSize + Vector3.one * 0.5f) * blockDivision;
+        var posBlock = (Vector2.one-uv) * blockDivision;
         var posBlockX = (int)posBlock.x;
-        var posBlockZ = (int)posBlock.z;
+        var posBlockZ = (int)posBlock.y;
 
         for (int a = 0; a < grassRadiusInBlock * 2+1; a++)
         {
@@ -83,8 +83,6 @@ public class GrassField : MonoBehaviour {
             }
         }
 
-        //terrain.terrainData.SetDetailLayer(posBlockX - grassRadiusInBlock, posBlockZ - grassRadiusInBlock, playerNo, grassMap);
-
     }
 
     private void ClearDetailMap()
@@ -96,7 +94,7 @@ public class GrassField : MonoBehaviour {
         }
     }
 
-    private void OnApplicationQuit()
+    private void OnDestroy()
     {
         ClearDetailMap();
     }
