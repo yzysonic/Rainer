@@ -12,6 +12,9 @@ public class Graph : MonoBehaviour
     public bool endGrowup;
     public Text txtScore;
     private float countScore;
+    public Lank lank;
+    private float growSpeed;
+
 
 	// Use this for initialization
 	void Start ()
@@ -19,6 +22,8 @@ public class Graph : MonoBehaviour
         mySclZ = transform.localScale.z;
         endGrowup = false;
         countScore = 0;
+        lank = GetComponentInParent<Lank>();
+        growSpeed = 500.0f / lank.graphFrame;
 
     }
 	
@@ -26,9 +31,9 @@ public class Graph : MonoBehaviour
 	void Update ()
     {
        
-		if(transform.localScale.z <= myscore*5)
+		if(transform.localScale.z <= (myscore / lank.scoreTop) *500)
         {
-            mySclZ += 2.5f;
+            mySclZ += growSpeed;
 
             transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y, mySclZ);
         }
@@ -38,23 +43,19 @@ public class Graph : MonoBehaviour
         }
         if(countScore < myscore)
         {
-            countScore += 0.5f;
-
+            countScore += lank.scoreUnit;
         }
-        if (countScore % 2 == 0)
+        else
         {
-            CountScore();
+            countScore = myscore;
         }
+        CountScore();
 
-    }
-
-    public void GraphScore(int Score)
-    {
-        myscore = Score;
     }
 
     public void CountScore()
     {
-        txtScore.text = countScore.ToString();
+        int viewScore = (int)countScore;
+        txtScore.text = viewScore.ToString();
     }
 }

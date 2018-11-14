@@ -565,6 +565,7 @@ MonoBehaviour:
   myMedal: {fileID: 1867404958}
   endGrowup: 0
   txtScore: {fileID: 1799535089}
+  lank: {fileID: 0}
 --- !u!95 &670803158
 Animator:
   serializedVersion: 3
@@ -928,6 +929,7 @@ MonoBehaviour:
   myMedal: {fileID: 1676320993}
   endGrowup: 0
   txtScore: {fileID: 289216660}
+  lank: {fileID: 0}
 --- !u!95 &1305206327
 Animator:
   serializedVersion: 3
@@ -1025,7 +1027,10 @@ MonoBehaviour:
   - {fileID: 2800000, guid: 56e2d906dbdba064584f53913d951620, type: 3}
   - {fileID: 2800000, guid: 1b2c22e43a0aab847b62b8124dedc251, type: 3}
   - {fileID: 2800000, guid: 8ddfd9e03b48d7748b3c0ed3098fcc31, type: 3}
+  graphFrame: 200
   setWinner: 
+  scoreTop: 0
+  scoreUnit: 0
 --- !u!4 &1426593816
 Transform:
   m_ObjectHideFlags: 0
@@ -1094,6 +1099,7 @@ MonoBehaviour:
   myMedal: {fileID: 451592860}
   endGrowup: 0
   txtScore: {fileID: 73427106}
+  lank: {fileID: 0}
 --- !u!95 &1561589067
 Animator:
   serializedVersion: 3
@@ -1374,6 +1380,7 @@ MonoBehaviour:
   myMedal: {fileID: 491293947}
   endGrowup: 0
   txtScore: {fileID: 1026161595}
+  lank: {fileID: 0}
 --- !u!95 &1808352450
 Animator:
   serializedVersion: 3
