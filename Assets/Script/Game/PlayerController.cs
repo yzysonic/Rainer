@@ -3,13 +3,20 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-public class PlayerController : MonoBehaviour {
+public class PlayerController : Rainer {
 
     public enum ControllType
     {
         Joycon,
         KeyboardMouse,
+        Controller,
         None
+    }
+
+    public enum ActionButton : byte
+    {
+        PopRainer = 0x1,
+        GrowTree = 0x2,
     }
 
     public Canvas canvas;
@@ -25,115 +32,169 @@ public class PlayerController : MonoBehaviour {
     public float max_angle = 40.0f;
 
     private Joycon joycon;
-    private CharacterController controller;
-    private Animator animator;
     private RainerCount rainerCount;
-    private Stack<GameObject> followers;
+    private Stack<RainerController> followers;
     private Transform model;
-    private Vector3 moveDir;
+    private byte buttonBuffer;
 
+    public Vector3 MoveInput { get; private set; }
+    public Vector3 RotateInput { get; private set; }
     public int PlayerNo { get;  private set; }
+
 
     private void Awake()
     {
-        moveDir = Vector3.zero;
-        followers = new Stack<GameObject>();
+        followers = new Stack<RainerController>();
         PlayerNo = int.Parse(gameObject.name.Substring(6, 1)) - 1;
     }
 
-    void Start ()
+    protected override void Start ()
     {
+        base.Start();
         joycon      = GameSetting.PlayerJoycons[PlayerNo] ?? (JoyconManager.Instance.j.Count > PlayerNo ? JoyconManager.Instance.j[PlayerNo] : null);
-        controller  = GetComponent<CharacterController>();
-        model       = transform.GetChild(0);
-        animator    = model.GetComponent<Animator>();
         rainerCount = canvas.transform.Find("RainerCount").GetComponent<RainerCount>();
     }
 	
 	// Update is called once per frame
-	void Update ()
+	protected override void Update ()
     {
+        UpdateInput();
 
-        // Joycon
-        if(joycon != null && controllType == ControllType.Joycon)
-        {
-
-            #region Rotate
-
-            var stick = joycon.GetStick();
-            transform.Rotate(0.0f, stick[0] * rotation_speed_scale, 0.0f);
-
-            #endregion
-
-
-            #region Move
-
-            // Joyconの向きのベクトルを計算
-            var raw_vector = Quaternion.Euler(90.0f, 0.0f, 0.0f) * joycon.GetVector() * Vector3.forward;
-
-            // 移動方向に適用
-            moveDir = new Vector3(raw_vector.x, 0.0f, raw_vector.z);
-
-            // 最大角度を制限
-            var max_value = Mathf.Sin(max_angle * Mathf.Deg2Rad);
-            moveDir = Vector3.ClampMagnitude(moveDir, max_value) / max_value;
-
-            #endregion
-
-        }
-        // キーボード・マウス
-        else if(controllType == ControllType.KeyboardMouse)
-        {
-            // カメラ回転
-            if(Input.GetMouseButton(0))
-            {
-                transform.Rotate(0.0f, Input.GetAxis("Mouse X") * rotation_speed_scale, 0.0f);
-            }
-
-            moveDir = new Vector3(Input.GetAxis("Horizontal"),0.0f,  Input.GetAxis("Vertical"));
-
-
-            // レインナー操作
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                if (followers.Count > 0)
-                {
-                    followers.Pop().GetComponent<RainerController>().SetIdle(gameObject.transform.position);
-                }
-            }
-
-        }
-
-
-        // DeadZoneのチェック
-        if (moveDir.sqrMagnitude >= dead_zone * dead_zone)
-        {
-            // 回転の適用
-            moveDir = transform.rotation * moveDir;
-            // モデルの向きを設定
-            model.rotation = Quaternion.LookRotation(-moveDir);
-        }
-        else
-        {
-            moveDir = Vector3.zero;
-        }
-
+        // カメラ回転
+        transform.Rotate(RotateInput * rotation_speed_scale * Time.deltaTime * 60.0f);
 
         // 移動する
-        controller.SimpleMove(moveDir * max_speed);
-        animator.SetFloat("speed", controller.velocity.magnitude);
+        CharacterController.SimpleMove(MoveInput * max_speed);
 
+        if(GetActionDown(ActionButton.PopRainer))
+        {
+            PopRainer();
+            print("POP!");
+        }
+
+        base.Update();
     }
 
     // 当たり判定
     private void OnControllerColliderHit(ControllerColliderHit hit)
     {
         var target = hit.gameObject;
-        if (target.layer == LayerMask.NameToLayer("RainerIdle"))
+        if (target.layer == RainerManager.LayerRainerIdle)
         {
-            target.GetComponent<RainerController>().SetFollow(gameObject);
-            followers.Push(target);
-            rainerCount.Value++;
+            var rainer = target.GetComponent<RainerController>();
+            PushRainer(rainer);
         }
+    }
+
+    private void UpdateInput()
+    {
+        buttonBuffer = 0;
+
+        switch (controllType)
+        {
+            case ControllType.Joycon:
+
+                if (joycon == null)
+                {
+                    break;
+                }
+
+                #region CameraRotate
+
+                var stick = joycon.GetStick();
+                RotateInput = new Vector3(0.0f, stick[0], 0.0f);
+
+                #endregion
+
+                #region Move
+
+                // Joyconの向きのベクトルを計算
+                var raw_vector = Quaternion.Euler(90.0f, 0.0f, 0.0f) * joycon.GetVector() * Vector3.forward;
+
+                // 移動方向に適用
+                MoveInput = new Vector3(raw_vector.x, 0.0f, raw_vector.z);
+
+                // 最大角度を制限
+                var max_value = Mathf.Sin(max_angle * Mathf.Deg2Rad);
+                MoveInput = Vector3.ClampMagnitude(MoveInput, max_value) / max_value;
+
+                #endregion
+
+                break;
+
+
+            case ControllType.KeyboardMouse:
+
+                // カメラ回転
+                if (Input.GetMouseButton(0))
+                {
+                    RotateInput = new Vector3(0.0f, Input.GetAxis("Mouse X"), 0.0f);
+                }
+
+                // 移動
+                MoveInput = new Vector3(Input.GetAxis("KeyMoveX"), 0.0f, Input.GetAxis("KeyMoveY"));
+
+                if (Input.GetKeyDown(KeyCode.Space))
+                {
+                    SetActionDown(ActionButton.PopRainer);
+                }
+
+                break;
+
+
+            case ControllType.Controller:
+
+                // カメラ回転
+                RotateInput = new Vector3(0.0f, Input.GetAxis("JoyCameraX"), 0.0f);
+
+                // 移動
+                MoveInput = new Vector3(Input.GetAxis("JoyMoveX"), 0.0f, Input.GetAxis("JoyMoveY"));
+
+                if(Input.GetButtonDown("JoyAction1"))
+                {
+                    SetActionDown(ActionButton.PopRainer);
+                }
+
+                break;
+        }
+
+        // DeadZoneのチェック
+        if (MoveInput.sqrMagnitude >= dead_zone * dead_zone)
+        {
+            // 回転の適用
+            MoveInput = transform.rotation * MoveInput;
+        }
+        else
+        {
+            MoveInput = Vector3.zero;
+        }
+
+    }
+
+    private void PushRainer(RainerController rainer)
+    {
+        rainer.SetFollow(this);
+        followers.Push(rainer);
+        rainerCount.Value++;
+    }
+
+    private RainerController PopRainer()
+    {
+        if (followers.Count == 0)
+            return null;
+
+        var rainer = followers.Pop();
+        rainer.SetIdle(gameObject.transform.position);
+        return rainer;
+    }
+
+    private void SetActionDown(ActionButton action)
+    {
+        buttonBuffer |= (byte)action;
+    }
+
+    public bool GetActionDown(ActionButton action)
+    {
+        return (buttonBuffer & (byte)action) != 0;
     }
 }

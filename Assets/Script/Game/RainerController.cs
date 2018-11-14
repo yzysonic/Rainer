@@ -2,24 +2,24 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RainerController : MonoBehaviour
+public class RainerController : Rainer
 {
     public Vector3 move;
-    List<GameObject> boids = new List<GameObject>();
-    public GameObject leader;
+    List<RainerController> boids = new List<RainerController>();
+    public Rainer leader;
     public Vector3 point;
     float speed;
     static readonly float max_force = 0.3f;
 
     // 周辺のrainerをboidsに設定
-    public void FindBoidsNearby(List<GameObject> rainers, float range)
+    public void FindBoidsNearby(List<RainerController> rainers, float range)
     {
         boids.Clear();
-        foreach (GameObject rainer in rainers)
+        foreach (RainerController rainer in rainers)
         {
-            if (rainer != gameObject
-                && rainer.layer == LayerMask.NameToLayer("RainerFollow")
-                && rainer.GetComponent<RainerController>().leader == leader
+            if (rainer.gameObject != gameObject
+                && rainer.gameObject.layer == RainerManager.LayerRainerFollow
+                && rainer.leader == leader
                 )
             {
                 var vec = rainer.transform.position - gameObject.transform.position;
@@ -39,7 +39,7 @@ public class RainerController : MonoBehaviour
         var vec = Vector3.zero;
         int cnt = 0;
 
-        foreach (GameObject boid in boids)
+        foreach (RainerController boid in boids)
         {
             vec = gameObject.transform.position - boid.transform.position;
             if (vec.magnitude != 0.0f && vec.magnitude < range)
@@ -75,12 +75,12 @@ public class RainerController : MonoBehaviour
     {
         var sum = Vector3.zero;
 
-        foreach (GameObject boid in boids)
+        foreach (RainerController boid in boids)
         {
-            sum += boid.GetComponent<RainerController>().move;
+            sum += boid.move;
         }
 
-        sum += leader.GetComponent<CharacterController>().velocity;
+        sum += leader.CharacterController.velocity;
         
         if (boids.Count != 0)
         {
@@ -102,7 +102,7 @@ public class RainerController : MonoBehaviour
         var sum = Vector3.zero;
         var vec = Vector3.zero;
 
-        foreach (GameObject boid in boids)
+        foreach (RainerController boid in boids)
         {
             sum += boid.transform.position;
         }
@@ -152,14 +152,15 @@ public class RainerController : MonoBehaviour
     // 待機状態にする
     public void SetIdle(Vector3 position)
     {
-        gameObject.layer = LayerMask.NameToLayer("RainerIdle");
+        gameObject.layer = RainerManager.LayerRainerIdle;
         point = position;
     }
 
     // 追跡状態にする
-    public void SetFollow(GameObject player)
+    public void SetFollow(PlayerController player)
     {
-        gameObject.layer = LayerMask.NameToLayer("RainerFollow");
+        Model.GetChild(1).GetComponent<Renderer>().material = RainerManager.GetMaterial(player.PlayerNo);
+        gameObject.layer = RainerManager.LayerRainerFollow;
         leader = player;
     }
 
