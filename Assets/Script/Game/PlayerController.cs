@@ -26,13 +26,17 @@ public class PlayerController : MonoBehaviour {
 
     private Joycon joycon;
     private CharacterController controller;
+    private Animator animator;
     private RainerCount rainerCount;
     private Stack<GameObject> followers;
+    private Transform model;
+    private Vector3 moveDir;
 
     public int PlayerNo { get;  private set; }
 
     private void Awake()
     {
+        moveDir = Vector3.zero;
         followers = new Stack<GameObject>();
         PlayerNo = int.Parse(gameObject.name.Substring(6, 1)) - 1;
     }
@@ -41,6 +45,8 @@ public class PlayerController : MonoBehaviour {
     {
         joycon      = GameSetting.PlayerJoycons[PlayerNo] ?? (JoyconManager.Instance.j.Count > PlayerNo ? JoyconManager.Instance.j[PlayerNo] : null);
         controller  = GetComponent<CharacterController>();
+        model       = transform.GetChild(0);
+        animator    = model.GetComponent<Animator>();
         rainerCount = canvas.transform.Find("RainerCount").GetComponent<RainerCount>();
     }
 	
@@ -66,19 +72,11 @@ public class PlayerController : MonoBehaviour {
             var raw_vector = Quaternion.Euler(90.0f, 0.0f, 0.0f) * joycon.GetVector() * Vector3.forward;
 
             // 移動方向に適用
-            var dir = new Vector3(raw_vector.x, 0.0f, raw_vector.z);
+            moveDir = new Vector3(raw_vector.x, 0.0f, raw_vector.z);
 
             // 最大角度を制限
             var max_value = Mathf.Sin(max_angle * Mathf.Deg2Rad);
-            dir = Vector3.ClampMagnitude(dir, max_value) / max_value;
-
-            // 回転の適用
-            dir = transform.rotation * dir;
-
-            // DeadZoneのチェック
-            if (dir.sqrMagnitude >= dead_zone * dead_zone)
-                // 移動する
-                controller.SimpleMove(dir * max_speed);
+            moveDir = Vector3.ClampMagnitude(moveDir, max_value) / max_value;
 
             #endregion
 
@@ -92,13 +90,8 @@ public class PlayerController : MonoBehaviour {
                 transform.Rotate(0.0f, Input.GetAxis("Mouse X") * rotation_speed_scale, 0.0f);
             }
 
-            var dir = new Vector3(Input.GetAxis("Horizontal"),0.0f,  Input.GetAxis("Vertical"));
+            moveDir = new Vector3(Input.GetAxis("Horizontal"),0.0f,  Input.GetAxis("Vertical"));
 
-            // 回転の適用
-            dir = transform.rotation * dir;
-
-            // 移動する
-            controller.SimpleMove(dir * max_speed);
 
             // レインナー操作
             if (Input.GetKeyDown(KeyCode.Space))
@@ -110,6 +103,25 @@ public class PlayerController : MonoBehaviour {
             }
 
         }
+
+
+        // DeadZoneのチェック
+        if (moveDir.sqrMagnitude >= dead_zone * dead_zone)
+        {
+            // 回転の適用
+            moveDir = transform.rotation * moveDir;
+            // モデルの向きを設定
+            model.rotation = Quaternion.LookRotation(-moveDir);
+        }
+        else
+        {
+            moveDir = Vector3.zero;
+        }
+
+
+        // 移動する
+        controller.SimpleMove(moveDir * max_speed);
+        animator.SetFloat("speed", controller.velocity.magnitude);
 
     }
 

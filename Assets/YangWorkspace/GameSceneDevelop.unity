@@ -821,8 +821,7 @@ Prefab:
       propertyPath: m_Name
       value: Player4
       objectReference: {fileID: 0}
-    - target: {fileID: 23374981096533110, guid: 4b0e0927f6631cd41a88eec52072302f,
-        type: 2}
+    - target: {fileID: 0}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 50f5c9f3fd5c1b54eab7f8f41125d8af, type: 2}
@@ -960,6 +959,11 @@ Prefab:
     - target: {fileID: 1434614299017164, guid: 87c459cc94a26f744ade05d0de058085, type: 2}
       propertyPath: m_Name
       value: Cloud1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114404142848511382, guid: 87c459cc94a26f744ade05d0de058085,
+        type: 2}
+      propertyPath: delay
+      value: 0.7
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 87c459cc94a26f744ade05d0de058085, type: 2}
@@ -1315,11 +1319,6 @@ Prefab:
       propertyPath: controllType
       value: 1
       objectReference: {fileID: 0}
-    - target: {fileID: 114445810483842752, guid: 4b0e0927f6631cd41a88eec52072302f,
-        type: 2}
-      propertyPath: rotation_speed_scale
-      value: 4
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4b0e0927f6631cd41a88eec52072302f, type: 2}
   m_IsPrefabAsset: 0
@@ -1481,8 +1480,8 @@ MonoBehaviour:
   - {fileID: 885912249}
   startLogo: {fileID: 1736080832}
   moveRange: {fileID: 2098398098}
-  startState: 6
-  playerCountSet: 0
+  startState: 2
+  playerCountSet: 2
 --- !u!4 &1082321933
 Transform:
   m_ObjectHideFlags: 0
@@ -1756,8 +1755,7 @@ Prefab:
       propertyPath: canvas
       value: 
       objectReference: {fileID: 172713182}
-    - target: {fileID: 23374981096533110, guid: 4b0e0927f6631cd41a88eec52072302f,
-        type: 2}
+    - target: {fileID: 0}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 2e8885c5011d15344946946fdadd592d, type: 2}
@@ -2585,8 +2583,7 @@ Prefab:
       propertyPath: canvas
       value: 
       objectReference: {fileID: 112171766}
-    - target: {fileID: 23374981096533110, guid: 4b0e0927f6631cd41a88eec52072302f,
-        type: 2}
+    - target: {fileID: 0}
       propertyPath: m_Materials.Array.data[0]
       value: 
       objectReference: {fileID: 2100000, guid: 03071e7b6d1dd9944b34a6dc9a7fed0e, type: 2}
