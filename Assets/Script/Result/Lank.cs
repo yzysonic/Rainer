@@ -19,7 +19,11 @@ public class Lank : MonoBehaviour {
     public Texture []texMedal;
     private Data[] dataList;
     private int playerCount;
-    public string setWinner;
+    public int graphFrame;
+
+    [HideInInspector] public string setWinner;
+    [HideInInspector] public float scoreTop;
+    [HideInInspector] public float scoreUnit;
 
 
     private void Awake()
@@ -52,6 +56,7 @@ public class Lank : MonoBehaviour {
 
         }
 
+
     }
 
     // Update is called once per frame
@@ -82,6 +87,11 @@ public class Lank : MonoBehaviour {
         {
             setWinner = dataList[playerCount - 1].setWinner;
         }
+
+        scoreTop = dataList[playerCount - 1].score;
+        scoreUnit = dataList[playerCount - 1].score / graphFrame;
+
+
         myAlpha();
     }
 
