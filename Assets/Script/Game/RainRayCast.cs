@@ -4,38 +4,51 @@ using UnityEngine;
 
 public class RainRayCast : MonoBehaviour {
 
+    public float delay = 0.5f;
+
     private RaycastHit hitInfo;
-    private GrassSpawn grassSpawn;
     private Ground ground;
     private float timer;
     private int layerMask;
     private int playerNo;
+    private Queue<Vector2> moveHistory;
 
     // Use this for initialization
-    void Start () {
-        //grassSpawn = GameObject.Find("Ground").GetComponent<GrassSpawn>();
+    void Start ()
+    {
         ground = GameObject.Find("Ground").GetComponent<Ground>();
-        timer = 0.0f;
         layerMask = LayerMask.GetMask("Ground");
         playerNo = transform.parent.GetComponent<Cloud>().target.GetComponent<PlayerController>().PlayerNo;
+        moveHistory = new Queue<Vector2>();
+
+        for (var i = 0; i < delay / Time.fixedDeltaTime; i++)
+        {
+            EnqueuePos();
+        }
 	}
 	
 	// Update is called once per frame
-	void FixedUpdate () {
+	void FixedUpdate ()
+    {
 
-        timer += Time.deltaTime;
-        //if (timer <= 0.6f)
-        //{
-        //    return;
-        //}
-
-        if (Physics.Raycast(transform.position, Vector3.down, out hitInfo, Mathf.Infinity, layerMask))
+        if (EnqueuePos())
         {
-            ground.PaintGrass(hitInfo.textureCoord);
-            ground.GrassField.SetGrass(transform.position, playerNo);
+            var uv = moveHistory.Dequeue();
+            ground.PaintGrass(uv);
+            ground.GrassField.SetGrass(uv, playerNo);
         }
 
-        timer = 0.0f;
+    }
 
+    private bool EnqueuePos()
+    {
+        bool hit;
+
+        if (hit = Physics.Raycast(transform.position, Vector3.down, out hitInfo, Mathf.Infinity, layerMask))
+        {
+            moveHistory.Enqueue(hitInfo.textureCoord);
+        }
+
+        return hit;
     }
 }

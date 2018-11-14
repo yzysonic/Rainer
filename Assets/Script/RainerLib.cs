@@ -16,6 +16,13 @@ namespace RainerLib
                 return instance ? (T)instance : new GameObject().AddComponent<T>();
             }
         }
+        public static bool IsCreated
+        {
+            get
+            {
+                return instance != null;
+            }
+        }
 
         protected virtual void Awake()
         {

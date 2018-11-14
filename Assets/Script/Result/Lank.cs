@@ -44,7 +44,7 @@ public class Lank : MonoBehaviour {
 
             data.graph.gameObject.SetActive(true);
 
-            data.score = data.graph.myscore;
+            data.score = data.graph.myscore = ScoreManager.IsCreated ? ScoreManager.Instance.GetScore(i) : data.graph.myscore;
 
             data.setWinner = (i+1) +"P WIN";
 
