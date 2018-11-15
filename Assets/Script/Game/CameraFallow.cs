@@ -17,26 +17,30 @@ public class CameraFallow : MonoBehaviour
 
     void Start()
     {
-        if (target == null)
+        if (target == null && lookat == null)
             enabled = false;
     }
 
     void LateUpdate()
     {
         UpdatePosition();
+        transform.LookAt(lookat ?? target);
     }
 
     public void UpdatePosition()
     {
+        if (target == null)
+            return;
+        
         var pos = new Vector3();
         var rot_y = target.eulerAngles.y * Mathf.Deg2Rad;
 
-        pos.y =  distance * Mathf.Sin(angle);
+        pos.y = distance * Mathf.Sin(angle);
         pos.x = -distance * Mathf.Cos(angle) * Mathf.Sin(rot_y);
         pos.z = -distance * Mathf.Cos(angle) * Mathf.Cos(rot_y);
         pos += target.position;
 
         transform.position = pos;
-        transform.LookAt(lookat ? lookat : target);
+
     }
 }
