@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using RainerLib;
+using Tree = RainerLib.Tree;
 
 [RequireComponent(typeof(GrassField), typeof(PaintGrass))]
 public class Ground : Singleton<Ground> {

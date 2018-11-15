@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Tree = RainerLib.Tree;
 
 public class Rainer : MonoBehaviour {
 
