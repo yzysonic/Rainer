@@ -5,8 +5,6 @@ using UnityEngine.UI;
 
 public class PlayerIcon : MonoBehaviour {
 
-
-    private JoinState joinState;
     private Joycon joycon;
     public bool IsJoin { get; set; } = false;
     public int PlayerNo { get; set; }
@@ -22,18 +20,15 @@ public class PlayerIcon : MonoBehaviour {
             StartCoroutine(SetJoycon(value));
         }
     }
+
 	// Use this for initialization
 	void Start () {
-
-        joinState = GetComponentInChildren<JoinState>();
-
+        
 	}
 	
 	// Update is called once per frame
 	void LateUpdate () {
-
-        joinState.isJoin = IsJoin;
-
+        
         if(Joycon?.GetButtonDown(GameSetting.Button.Join) ?? false)
         {
             //StartCoroutine(UnsetJoycon());

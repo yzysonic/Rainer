@@ -6,28 +6,25 @@ using UnityEngine.UI;
 public class JoinState : MonoBehaviour {
 
     public PlayerIcon playerIcon;
-    public bool isJoin;
-    public Text IsJoin;
+    private Text joinState;
 
 	// Use this for initialization
 	void Start () {
 
-
-        //isJoin = playerIcon.isJoin;
-
+        joinState = GetComponent<Text>();
 		
 	}
 	
 	// Update is called once per frame
 	void Update () {
 
-        if(isJoin == false)
+        if(playerIcon.IsJoin)
         {
-            IsJoin.text = ("NOT JOIN");
+            joinState.text = ("JOINING");
         }
         else
         {
-            IsJoin.text = ("JOINING");
+            joinState.text = ("NOT JOIN");
         }
 	}
 }

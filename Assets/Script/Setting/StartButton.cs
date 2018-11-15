@@ -5,36 +5,32 @@ using UnityEngine.UI;
 
 public class StartButton : MonoBehaviour {
 
-    public settingTotal total;
-    public AnimationCurve Scl;
-    private float myScl;
-    public Button myButton;
-    public float Red,Green,Bule;
+    private SettingManager manager;
+    private Button myButton;
+    private Color color;
 
 
 	// Use this for initialization
 	void Start () {
-
-        total = GetComponentInParent<settingTotal>();
+        manager = GetComponentInParent<SettingManager>();
         myButton = GetComponent<Button>();
-
+        color = myButton.image.color;
     }
 	
 	// Update is called once per frame
 	void Update () {
-
-        if (total.CanStart)
+        if (manager.CanStart)
         {
-            Red = 1f;
-            Green = 0.5f;
-            Bule = 0;
+            color.r = 1f;
+            color.g = 0.5f;
+            color.b = 0;
         }
         else
         {
-            Red = Green = Bule = 0.8f;
+            color.r = color.g = color.b = 0.8f;
         }
 
-        myButton.image.color = new Color(Red,Green,Bule,myButton.image.color.a);
+        myButton.image.color = color;
     }
 
 }
