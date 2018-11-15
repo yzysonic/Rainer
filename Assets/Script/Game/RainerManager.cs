@@ -4,10 +4,15 @@ using UnityEngine;
 using RainerLib;
 
 public class RainerManager : Singleton<RainerManager> {
-    //[SerializeField]
-    //List<GameObject> players;
+
+    public static int LayerRainerIdle { get; private set; }
+    public static int LayerRainerFollow { get; private set; }
+
     [SerializeField]
     GameObject rainerPrefab;
+
+    [SerializeField]
+    List<Material> materials;
 
     [Range(5.0f, 20.0f)]
     public float max_speed = 10.0f;
@@ -19,11 +24,18 @@ public class RainerManager : Singleton<RainerManager> {
     [Range(0, 1000)]
     public int pop_interval = 100;
 
-    List<GameObject> rainers = new List<GameObject>();
+    List<RainerController> rainers = new List<RainerController>();
 
     public Transform spawnGroup;
     List<Transform> spawnList = new List<Transform>();
     int timer;
+
+    protected override void Awake()
+    {
+        base.Awake();
+        LayerRainerIdle     = LayerMask.NameToLayer("RainerIdle");
+        LayerRainerFollow   = LayerMask.NameToLayer("RainerFollow");
+    }
 
     // Use this for initialization
     void Start()
@@ -40,42 +52,31 @@ public class RainerManager : Singleton<RainerManager> {
     void Update()
     {
         foreach (var rainer in rainers)
-        {
-            var rainerController = rainer.GetComponent<RainerController>();
-            
-            if (rainer.layer == LayerMask.NameToLayer("RainerFollow"))
+        {            
+            if (rainer.gameObject.layer == LayerRainerFollow)
             {
-                // 周辺のrainerをboidsに設定
-                rainerController.FindBoidsNearby(rainers, unity_range);
+                // 周辺のrainer.gameObjectをboidsに設定
+                rainer.FindBoidsNearby(rainers, unity_range);
 
-                rainerController.move +=
-                    rainerController.MoveSeparate(avoid_range) * 1.4f
-                    + rainerController.MoveAlign()
-                    + rainerController.MoveConhesion()
-                    + rainerController.MoveChase(avoid_range);
+                rainer.move +=
+                    rainer.MoveSeparate(avoid_range) * 1.4f
+                    + rainer.MoveAlign()
+                    + rainer.MoveConhesion()
+                    + rainer.MoveChase(avoid_range);
 
-                if (rainerController.move.magnitude > max_speed)
-                {
-                    rainerController.move = rainerController.move.normalized * max_speed;
-                }
-
-                // 移動する
-                rainer.GetComponent<CharacterController>().SimpleMove(rainerController.move);
-
-                rainerController.SetSpeed(Vector3.Lerp(rainerController.move, rainerController.leader.GetComponent<CharacterController>().velocity, 0.1f).magnitude);
+                rainer.SetSpeed(Vector3.Lerp(rainer.move, rainer.leader.CharacterController.velocity, 0.1f).magnitude);
             }
-            else if (rainer.layer == LayerMask.NameToLayer("RainerIdle"))
+            else if (rainer.gameObject.layer == LayerRainerIdle)
             {
-                rainerController.move = rainerController.point - rainer.transform.position;
-
-                if (rainerController.move.magnitude > max_speed)
-                {
-                    rainerController.move = rainerController.move.normalized * max_speed;
-                }
-
-                // 移動する
-                rainer.GetComponent<CharacterController>().SimpleMove(rainerController.move);
+                
+                rainer.move = rainer.point - rainer.transform.position;
             }
+
+            rainer.move = Vector3.ClampMagnitude(rainer.move, max_speed);
+
+            // 移動する
+            rainer.CharacterController.SimpleMove(rainer.move);
+
         }
 
         timer++;
@@ -96,10 +97,15 @@ public class RainerManager : Singleton<RainerManager> {
 
     void SpawnRainer(Vector3 position)
     {
-        var rainerObj = Instantiate(rainerPrefab, position, Quaternion.identity);
+        var rainerObj = Instantiate(rainerPrefab, position, Quaternion.identity, transform);
+        var rainer = rainerObj.GetComponent<RainerController>();
+        rainer.SetIdle(position);
 
-        rainerObj.GetComponent<RainerController>().SetIdle(position);
+        rainers.Add(rainer);
+    }
 
-        rainers.Add(rainerObj);
+    public static Material GetMaterial(int playerNo)
+    {
+        return Instance.materials[playerNo];
     }
 }

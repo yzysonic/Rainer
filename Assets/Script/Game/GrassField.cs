@@ -1,7 +1,5 @@
-﻿using System.Collections;
-using System.Linq;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using RainerLib;
 
 public class GrassField : MonoBehaviour {
 
@@ -20,7 +18,7 @@ public class GrassField : MonoBehaviour {
 
 
     // Use this for initialization
-    void Start ()
+    void Awake ()
     {
 
         grassMap = new byte[blockDivision][];
@@ -41,48 +39,60 @@ public class GrassField : MonoBehaviour {
         detailValue = new int[1, 1] { { grassDensity } };
     }
 
+    private void OnDestroy()
+    {
+        ClearDetailMap();
+    }
+
+
 
     public void SetGrass(Vector2 uv, int playerNo)
     {
-        var posBlock = (Vector2.one-uv) * blockDivision;
-        var posBlockX = (int)posBlock.x;
-        var posBlockZ = (int)posBlock.y;
+        var posBlock = UVToBlockPos(uv);
 
-        for (int a = 0; a < grassRadiusInBlock * 2+1; a++)
+        for (int x = posBlock.x - grassRadiusInBlock; x <= posBlock.x + grassRadiusInBlock; x++)
         {
-
-            for (int b = 0; b < grassRadiusInBlock * 2+1; b++)
+            for (int z = posBlock.y - grassRadiusInBlock; z <= posBlock.y + grassRadiusInBlock; z++)
             {
 
-                int bx = posBlockX - grassRadiusInBlock + a;
-                int bz = posBlockZ - grassRadiusInBlock + b;
-
-                if (!(bx >= 0 && bx < blockDivision && bz >= 0 && bz < blockDivision))
+                if (!(x >= 0 && x < blockDivision && z >= 0 && z < blockDivision))
                 {
                     continue;
                 }
 
-                if (grassMap[bx][bz] > 0)
+                if (grassMap[x][z] > 0)
                 {
                     continue;
                 }
 
-                var sqrLength = (bx - posBlockX) * (bx - posBlockX) + (bz - posBlockZ) * (bz - posBlockZ);
+                var sqrLength = (x - posBlock.x) * (x - posBlock.x) + (z - posBlock.y) * (z - posBlock.y);
 
                 if (sqrLength > grassSqrRadiusInBlock)
                 {
                     continue;
                 }
 
-                var grassPosW = (new Vector3(bx, 0.0f, bz) / blockDivision - Vector3.one * 0.5f) * fieldSize;
-                grassPosW.y = 0.338f;
-
-                terrain.terrainData.SetDetailLayer(bx, bz, playerNo, detailValue);
-                grassMap[bx][bz] = (byte)(playerNo + 1);
+                terrain.terrainData.SetDetailLayer(x, z, playerNo, detailValue);
+                grassMap[x][z] = (byte)(playerNo + 1);
                 scoreManager.AddScore(playerNo, grassScore);
             }
         }
 
+    }
+
+    public int GetPlayerNoOfGrass(Vector2 uv)
+    {
+        return GetPlayerNoOfGrass(UVToBlockPos(uv));
+    }
+
+    public int GetPlayerNoOfGrass(Int2 blockPos)
+    {
+        return GetPlayerNoOfGrass(blockPos.x, blockPos.y);
+    }
+
+    public int GetPlayerNoOfGrass(int x, int y)
+    {
+        return grassMap[x][y] - 1;
     }
 
     private void ClearDetailMap()
@@ -94,9 +104,14 @@ public class GrassField : MonoBehaviour {
         }
     }
 
-    private void OnDestroy()
+    public Int2 UVToBlockPos(Vector2 uv)
     {
-        ClearDetailMap();
+        return new Int2((Vector2.one - uv) * blockDivision);
+    }
+
+    public Vector3 BlockPosToWorldPos(Int2 pos)
+    {
+        return (new Vector3(pos.x, 0.0f, pos.y) / blockDivision - new Vector3(0.5f, 0.0f, 0.5f)) * fieldSize + transform.position;
     }
 
 }

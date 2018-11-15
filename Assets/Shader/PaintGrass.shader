@@ -25,22 +25,21 @@
 
 			struct v2f
 			{
-				float3 uv : TEXCOORD0;
+				float2 uv : TEXCOORD0;
 				float4 vertex : SV_POSITION;
 			};
 
-			UNITY_DECLARE_TEX2DARRAY(_MainTex);
+			sampler2D _MainTex;
 			sampler2D _GrassTex;
 			float4 _MainTex_ST;
 			float4 _CenterUV;
 			float _BlushSize;
-			int _Slice;
 			
 			v2f vert (appdata v)
 			{
 				v2f o;
 				o.vertex = UnityObjectToClipPos(v.vertex);
-				o.uv = float3(v.uv, _Slice);
+				o.uv = v.uv;
 				return o;
 			}
 			
@@ -48,7 +47,7 @@
 			{
 				float2 r = i.uv-_CenterUV.xy;
 				float r2 = dot(r, r);
-				fixed4 source = UNITY_SAMPLE_TEX2DARRAY(_MainTex, i.uv);
+				fixed4 source = tex2D(_MainTex, i.uv);
 
 				if(r2 > _BlushSize * _BlushSize)
 					return source;

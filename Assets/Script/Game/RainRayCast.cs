@@ -16,7 +16,7 @@ public class RainRayCast : MonoBehaviour {
     // Use this for initialization
     void Start ()
     {
-        ground = GameObject.Find("Ground").GetComponent<Ground>();
+        ground = Ground.Instance;
         layerMask = LayerMask.GetMask("Ground");
         playerNo = transform.parent.GetComponent<Cloud>().target.GetComponent<PlayerController>().PlayerNo;
         moveHistory = new Queue<Vector2>();
@@ -34,8 +34,7 @@ public class RainRayCast : MonoBehaviour {
         if (EnqueuePos())
         {
             var uv = moveHistory.Dequeue();
-            ground.PaintGrass(uv);
-            ground.GrassField.SetGrass(uv, playerNo);
+            ground.GrowGrass(uv, playerNo);
         }
 
     }

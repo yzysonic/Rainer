@@ -21,7 +21,7 @@ public class CameraFallow : MonoBehaviour
             enabled = false;
     }
 
-    void Update()
+    void LateUpdate()
     {
         UpdatePosition();
     }

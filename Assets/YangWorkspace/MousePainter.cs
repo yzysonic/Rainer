@@ -2,25 +2,38 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-namespace Es.TexturePaint.Sample
+public class MousePainter : MonoBehaviour
 {
-    public class MousePainter : MonoBehaviour
+    public new Camera camera;
+
+    [Range(0,3)]
+    public int playerNo = 0;
+
+    private int mask;
+
+    private void Start()
     {
-        private void Update()
+        if(camera == null)
+            camera = GameObject.Find("CameraDebug").GetComponent<Camera>();
+
+        mask = LayerMask.GetMask("Ground");
+    }
+
+    private void Update()
+    {
+        if (!Input.GetMouseButton(1))
+            return;
+
+        var ray = camera.ScreenPointToRay(Input.mousePosition);
+        RaycastHit hitInfo;
+        if (Physics.Raycast(ray, out hitInfo, Mathf.Infinity, mask))
         {
-            if (Input.GetMouseButton(1))
+            var paintObject = hitInfo.transform.parent.GetComponent<Ground>();
+            if (paintObject != null)
             {
-                var ray = Camera.allCameras[0].ScreenPointToRay(Input.mousePosition);
-                RaycastHit hitInfo;
-                if (Physics.Raycast(ray, out hitInfo))
-                {
-                    var paintObject = hitInfo.transform.GetComponent<Ground>();
-                    if (paintObject != null)
-                    {
-                        paintObject.PaintGrass(hitInfo.textureCoord);
-                    }
-                }
+                paintObject.GrowGrass(hitInfo.textureCoord, playerNo);
             }
         }
+        
     }
 }
