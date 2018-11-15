@@ -64,18 +64,23 @@ public class RainerManager : Singleton<RainerManager> {
                     + rainer.MoveConhesion()
                     + rainer.MoveChase(avoid_range);
 
+                rainer.move = Vector3.ClampMagnitude(rainer.move, max_speed);
+
+                // 移動する
+                rainer.CharacterController.SimpleMove(rainer.move);
+
                 rainer.SetSpeed(Vector3.Lerp(rainer.move, rainer.leader.CharacterController.velocity, 0.1f).magnitude);
             }
             else if (rainer.gameObject.layer == LayerRainerIdle)
             {
-                
+
+                rainer.move = Vector3.ClampMagnitude(rainer.move, max_speed);
+
+                // 移動する
+                rainer.CharacterController.SimpleMove(rainer.move);
+
                 rainer.move = rainer.point - rainer.transform.position;
             }
-
-            rainer.move = Vector3.ClampMagnitude(rainer.move, max_speed);
-
-            // 移動する
-            rainer.CharacterController.SimpleMove(rainer.move);
 
         }
 
