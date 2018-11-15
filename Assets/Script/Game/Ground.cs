@@ -15,18 +15,28 @@ public class Ground : Singleton<Ground> {
 
     public GrassField GrassField { get; private set; }
     public PaintGrass PaintGrass { get; private set; }
+    public MoveRange MoveRange { get; private set; }
 
     // Use this for initialization
     void Start () {
         renderer = transform.Find("Plane").GetComponent<Renderer>();
         GrassField = GetComponent<GrassField>();
         PaintGrass = GetComponent<PaintGrass>();
+        MoveRange = GetComponentInChildren<MoveRange>();
 
         var mat = renderer.material;
         mat.shader = Shader.Find("Custom/Ground");
         mat.SetTexture("_GrassMask", PaintGrass.RenderTex);
         mat.SetTexture("_GrassTex", grassTex);
-        mat.SetFloat("_RangeRadius", GetMoveRangeRadiusInUV());
+        if(MoveRange != null)
+        {
+            mat.SetFloat("_RangeRadius", GetMoveRangeRadiusInUV());
+        }
+        else
+        {
+            mat.SetFloat("_RangeRadius", 0.0f);
+            mat.SetFloat("RangeLineWidth", 0.0f);
+        }
 
     }
 

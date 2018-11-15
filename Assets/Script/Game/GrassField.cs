@@ -31,7 +31,7 @@ public class GrassField : MonoBehaviour {
         grassRadiusInBlock = Mathf.RoundToInt(radius);
         grassSqrRadiusInBlock = Mathf.RoundToInt(radius * radius);
 
-        scoreManager = ScoreManager.Instance;
+        scoreManager = ScoreManager.IsCreated ? ScoreManager.Instance : null;
         terrain = GetComponentInChildren<Terrain>();
 
         ClearDetailMap();
@@ -74,7 +74,7 @@ public class GrassField : MonoBehaviour {
 
                 terrain.terrainData.SetDetailLayer(x, z, playerNo, detailValue);
                 grassMap[x][z] = (byte)(playerNo + 1);
-                scoreManager.AddScore(playerNo, grassScore);
+                scoreManager?.AddScore(playerNo, grassScore);
             }
         }
 
