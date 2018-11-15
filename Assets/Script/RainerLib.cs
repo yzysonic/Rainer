@@ -118,6 +118,105 @@ namespace RainerLib
         }
     }
 
+    public struct Int2
+    {
+        public int x;
+        public int y;
+
+        public Int2(int x, int y)
+        {
+            this.x = x;
+            this.y = y;
+        }
+        public Int2(Vector2 v)
+        {
+            x = (int)v.x;
+            y = (int)v.y;
+        }
+
+        public static implicit operator Vector2(Int2 int2)
+        {
+            return new Vector2(int2.x, int2.y);
+        }
+
+        public static explicit operator Int2(Vector2 v)
+        {
+            return new Int2(v);
+        }
+
+        public static Int2 operator +(Int2 a, Int2 b)
+        {
+            return new Int2(a.x + b.x, a.y + b.y);
+        }
+
+        public static Int2 operator -(Int2 int2)
+        {
+            return new Int2(-int2.x, -int2.y);
+        }
+
+        public static Int2 operator -(Int2 a, Int2 b)
+        {
+            return a + (-b);
+        }
+
+        public static Int2 operator *(Int2 int2, int i)
+        {
+            return new Int2(int2.x * i, int2.y * i);
+        }
+
+        public static Vector2 operator *(Int2 int2, float f)
+        {
+            return new Vector2(int2.x * f, int2.y * f);
+        }
+
+        public static Int2 operator *(int i, Int2 int2)
+        {
+            return int2 * i;
+        }
+
+        public static Vector2 operator *(float f, Int2 int2)
+        {
+            return int2 * f;
+        }
+
+        public static Int2 operator /(Int2 a, int d)
+        {
+            return new Int2(a.x / d, a.y / d);
+        }
+
+        public static Vector2 operator /(Int2 a, float d)
+        {
+            return new Vector2(a.x / d, a.y / d);
+        }
+
+        public static bool operator ==(Int2 lhs, Int2 rhs)
+        {
+            return lhs.x == rhs.x && lhs.x == rhs.y;
+        }
+
+        public static bool operator !=(Int2 lhs, Int2 rhs)
+        {
+            return !(lhs == rhs);
+        }
+
+        public override bool Equals(object obj)
+        {
+
+            if (obj == null || GetType() != obj.GetType())
+            {
+                return false;
+            }
+
+            return (Int2)obj == this;
+        }
+
+            // override object.GetHashCode
+        public override int GetHashCode()
+        {
+            return (x << 2) ^ y;
+        }
+
+    }
 }
 
 namespace RainerLib.Development

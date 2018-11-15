@@ -11,6 +11,15 @@ public class RainerController : Rainer
     float speed;
     static readonly float max_force = 0.3f;
 
+    public override int PlayerNo
+    {
+        get
+        {
+            return leader?.PlayerNo ?? -1;
+        }
+    }
+
+
     // 周辺のrainerをboidsに設定
     public void FindBoidsNearby(List<RainerController> rainers, float range)
     {
@@ -159,9 +168,9 @@ public class RainerController : Rainer
     // 追跡状態にする
     public void SetFollow(PlayerController player)
     {
-        Model.GetChild(1).GetComponent<Renderer>().material = RainerManager.GetMaterial(player.PlayerNo);
-        gameObject.layer = RainerManager.LayerRainerFollow;
         leader = player;
+        gameObject.layer = RainerManager.LayerRainerFollow;
+        Model.GetChild(1).GetComponent<Renderer>().material = RainerManager.GetMaterial(PlayerNo);
     }
 
 }

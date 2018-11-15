@@ -9,10 +9,11 @@ public class Tree : MonoBehaviour {
     public int bonusScore = 50;
     public float scoreTime = 0.5f;
     public float growTime = 10;
+
     private Timer scoreTimer;
     private Timer bonusTimer;
     private Vector3 treeMaxScl;
-    private bool isEndGrow;
+    public bool IsEndGrow { get; private set; }
     
 
 	// Use this for initialization
@@ -22,7 +23,7 @@ public class Tree : MonoBehaviour {
         bonusTimer = new Timer(growTime);
         treeMaxScl = transform.localScale;
         transform.localScale = Vector3.zero;
-        isEndGrow = false;
+        IsEndGrow = false;
 
 	}
 	
@@ -37,7 +38,7 @@ public class Tree : MonoBehaviour {
 
     public void Grow(int playerNo)
     {
-        if (isEndGrow)
+        if (IsEndGrow)
         {
             return;
         }
@@ -58,7 +59,7 @@ public class Tree : MonoBehaviour {
         {
             //ボーナススコア更新
             //ScoreManager.Instance.AddScore(playerNo, bonusScore);
-            isEndGrow = true;
+            IsEndGrow = true;
         }
         
     }

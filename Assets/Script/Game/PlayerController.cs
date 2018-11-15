@@ -39,7 +39,6 @@ public class PlayerController : Rainer {
 
     public Vector3 MoveInput { get; private set; }
     public Vector3 RotateInput { get; private set; }
-    public int PlayerNo { get;  private set; }
 
 
     private void Awake()
@@ -69,7 +68,11 @@ public class PlayerController : Rainer {
         if(GetActionDown(ActionButton.PopRainer))
         {
             PopRainer();
-            print("POP!");
+        }
+
+        if (GetActionDown(ActionButton.GrowTree))
+        {
+            StartGrowTree();
         }
 
         base.Update();
@@ -130,6 +133,10 @@ public class PlayerController : Rainer {
                 {
                     RotateInput = new Vector3(0.0f, Input.GetAxis("Mouse X"), 0.0f);
                 }
+                else
+                {
+                    RotateInput = Vector3.Lerp(RotateInput, Vector3.zero, Time.deltaTime * 10.0f);
+                }
 
                 // 移動
                 MoveInput = new Vector3(Input.GetAxis("KeyMoveX"), 0.0f, Input.GetAxis("KeyMoveY"));
@@ -137,6 +144,11 @@ public class PlayerController : Rainer {
                 if (Input.GetKeyDown(KeyCode.Space))
                 {
                     SetActionDown(ActionButton.PopRainer);
+                }
+
+                if(Input.GetKeyDown(KeyCode.T))
+                {
+                    SetActionDown(ActionButton.GrowTree);
                 }
 
                 break;
@@ -153,6 +165,11 @@ public class PlayerController : Rainer {
                 if(Input.GetButtonDown("JoyAction1"))
                 {
                     SetActionDown(ActionButton.PopRainer);
+                }
+
+                if(Input.GetButtonDown("JoyAction2"))
+                {
+                    SetActionDown(ActionButton.GrowTree);
                 }
 
                 break;

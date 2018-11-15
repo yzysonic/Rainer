@@ -32,6 +32,7 @@ public class RainerManager : Singleton<RainerManager> {
 
     protected override void Awake()
     {
+        base.Awake();
         LayerRainerIdle     = LayerMask.NameToLayer("RainerIdle");
         LayerRainerFollow   = LayerMask.NameToLayer("RainerFollow");
     }
@@ -63,28 +64,19 @@ public class RainerManager : Singleton<RainerManager> {
                     + rainer.MoveConhesion()
                     + rainer.MoveChase(avoid_range);
 
-                if (rainer.move.magnitude > max_speed)
-                {
-                    rainer.move = rainer.move.normalized * max_speed;
-                }
-
-                // 移動する
-                rainer.CharacterController.SimpleMove(rainer.move);
-
                 rainer.SetSpeed(Vector3.Lerp(rainer.move, rainer.leader.CharacterController.velocity, 0.1f).magnitude);
             }
             else if (rainer.gameObject.layer == LayerRainerIdle)
             {
-                rainer.move = rainer.point - rainer.gameObject.transform.position;
-
-                if (rainer.move.magnitude > max_speed)
-                {
-                    rainer.move = rainer.move.normalized * max_speed;
-                }
-
-                // 移動する
-                rainer.CharacterController.SimpleMove(rainer.move);
+                
+                rainer.move = rainer.point - rainer.transform.position;
             }
+
+            rainer.move = Vector3.ClampMagnitude(rainer.move, max_speed);
+
+            // 移動する
+            rainer.CharacterController.SimpleMove(rainer.move);
+
         }
 
         timer++;
