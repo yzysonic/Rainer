@@ -6,12 +6,14 @@ using Tree = RainerLib.Tree;
 public class Rainer : MonoBehaviour {
 
     public float rotateThreshold = 0.1f;
+    public GameObject cloudPrefab;
     protected IEnumerator growTree;
 
     public virtual int PlayerNo { get; protected set; }
     public Transform Model { get; protected set; }
     public CharacterController CharacterController { get; protected set; }
     public Animator Animator { get; protected set; }
+    public Cloud Cloud { get; set; }
 
 
     // Use this for initialization
@@ -37,12 +39,33 @@ public class Rainer : MonoBehaviour {
 
     }
 
+    protected virtual void OnDestroy()
+    {
+        if(Cloud != null)
+        {
+            Destroy(Cloud.gameObject);
+        }
+    }
+
     protected virtual void OnDisable()
     {
         if (gameObject.activeInHierarchy)
         {
             Animator.SetFloat("speed", 0.0f);
         }
+    }
+
+    public void CreateCloud(bool enableRainRayCast = false)
+    {
+        if (Cloud != null)
+            return;
+
+        Cloud = Instantiate(cloudPrefab).GetComponent<Cloud>();
+        Cloud.target = transform;
+        Cloud.GetComponentInChildren<RainRayCast>().enabled = enableRainRayCast;
+        Cloud.gameObject.SetActive(true);
+        //Cloud.RainRayCast.enabled = enableRainRayCast;
+
     }
 
     public void StartGrowTree()

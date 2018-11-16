@@ -18,7 +18,7 @@ public class RainRayCast : MonoBehaviour {
     {
         ground = Ground.Instance;
         layerMask = LayerMask.GetMask("Ground");
-        playerNo = transform.parent.GetComponent<Cloud>().target.GetComponent<PlayerController>().PlayerNo;
+        playerNo = transform.parent.GetComponent<Cloud>().target.GetComponent<Rainer>().PlayerNo;
         moveHistory = new Queue<Vector2>();
 
         for (var i = 0; i < delay / Time.fixedDeltaTime; i++)

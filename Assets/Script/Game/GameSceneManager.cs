@@ -150,13 +150,13 @@ public class GameSceneManager : Singleton<GameSceneManager>
 
             case State.Game:
                 timer.gameObject.SetActive(true);
-                RainerManager.Instance.gameObject.SetActive(true);
+                RainerManager.Instance.enabled = true;
                 activePlayers.ForEach(p => p.GetComponent<PlayerController>().enabled = true);
                 activeCanvas.ForEach(c => c.gameObject.SetActive(true));
                 return;
 
             case State.EndLogo:
-                RainerManager.Instance.gameObject.SetActive(false);
+                RainerManager.Instance.enabled = false;
                 activePlayers.ForEach(p => p.GetComponent<PlayerController>().enabled = false);
                 timer.enabled = false;
                 ScoreManager.Instance.GetComponent<CircularGauge>().enabled = false;
@@ -198,16 +198,6 @@ public class GameSceneManager : Singleton<GameSceneManager>
                 return;
 
             case State.Game:
-                foreach(var player in activePlayers)
-                {
-                    var vPlayerToCenter = moveRange.transform.position - player.transform.position;
-                    var distance = vPlayerToCenter.magnitude;
-                    var diff = distance - moveRange.radius;
-                    if (diff > 0.0f)
-                    {
-                        player.transform.Translate(vPlayerToCenter / distance * diff, Space.World);
-                    }
-                }
                 if (timer.TimesUp)
                 {
                     CurrentState++;
@@ -235,6 +225,25 @@ public class GameSceneManager : Singleton<GameSceneManager>
                     FadeInOut.Instance.FadeOut(() => SceneManager.LoadScene(nextScene));
                 }
                 return;
+        }
+    }
+
+    public void LateUpdate()
+    {
+        switch (CurrentState)
+        {
+            case State.Game:
+                foreach (var player in activePlayers)
+                {
+                    var vPlayerToCenter = moveRange.transform.position - player.transform.position;
+                    var distance = vPlayerToCenter.magnitude;
+                    var diff = distance - moveRange.radius;
+                    if (diff > 0.0f)
+                    {
+                        player.transform.Translate(vPlayerToCenter / distance * diff, Space.World);
+                    }
+                }
+                break;
         }
     }
 

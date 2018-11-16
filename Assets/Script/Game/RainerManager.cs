@@ -12,6 +12,9 @@ public class RainerManager : Singleton<RainerManager> {
     GameObject rainerPrefab;
 
     [SerializeField]
+    GameObject cloudPrefab;
+
+    [SerializeField]
     List<Material> materials;
 
     [Range(5.0f, 20.0f)]
@@ -105,7 +108,7 @@ public class RainerManager : Singleton<RainerManager> {
         var rainerObj = Instantiate(rainerPrefab, position, Quaternion.identity, transform);
         var rainer = rainerObj.GetComponent<RainerController>();
         rainer.SetIdle(position);
-
+        rainer.CreateCloud();
         rainers.Add(rainer);
     }
 
