@@ -24,7 +24,7 @@ public class CameraFallow : MonoBehaviour
     void LateUpdate()
     {
         UpdatePosition();
-        transform.LookAt(lookat ?? target);
+        transform.LookAt(lookat ? lookat : target);
     }
 
     public void UpdatePosition()
