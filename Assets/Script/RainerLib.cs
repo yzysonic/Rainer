@@ -39,6 +39,14 @@ namespace RainerLib
             }
         }
 
+        protected virtual void OnDestroy()
+        {
+            if(instance == this)
+            {
+                instance = null;
+            }
+        }
+
         protected Singleton()
         {
             if (instance != null)
