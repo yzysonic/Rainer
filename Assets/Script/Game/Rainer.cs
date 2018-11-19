@@ -13,7 +13,7 @@ public class Rainer : MonoBehaviour {
     public Transform Model { get; protected set; }
     public CharacterController CharacterController { get; protected set; }
     public Animator Animator { get; protected set; }
-    public Cloud Cloud { get; set; }
+    public Cloud Cloud { get; protected set; }
 
 
     // Use this for initialization
@@ -41,10 +41,7 @@ public class Rainer : MonoBehaviour {
 
     protected virtual void OnDestroy()
     {
-        if(Cloud != null)
-        {
-            Destroy(Cloud.gameObject);
-        }
+        DestroyCloud();
     }
 
     protected virtual void OnDisable()
@@ -60,12 +57,19 @@ public class Rainer : MonoBehaviour {
         if (Cloud != null)
             return;
 
-        Cloud = Instantiate(cloudPrefab).GetComponent<Cloud>();
+        Cloud = Instantiate(cloudPrefab, transform.parent).GetComponent<Cloud>();
         Cloud.target = transform;
+        Cloud.enabled = true;
         Cloud.GetComponentInChildren<RainRayCast>().enabled = enableRainRayCast;
-        Cloud.gameObject.SetActive(true);
-        //Cloud.RainRayCast.enabled = enableRainRayCast;
 
+    }
+
+    public void DestroyCloud()
+    {
+        if (Cloud != null)
+        {
+            Destroy(Cloud.gameObject);
+        }
     }
 
     public void StartGrowTree()
