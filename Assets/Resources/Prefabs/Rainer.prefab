@@ -1730,6 +1730,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   rotateThreshold: 1
+  cloudPrefab: {fileID: 1993422119229240, guid: 4589070e4e5ae6c4fbceff3bf63750f2,
+    type: 2}
   move: {x: 0, y: 0, z: 0}
   leader: {fileID: 0}
   point: {x: 0, y: 0, z: 0}

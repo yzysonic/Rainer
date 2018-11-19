@@ -7,19 +7,14 @@ using System.Linq;
 
 public class Test : MonoBehaviour
 {
-    public MeshRenderer meshRenderer;
-    public Material gradationMaterial;
-    public Material Material
+    private void Awake()
     {
-        get
-        {
-            return meshRenderer.material;
-        }
-
+        print("awake!");
     }
-
     private void Start()
     {
+        print("start!");
     }
+
 
 }

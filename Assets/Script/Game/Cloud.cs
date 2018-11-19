@@ -8,12 +8,9 @@ public class Cloud : MonoBehaviour {
     public float fallow_speed = 2.0f;
     public float height = 7.0f;
 
-    public RainRayCast RainRayCast { get; private set; }
-
-    private void Awake()
+    private void Start()
     {
         transform.position = new Vector3(target.position.x, height, target.position.z);
-        RainRayCast = GetComponentInChildren<RainRayCast>();
     }
 	
 	// Update is called once per frame
