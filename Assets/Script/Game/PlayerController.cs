@@ -112,10 +112,10 @@ public class PlayerController : Rainer {
                 #region Move
 
                 // Joyconの向きのベクトルを計算
-                var raw_vector = Quaternion.Euler(90.0f, 0.0f, 0.0f) * joycon.GetVector() * Vector3.forward;
+                var raw_vector = joycon.GetAccel();
 
                 // 移動方向に適用
-                MoveInput = new Vector3(raw_vector.x, 0.0f, raw_vector.z);
+                MoveInput = new Vector3(-raw_vector.y, 0.0f, -raw_vector.z);
 
                 // 最大角度を制限
                 var max_value = Mathf.Sin(max_angle * Mathf.Deg2Rad);
