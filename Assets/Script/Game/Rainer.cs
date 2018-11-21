@@ -11,14 +11,17 @@ public class Rainer : MonoBehaviour {
 
     public virtual int PlayerNo { get; protected set; }
     public Transform Model { get; protected set; }
+    public Transform MinimapIcon { get; protected set; }
     public CharacterController CharacterController { get; protected set; }
     public Animator Animator { get; protected set; }
     public Cloud Cloud { get; protected set; }
 
 
+
     // Use this for initialization
     protected virtual void Awake () {
         Model = transform.Find("model");
+        MinimapIcon = transform.Find("minimapIcon");
         CharacterController = GetComponent<CharacterController>();
         Animator = GetComponentInChildren<Animator>();
 	}

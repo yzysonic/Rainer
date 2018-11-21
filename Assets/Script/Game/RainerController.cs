@@ -228,6 +228,7 @@ public class RainerController : Rainer
         state = State.Free;
         gameObject.layer = RainerManager.LayerRainerIdle;
         CoatRenderer.material = manager.GetDefaultMaterial();
+        MinimapIcon.gameObject.SetActive(true);
     }
 
     public void SetGrowTree(Tree tree)
@@ -244,6 +245,7 @@ public class RainerController : Rainer
         state = State.Follow;
         gameObject.layer = RainerManager.LayerRainerFollow;
         CoatRenderer.material = manager.GetMaterial(PlayerNo);
+        MinimapIcon.gameObject.SetActive(false);
     }
 
 }
