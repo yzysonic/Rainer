@@ -5,15 +5,14 @@ using UnityEngine.UI;
 
 public class JoinText : MonoBehaviour
 {
-    public PlayerIcon playerIcon;
+    private PlayerIcon playerIcon;
     private Text joinText;
 
     // Use this for initialization
     void Start()
     {
-
+        playerIcon = GetComponentInParent<PlayerIcon>();
         joinText = GetComponent<Text>();
-
     }
 
     // Update is called once per frame
@@ -21,11 +20,11 @@ public class JoinText : MonoBehaviour
     {
         if (playerIcon.IsJoin)
         {
-            joinText.text = ("×ボタンでキャンセル");
+            joinText.text = ("Bボタンでキャンセル");
         }
         else
         {
-            joinText.text = ("○ボタンで参加");
+            joinText.text = ("Aボタンで参加");
         }
     }
 }

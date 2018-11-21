@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 8c519531e50247145b33c3b7f18a057c
+guid: 3869ca2f17d196f44876acd2b5aef97b
 ModelImporter:
   serializedVersion: 23
   fileIDToRecycleName:
@@ -8,7 +8,7 @@ ModelImporter:
     2100000: aiAmbientOcclusion1
     2300000: //RootNode
     3300000: //RootNode
-    4300000: Left_Joycon
+    4300000: Right_Joycon
   externalObjects: {}
   materials:
     importMaterials: 1

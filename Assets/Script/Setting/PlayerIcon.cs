@@ -17,7 +17,7 @@ public class PlayerIcon : MonoBehaviour {
         set
         {
             IsJoin = value != null;
-            StartCoroutine(SetJoycon(value));
+            SetJoycon(value);
         }
     }
 
@@ -29,27 +29,21 @@ public class PlayerIcon : MonoBehaviour {
 	// Update is called once per frame
 	void LateUpdate () {
         
-        if(Joycon?.GetButtonDown(GameSetting.Button.Join) ?? false)
+        if(Joycon?.GetButtonDown(GameSetting.Button.Cancel) ?? false)
         {
             //StartCoroutine(UnsetJoycon());
             Joycon = null;
         }
     }
 
-    IEnumerator UnsetJoycon()
+    void UnsetJoycon()
     {
-        var joycon = Joycon;
         Joycon = null;
-        yield return new WaitForEndOfFrame();
         joycon.UnbindPlayer();
     }
 
-    IEnumerator SetJoycon(Joycon joycon)
+    void SetJoycon(Joycon joycon)
     {
-        for(var i=0;i<2;i++)
-        {
-            yield return null;
-        }
         this.joycon?.UnbindPlayer();
         this.joycon = joycon;
     }
