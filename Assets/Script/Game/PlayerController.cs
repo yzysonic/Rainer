@@ -205,6 +205,7 @@ public class PlayerController : Rainer {
 
         var rainer = followers.Pop();
         rainer.SetGrowTree(tree);
+        rainerCount.Value--;
         return rainer;
     }
 
