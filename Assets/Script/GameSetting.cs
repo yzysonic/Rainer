@@ -56,8 +56,9 @@ public static class GameSetting
 
     public enum Button
     {
-        Join = Joycon.Button.DPAD_DOWN,
-        Start = Joycon.Button.SHOULDER_1,
+        Join = Joycon.Button.DPAD_RIGHT,
+        Cancel = Joycon.Button.DPAD_DOWN,
+        Start = Joycon.Button.PLUS,
     }
 
 
