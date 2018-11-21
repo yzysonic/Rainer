@@ -25,7 +25,9 @@ public class PlayerController : Rainer {
     [Range(1.0f, 30.0f)]
     public float max_speed = 10.0f;
     [Range(0.0f, 10.0f)]
-    public float rotation_speed_scale = 1.0f;
+    public float rotation_speed = 1.0f;
+    [Range(0.0f, 10.0f)]
+    public float auto_rotation_speed = 1.0f;
     [Range(0.0f, 0.1f)]
     public float dead_zone = 0.08f;
     [Range(10.0f, 90.0f)]
@@ -39,6 +41,7 @@ public class PlayerController : Rainer {
     private Action startAction;
 
     public Vector3 MoveInput { get; private set; }
+    public Vector3 MoveInputLocal { get; private set; }
     public Vector3 RotateInput { get; private set; }
 
 
@@ -63,7 +66,11 @@ public class PlayerController : Rainer {
         UpdateInput();
 
         // カメラ回転
-        transform.Rotate(RotateInput * rotation_speed_scale * Time.deltaTime * 60.0f);
+        var rotate =
+            RotateInput * rotation_speed + // 入力による回転
+            Vector3.up * Vector3.Dot(MoveInputLocal, Vector3.right) * auto_rotation_speed; // 移動による自動回転
+
+        transform.Rotate(rotate * Time.deltaTime * 60.0f);
 
         // 移動する
         CharacterController.SimpleMove(MoveInput * max_speed);
@@ -174,15 +181,16 @@ public class PlayerController : Rainer {
         }
 
         // DeadZoneのチェック
-        if (MoveInput.sqrMagnitude >= dead_zone * dead_zone)
-        {
-            // 回転の適用
-            MoveInput = transform.rotation * MoveInput;
-        }
-        else
+        if (MoveInput.sqrMagnitude <= dead_zone * dead_zone)
         {
             MoveInput = Vector3.zero;
         }
+
+        MoveInputLocal = MoveInput;
+
+        // 回転の適用
+        MoveInput = transform.rotation * MoveInput;
+
 
     }
 
