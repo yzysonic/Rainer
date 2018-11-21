@@ -1926,7 +1926,7 @@ MonoBehaviour:
   - {fileID: 761603140}
   startLogo: {fileID: 1736080832}
   moveRange: {fileID: 2098398098}
-  startState: 1
+  startState: 4
   playerCountSet: 0
 --- !u!4 &1082321933
 Transform:
@@ -3748,7 +3748,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   initTime: 120
-  text: {fileID: 1514874906}
+  startTime: 30
   gauge: {fileID: 112343658}
 --- !u!1 &1457598865 stripped
 GameObject:
@@ -3778,7 +3778,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1514874905
 RectTransform:
   m_ObjectHideFlags: 0
@@ -3795,7 +3795,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 423.3, y: 165.9}
+  m_SizeDelta: {x: 423.3, y: 217.12}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1514874906
 MonoBehaviour:
@@ -3845,10 +3845,9 @@ Animation:
   m_GameObject: {fileID: 1514874904}
   m_Enabled: 1
   serializedVersion: 3
-  m_Animation: {fileID: 7400000, guid: a5870fe7d4f4b27438f4e2daaa3ae045, type: 2}
+  m_Animation: {fileID: 7400000, guid: d3b61129793e718439a8d156bff9037c, type: 2}
   m_Animations:
-  - {fileID: 7400000, guid: a5870fe7d4f4b27438f4e2daaa3ae045, type: 2}
-  - {fileID: 7400000, guid: 586ac4f228027c44d8515a6f8fef83f6, type: 2}
+  - {fileID: 7400000, guid: d3b61129793e718439a8d156bff9037c, type: 2}
   m_WrapMode: 0
   m_PlayAutomatically: 0
   m_AnimatePhysics: 0
@@ -3864,9 +3863,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69fed1a34eb6b3146ab9fb655181cfc9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startTime: 10
-  period: 1
-  keepShowTime: 10
+  startTime: 30
+  period: 10
+  keepShowTime: 5
 --- !u!1 &1516899371
 GameObject:
   m_ObjectHideFlags: 0

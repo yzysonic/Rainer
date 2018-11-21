@@ -30,11 +30,14 @@ public class RemainingTimeWarning : MonoBehaviour {
             gameObject.SetActive(false);
         });
 
-        //gameTimer.AddEvent(keepShowTime, () =>
-        //{
-        //    text.color = Color.red;
-        //    text.fontSize = 172;
-        //});
+        gameTimer.AddEvent(keepShowTime+0.5f, () =>
+        {
+            transform.localScale = Vector3.zero;
+            text.color = Color.red;
+            text.fontSize = 172;
+        });
+
+        SetTriggerEvent(gameTimer.initTime - keepShowTime);
     }
 
     // Update is called once per frame
@@ -47,20 +50,22 @@ public class RemainingTimeWarning : MonoBehaviour {
         }
 
         timeTrigger = false;
+        var time = (int)gameTimer.RemainingTime + 1;
 
         if (gameTimer.RemainingTime > keepShowTime)
         {
-            text.text = $"残り {(int)gameTimer.RemainingTime + 1} 秒";
-            animation.Play();
+            text.text = $"残り {time} 秒";
             SetTriggerEvent(period);
         }
         else
         {
-            text.text = $"{(int)gameTimer.RemainingTime+1}";
-            animation.Play("RemainingTimeWarning2");
+            text.text = $"{time}";
             SetTriggerEvent(1.0f);
         }
-	}
+
+        animation.Stop();
+        animation.Play();
+    }
 
     void SetTrigger()
     {

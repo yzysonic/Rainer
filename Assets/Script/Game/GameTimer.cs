@@ -27,7 +27,8 @@ public class GameTimer : Singleton<GameTimer> {
 
     [Range(0, 300)]
     public int initTime = 60;
-    public Text text;
+    [Range(0, 300)]
+    public int startTime = 30;
     public CircularGauge gauge;
 
     private bool started = false;
@@ -69,11 +70,15 @@ public class GameTimer : Singleton<GameTimer> {
 
     #region UnityMethods
 
+    private void OnValidate()
+    {
+        startTime = Mathf.Min(startTime, initTime);
+    }
+
     // Use this for initialization
     void Start () {
-        text = GetComponentInChildren<Text>();
         gauge = GetComponentInChildren<CircularGauge>();
-        RemainingTime = initTime;
+        RemainingTime = startTime;
         started = true;
     }
 	
