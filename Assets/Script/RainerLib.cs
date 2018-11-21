@@ -85,12 +85,6 @@ namespace RainerLib
             this.interval = interval;
         }
 
-        public static Timer operator ++(Timer timer)
-        {
-            timer.Step();
-            return timer;
-        }
-
         public void Step()
         {
             Elapsed += Time.deltaTime;
@@ -116,6 +110,17 @@ namespace RainerLib
         {
             Progress = elapsed / interval;
         }
+        public static Timer operator ++(Timer timer)
+        {
+            timer.Step();
+            return timer;
+        }
+
+        public static implicit operator float(Timer timer)
+        {
+            return timer.elapsed;
+        }
+
     }
 
     public struct Int2

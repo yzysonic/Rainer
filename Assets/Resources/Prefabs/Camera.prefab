@@ -23,6 +23,7 @@ GameObject:
   - component: {fileID: 81125622376757350}
   - component: {fileID: 114532341166695772}
   - component: {fileID: 111859925855232956}
+  - component: {fileID: 114860864179899398}
   m_Layer: 0
   m_Name: Camera
   m_TagString: MainCamera
@@ -36,13 +37,13 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1432392429589030}
-  m_LocalRotation: {x: 0.30505863, y: 0, z: 0, w: 0.95233357}
-  m_LocalPosition: {x: 0, y: 6.8103514, z: -8.138784}
+  m_LocalRotation: {x: 0.3050586, y: 0, z: 0, w: 0.9523336}
+  m_LocalPosition: {x: -80, y: 6.8103514, z: 71.86121}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 34.67, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 35.523003, y: 0, z: 0}
 --- !u!20 &20527997183452424
 Camera:
   m_ObjectHideFlags: 1
@@ -71,7 +72,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 16183
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -102,6 +103,8 @@ Animation:
   m_Animations:
   - {fileID: 7400000, guid: 3e18177132704e445a867a4e95a1027f, type: 2}
   - {fileID: 7400000, guid: a431a7bae3c77134893db5e1915867aa, type: 2}
+  - {fileID: 7400000, guid: af0defb6e5f886d48a5a5f74c7893e8e, type: 2}
+  - {fileID: 7400000, guid: 783834af3b8109e4581e40955ea518e6, type: 2}
   m_WrapMode: 0
   m_PlayAutomatically: 0
   m_AnimatePhysics: 0
@@ -121,3 +124,42 @@ MonoBehaviour:
   lookat: {fileID: 0}
   angle: 0.62
   distance: 10
+--- !u!114 &114860864179899398
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1432392429589030}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47926c34f195e7942b498c47d4f42a63, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playTime: 2
+  curve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  targetPos: {x: 0, y: 271, z: 0}
+  targetRot: {x: 90, y: 0, z: 0}
+  time: 0

@@ -121,11 +121,6 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 111859925855232956, guid: 82e9372abd2106c40831a6e4972a2150,
-        type: 2}
-      propertyPath: m_Animations.Array.size
-      value: 4
-      objectReference: {fileID: 0}
     - target: {fileID: 4588506070124868, guid: 82e9372abd2106c40831a6e4972a2150, type: 2}
       propertyPath: m_LocalPosition.x
       value: -80
@@ -158,62 +153,14 @@ Prefab:
       propertyPath: m_RootOrder
       value: 11
       objectReference: {fileID: 0}
-    - target: {fileID: 1432392429589030, guid: 82e9372abd2106c40831a6e4972a2150, type: 2}
-      propertyPath: m_Name
-      value: Camera1
-      objectReference: {fileID: 0}
     - target: {fileID: 114532341166695772, guid: 82e9372abd2106c40831a6e4972a2150,
         type: 2}
       propertyPath: target
       value: 
       objectReference: {fileID: 976879990}
-    - target: {fileID: 111859925855232956, guid: 82e9372abd2106c40831a6e4972a2150,
-        type: 2}
-      propertyPath: m_Animations.Array.data[2]
-      value: 
-      objectReference: {fileID: 7400000, guid: af0defb6e5f886d48a5a5f74c7893e8e, type: 2}
-    - target: {fileID: 20527997183452424, guid: 82e9372abd2106c40831a6e4972a2150,
-        type: 2}
-      propertyPath: m_NormalizedViewPortRect.width
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 20527997183452424, guid: 82e9372abd2106c40831a6e4972a2150,
-        type: 2}
-      propertyPath: m_NormalizedViewPortRect.height
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 20527997183452424, guid: 82e9372abd2106c40831a6e4972a2150,
-        type: 2}
-      propertyPath: m_NormalizedViewPortRect.y
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 111859925855232956, guid: 82e9372abd2106c40831a6e4972a2150,
-        type: 2}
-      propertyPath: m_Animations.Array.data[3]
-      value: 
-      objectReference: {fileID: 7400000, guid: 783834af3b8109e4581e40955ea518e6, type: 2}
-    - target: {fileID: 4588506070124868, guid: 82e9372abd2106c40831a6e4972a2150, type: 2}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 65.317
-      objectReference: {fileID: 0}
-    - target: {fileID: 111859925855232956, guid: 82e9372abd2106c40831a6e4972a2150,
-        type: 2}
-      propertyPath: m_Animations.Array.data[4]
-      value: 
-      objectReference: {fileID: 7400000, guid: d8ae1ef75c613a648aa81e24e5ffce91, type: 2}
-    - target: {fileID: 114532341166695772, guid: 82e9372abd2106c40831a6e4972a2150,
-        type: 2}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4588506070124868, guid: 82e9372abd2106c40831a6e4972a2150, type: 2}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 20527997183452424, guid: 82e9372abd2106c40831a6e4972a2150,
-        type: 2}
-      propertyPath: m_CullingMask.m_Bits
-      value: 16183
+    - target: {fileID: 1432392429589030, guid: 82e9372abd2106c40831a6e4972a2150, type: 2}
+      propertyPath: m_Name
+      value: Camera1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 82e9372abd2106c40831a6e4972a2150, type: 2}
@@ -604,8 +551,8 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 20527997183452424, guid: 82e9372abd2106c40831a6e4972a2150,
         type: 2}
-      propertyPath: m_CullingMask.m_Bits
-      value: 16183
+      propertyPath: m_NormalizedViewPortRect.width
+      value: 0.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 82e9372abd2106c40831a6e4972a2150, type: 2}
@@ -1646,8 +1593,13 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 20527997183452424, guid: 82e9372abd2106c40831a6e4972a2150,
         type: 2}
-      propertyPath: m_CullingMask.m_Bits
-      value: 16183
+      propertyPath: m_NormalizedViewPortRect.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 20527997183452424, guid: 82e9372abd2106c40831a6e4972a2150,
+        type: 2}
+      propertyPath: m_NormalizedViewPortRect.width
+      value: 0.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 82e9372abd2106c40831a6e4972a2150, type: 2}
@@ -5395,8 +5347,8 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 20527997183452424, guid: 82e9372abd2106c40831a6e4972a2150,
         type: 2}
-      propertyPath: m_CullingMask.m_Bits
-      value: 16183
+      propertyPath: m_NormalizedViewPortRect.width
+      value: 0.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 82e9372abd2106c40831a6e4972a2150, type: 2}
@@ -5468,16 +5420,22 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 2040448313}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d5f351326f89cc945b50bdb7c5288b67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   fieldSize: 300
-  blockDivision: 128
-  grassRadius: 4.35
-  grassDensity: 10
+  blockDivision: 256
+  grassRadius: 4
+  grassDensity: 5
   grassScore: 1
+  playerColors:
+  - {r: 0, g: 0.5363922, b: 1, a: 1}
+  - {r: 1, g: 0, b: 0.6878891, a: 1}
+  - {r: 1, g: 0.80423534, b: 0, a: 1}
+  - {r: 0, g: 1, b: 0.6470318, a: 1}
+  switchSpeed: 1
 --- !u!1001 &2048042685
 Prefab:
   m_ObjectHideFlags: 0

@@ -170,7 +170,8 @@ public class GameSceneManager : Singleton<GameSceneManager>
             case State.CameraworkEnd:
                 timer.gameObject.SetActive(false);
                 activeCanvas.ForEach(c => c.gameObject.SetActive(false));
-                activeCameras.ForEach(c => c.GetComponent<Animation>().Play("CameraEnd"));
+                activeCameras.ForEach(c => c.GetComponent<CameraTopViewAnimation>().enabled = true);
+                activeCameras.ForEach(c => c.GetComponent<CameraFallow>().enabled = false);
                 return;
 
             case State.EnterResult:
@@ -181,6 +182,7 @@ public class GameSceneManager : Singleton<GameSceneManager>
             case State.Result:
                 SceneManager.LoadSceneAsync("ResultScene", LoadSceneMode.Additive);
                 activeCameras.GetRange(1, playerCount - 1).ForEach(c => c.SetActive(false));
+                Ground.Instance.GrassField.enabled = true;
                 return;
         }
 
@@ -209,7 +211,7 @@ public class GameSceneManager : Singleton<GameSceneManager>
             case State.CameraworkEnd:
                 foreach (var camera in activeCameras)
                 {
-                    if (camera.GetComponent<Animation>().isPlaying)
+                    if (camera.GetComponent<CameraTopViewAnimation>().enabled)
                         return;
                 }
                 CurrentState++;

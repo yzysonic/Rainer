@@ -18,6 +18,7 @@ public class Ground : Singleton<Ground> {
     public PaintGrass PaintGrass { get; private set; }
     public MoveRange MoveRange { get; private set; }
     public int LayerMask { get; private set; }
+    public Material Material { get; private set; }
 
     protected override void Awake()
     {
@@ -26,24 +27,24 @@ public class Ground : Singleton<Ground> {
         PaintGrass = GetComponent<PaintGrass>();
         MoveRange = GetComponentInChildren<MoveRange>();
         LayerMask = UnityEngine.LayerMask.GetMask(UnityEngine.LayerMask.LayerToName(gameObject.layer));
-
+        Material = renderer.material;
     }
 
     // Use this for initialization
     void Start () {
 
-        var mat = renderer.material;
-        mat.shader = Shader.Find("Custom/Ground");
-        mat.SetTexture("_GrassMask", PaintGrass.RenderTex);
-        mat.SetTexture("_GrassTex", grassTex);
+        Material.shader = Shader.Find("Custom/Ground");
+        Material.SetTexture("_GrassMask", PaintGrass.RenderTex);
+        Material.SetTexture("_GrassTex", grassTex);
+        Material.SetTexture("_GrassField", GrassField.Texture);
         if (MoveRange != null)
         {
-            mat.SetFloat("_RangeRadius", GetMoveRangeRadiusInUV());
+            Material.SetFloat("_RangeRadius", GetMoveRangeRadiusInUV());
         }
         else
         {
-            mat.SetFloat("_RangeRadius", 0.0f);
-            mat.SetFloat("RangeLineWidth", 0.0f);
+            Material.SetFloat("_RangeRadius", 0.0f);
+            Material.SetFloat("RangeLineWidth", 0.0f);
         }
 
 
