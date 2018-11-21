@@ -33,9 +33,8 @@ public class RainerCount : MonoBehaviour
     }
 
     // Use this for initialization
-    void Start () {
-        text = GetComponent<Graphic>() as Text;
-        //var test = GetComponent<Graphic>();
+    void Awake () {
+        text = GetComponent<Text>();
 	}
 
     string GetValueString()

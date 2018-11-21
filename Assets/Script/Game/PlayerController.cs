@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -36,13 +36,15 @@ public class PlayerController : Rainer {
     private Stack<RainerController> followers;
     private Transform model;
     private byte buttonBuffer;
+    private Action startAction;
 
     public Vector3 MoveInput { get; private set; }
     public Vector3 RotateInput { get; private set; }
 
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         followers = new Stack<RainerController>();
         PlayerNo = int.Parse(gameObject.name.Substring(6, 1)) - 1;
     }
@@ -52,6 +54,7 @@ public class PlayerController : Rainer {
         base.Start();
         joycon      = GameSetting.PlayerJoycons[PlayerNo] ?? (JoyconManager.Instance.j.Count > PlayerNo ? JoyconManager.Instance.j[PlayerNo] : null);
         rainerCount = canvas.transform.Find("RainerCount").GetComponent<RainerCount>();
+        startAction?.Invoke();
     }
 	
 	// Update is called once per frame
@@ -68,11 +71,6 @@ public class PlayerController : Rainer {
         if(GetActionDown(ActionButton.PopRainer))
         {
             PopRainer();
-        }
-
-        if (GetActionDown(ActionButton.GrowTree))
-        {
-            StartGrowTree();
         }
 
         base.Update();
@@ -188,20 +186,25 @@ public class PlayerController : Rainer {
 
     }
 
-    private void PushRainer(RainerController rainer)
+    public void PushRainer(RainerController rainer)
     {
         rainer.SetFollow(this);
         followers.Push(rainer);
         rainerCount.Value++;
     }
 
-    private RainerController PopRainer()
+    public RainerController PopRainer()
     {
         if (followers.Count == 0)
             return null;
 
+        var tree = FindTree();
+
+        if (tree == null || tree.IsGrowing)
+            return null;
+
         var rainer = followers.Pop();
-        rainer.SetIdle(gameObject.transform.position);
+        rainer.SetGrowTree(tree);
         return rainer;
     }
 
@@ -213,5 +216,10 @@ public class PlayerController : Rainer {
     public bool GetActionDown(ActionButton action)
     {
         return (buttonBuffer & (byte)action) != 0;
+    }
+
+    public void AddStartAction(Action action)
+    {
+        startAction += action;
     }
 }

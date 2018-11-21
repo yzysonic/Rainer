@@ -10,6 +10,7 @@ public class GameSceneManager : Singleton<GameSceneManager>
 {
     public enum State
     {
+        Init,
         FadeIn,
         CameraworkStart,
         StartLogo,
@@ -119,17 +120,22 @@ public class GameSceneManager : Singleton<GameSceneManager>
         base.Awake();
 
         timer = GameTimer.Instance;
-
-        SetPlayerCount();
-        SetPlayer();
-        SetCamera();
-        currentState = startState;
+        currentState = State.Init;
     }
 
     private void Start()
     {
         switch (CurrentState)
         {
+            case State.Init:
+
+                SetPlayerCount();
+                SetPlayer();
+                SetCamera();
+
+                CurrentState = startState;
+                return;
+
             case State.FadeIn:
                 FadeInOut.Instance.FadeIn();
                 CurrentState++;
@@ -262,23 +268,26 @@ public class GameSceneManager : Singleton<GameSceneManager>
         {
             var active = i < playerCount;
             players[i].SetActive(active);
-            var playerCon = players[i].GetComponent<PlayerController>();
-
-            if (active && Application.isPlaying)
-                playerCon.CreateCloud(true);
-            else
-                playerCon.DestroyCloud();
         }
 
         // 有効オブジェクトのリストを作成
-        activePlayers = new List<GameObject>();
-        activeCanvas = new List<GameObject>();
+        activePlayers = players.GetRange(0, playerCount);
+        activeCanvas = canvas.GetRange(0, playerCount);
 
-        for (var i=0;i<playerCount;i++)
+        // プレイヤーの関連オブジェクトの初期化
+        if (Application.isPlaying)
         {
-            activePlayers.AddRange(players.GetRange(0, playerCount));
-            activeCanvas.AddRange(canvas.GetRange(0, playerCount));
+            var players = activePlayers.Select(p => p.GetComponent<PlayerController>()).ToList();
+            foreach(var player in players)
+            {
+                player.CreateCloud(true);
+                var rainer = RainerManager.Instance.SpawnRainer(player.transform.position + Vector3.right * 2.0f);
+                rainer.SetFollow(player);
+                rainer.enabled = false;
+                player.AddStartAction(() => player.PushRainer(rainer));
+            }
         }
+
 
     }
 

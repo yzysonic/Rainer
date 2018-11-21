@@ -1,44 +1,108 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Tree = RainerLib.Tree;
 
 public class RainerController : Rainer
 {
-    public Vector3 move;
-    List<RainerController> boids = new List<RainerController>();
-    public Rainer leader;
-    public Vector3 point;
-    float speed;
+    public enum State
+    {
+        Free,
+        Follow,
+        MoveToTree,
+        GrowTree
+    }
+
     static readonly float max_force = 0.3f;
+
+    RainerManager manager;
+    List<RainerController> boids = new List<RainerController>();
+    State state;
+    Vector3 move;
+    Tree targetTree;
+    float speed;
+
+    public Rainer Leader { get; private set; }
+    public Renderer CoatRenderer { get; private set; }
 
     public override int PlayerNo
     {
         get
         {
-            return leader?.PlayerNo ?? -1;
+            return Leader?.PlayerNo ?? -1;
         }
     }
 
-
-    // 周辺のrainerをboidsに設定
-    public void FindBoidsNearby(List<RainerController> rainers, float range)
+    protected override void Awake()
     {
-        boids.Clear();
-        foreach (RainerController rainer in rainers)
-        {
-            if (rainer.gameObject != gameObject
-                && rainer.gameObject.layer == RainerManager.LayerRainerFollow
-                && rainer.leader == leader
-                )
-            {
-                var vec = rainer.transform.position - gameObject.transform.position;
+        base.Awake();
+        manager = RainerManager.Instance;
+        state = State.Free;
+        gameObject.layer = RainerManager.LayerRainerIdle;
+        CoatRenderer = Model.GetChild(1).GetComponent<Renderer>();
+    }
 
-                if (vec.magnitude < range)
+    protected override void Update()
+    {
+
+        switch (state)
+        {
+            case State.Follow:
+
+                // 周辺のrainer.gameObjectをboidsに設定
+                boids = manager.GetBoidsNearby(this);
+
+                move +=
+                    MoveSeparate(manager.avoid_range) * 1.4f
+                    + MoveAlign()
+                    + MoveConhesion()
+                    + MoveChase(manager.avoid_range);
+
+                move = Vector3.ClampMagnitude(move, manager.max_speed);
+
+                SetSpeed(Vector3.Lerp(move, Leader.CharacterController.velocity, 0.1f).magnitude);
+
+                break;
+
+
+            case State.MoveToTree:
+
+                move = targetTree.transform.position - transform.position;
+
+                if(move.sqrMagnitude < 4.0f)
                 {
-                    boids.Add(rainer);
+                    //StartGrowTree(targetTree);
+                    targetTree.enabled = true;
+                    state = State.GrowTree;
+                    move = Vector3.zero;
+                    goto case State.GrowTree;
                 }
-            }
+
+                move = Vector3.ClampMagnitude(move, manager.max_speed);
+
+                break;
+
+
+            case State.GrowTree:
+
+                if (!targetTree.IsEndGrow)
+                {
+                    targetTree.Grow(PlayerNo);
+                }
+                else
+                {
+                    targetTree = null;
+                    SetFree();
+                }
+
+                break;
+
         }
+
+        // 移動する
+        CharacterController.SimpleMove(move);
+
+        base.Update();
     }
 
     // 距離をとる
@@ -58,7 +122,7 @@ public class RainerController : Rainer
             }
         }
 
-        vec = gameObject.transform.position - leader.transform.position;
+        vec = gameObject.transform.position - Leader.transform.position;
         if (vec.magnitude != 0.0f && vec.magnitude < range)
         {
             steer += vec.normalized / vec.magnitude;
@@ -89,7 +153,7 @@ public class RainerController : Rainer
             sum += boid.move;
         }
 
-        sum += leader.CharacterController.velocity;
+        sum += Leader.CharacterController.velocity;
         
         if (boids.Count != 0)
         {
@@ -116,7 +180,7 @@ public class RainerController : Rainer
             sum += boid.transform.position;
         }
 
-        sum += leader.transform.position;
+        sum += Leader.transform.position;
 
         sum /= (float)(boids.Count + 1);
         vec = (sum - gameObject.transform.position).normalized * speed - move;
@@ -133,7 +197,7 @@ public class RainerController : Rainer
     // 所持者を追う
     public Vector3 MoveChase(float range)
     {
-        var vec = leader.transform.position - gameObject.transform.position;
+        var vec = Leader.transform.position - gameObject.transform.position;
 
         if (vec.magnitude != 0.0f && vec.magnitude > range)
         {
@@ -159,18 +223,27 @@ public class RainerController : Rainer
     }
 
     // 待機状態にする
-    public void SetIdle(Vector3 position)
+    public void SetFree()
     {
+        state = State.Free;
         gameObject.layer = RainerManager.LayerRainerIdle;
-        point = position;
+        CoatRenderer.material = manager.GetDefaultMaterial();
+    }
+
+    public void SetGrowTree(Tree tree)
+    {
+        state = State.MoveToTree;
+        gameObject.layer = RainerManager.LayerRainerIdle;
+        targetTree = tree;
     }
 
     // 追跡状態にする
     public void SetFollow(PlayerController player)
     {
-        leader = player;
+        Leader = player;
+        state = State.Follow;
         gameObject.layer = RainerManager.LayerRainerFollow;
-        Model.GetChild(1).GetComponent<Renderer>().material = RainerManager.GetMaterial(PlayerNo);
+        CoatRenderer.material = manager.GetMaterial(PlayerNo);
     }
 
 }

@@ -7,7 +7,7 @@ public class Rainer : MonoBehaviour {
 
     public float rotateThreshold = 0.1f;
     public GameObject cloudPrefab;
-    protected IEnumerator growTree;
+    protected IEnumerator growTreeCoroutine;
 
     public virtual int PlayerNo { get; protected set; }
     public Transform Model { get; protected set; }
@@ -17,11 +17,16 @@ public class Rainer : MonoBehaviour {
 
 
     // Use this for initialization
-    protected virtual void Start () {
+    protected virtual void Awake () {
         Model = transform.Find("model");
         CharacterController = GetComponent<CharacterController>();
         Animator = GetComponentInChildren<Animator>();
 	}
+
+    protected virtual void Start()
+    {
+
+    }
 	
 	// Update is called once per frame
 	protected virtual void Update () {
@@ -72,36 +77,35 @@ public class Rainer : MonoBehaviour {
         }
     }
 
-    public void StartGrowTree()
+    public Tree FindTree()
     {
-        if (growTree != null)
-        {
-            return;
-        }
-
         RaycastHit hitInfo;
         if (!Physics.Raycast(transform.position, Vector3.down, out hitInfo, Mathf.Infinity, LayerMask.GetMask("Ground")))
         {
-            return;
+            return null;
         }
 
-        var tree = Ground.Instance.GetTree(hitInfo.textureCoord, PlayerNo);
-        if (tree == null)
+        return Ground.Instance.GetTree(hitInfo.textureCoord, PlayerNo);
+    }
+
+    public void StartGrowTree(Tree tree)
+    {
+        if (growTreeCoroutine != null || tree == null)
         {
             return;
         }
 
-        growTree = GrowTree(tree);
-        StartCoroutine(growTree);
+        growTreeCoroutine = GrowTree(tree);
+        StartCoroutine(growTreeCoroutine);
     }
 
     public void StopGrowTree()
     {
-        if (growTree == null)
+        if (growTreeCoroutine == null)
             return;
 
-        StopCoroutine(growTree);
-        growTree = null;
+        StopCoroutine(growTreeCoroutine);
+        growTreeCoroutine = null;
     }
 
     private IEnumerator GrowTree(Tree tree)
@@ -114,6 +118,6 @@ public class Rainer : MonoBehaviour {
             yield return null;
         }
 
-        growTree = null;
+        growTreeCoroutine = null;
     }
 }

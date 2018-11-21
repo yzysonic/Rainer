@@ -16,41 +16,54 @@ namespace RainerLib
         private Timer scoreTimer;
         private Timer bonusTimer;
         private Vector3 treeMaxScl;
-        public bool IsEndGrow { get; private set; }
 
+        public bool IsEndGrow { get; private set; }
+        public bool IsGrowing { get; private set; }
+        public Transform Model { get; private set; }
+
+
+        private void Awake()
+        {
+            scoreTimer = new Timer(scoreTime);
+            bonusTimer = new Timer(growTime);
+            Model = transform.Find("Model");
+            treeMaxScl = Model.localScale;
+            Model.localScale = Vector3.zero;
+            IsEndGrow = false;
+
+            var ground = Ground.Instance;
+            ground.PaintGrass.Paint(ground.GetUV(transform.position, 1.0f));
+        }
 
         // Use this for initialization
         void Start()
         {
-
-            scoreTimer = new Timer(scoreTime);
-            bonusTimer = new Timer(growTime);
-            treeMaxScl = transform.localScale;
-            transform.localScale = Vector3.zero;
-            IsEndGrow = false;
-
+            transform.Find("SeedIcon")?.gameObject.SetActive(false);
         }
 
         // Update is called once per frame
-        void Update()
+        void LateUpdate()
         {
+            IsGrowing = false;
+        }
 
-            if (Input.GetKey(KeyCode.F))
-            {
-                Grow(0);
-            }
+        private void OnDisable()
+        {
+            IsGrowing = false;
         }
 
         public void Grow(int playerNo)
         {
-            if (IsEndGrow)
+            if (IsEndGrow || !enabled)
             {
                 return;
             }
 
+            IsGrowing = true;
+
             bonusTimer.Step();
             scoreTimer.Step();
-            transform.localScale = Vector3.Lerp(Vector3.zero, treeMaxScl, bonusTimer.Progress);
+            Model.localScale = Vector3.Lerp(Vector3.zero, treeMaxScl, bonusTimer.Progress);
 
             if (scoreTimer.TimesUp())
             {
