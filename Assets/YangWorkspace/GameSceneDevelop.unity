@@ -3211,7 +3211,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   initTime: 120
-  startTime: 10
+  startTime: 120
   gauge: {fileID: 112343658}
 --- !u!1 &1457598865 stripped
 GameObject:
@@ -4899,6 +4899,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   grassTex: {fileID: 2800000, guid: 189018b9bad320d4882f7b1010d12a55, type: 3}
+  tilingScale: 4
   treePrefab: {fileID: 1348865965448530, guid: 899569787eed0ff44aafab96e2f6e0fa, type: 2}
 --- !u!114 &2040448315
 MonoBehaviour:

@@ -8,6 +8,7 @@ using Tree = RainerLib.Tree;
 public class Ground : Singleton<Ground> {
 
     [SerializeField] private Texture2D grassTex;
+    [SerializeField, Range(0.1f, 10.0f)] private float tilingScale = 1.0f;
     [SerializeField] private GameObject treePrefab;
 
     private new Renderer renderer;
@@ -37,6 +38,7 @@ public class Ground : Singleton<Ground> {
         Material.SetTexture("_GrassMask", PaintGrass.RenderTex);
         Material.SetTexture("_GrassTex", grassTex);
         Material.SetTexture("_GrassField", GrassField.Texture);
+        Material.SetFloat("_GrassTilingScale", tilingScale);
         if (MoveRange != null)
         {
             Material.SetFloat("_RangeRadius", GetMoveRangeRadiusInUV());

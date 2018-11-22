@@ -2,7 +2,8 @@
 	Properties {
 		_RangeLineWidth ("RangeLineWidth", Float) = 0.01
 		_RangeRadius ("RangeRadius", Float) = 0.46
-		_GrassFieldOpaticy("GrassFieldOpaticy", Float) = 0.0
+		_GrassFieldOpaticy("GrassFieldOpaticy", Range(0,1)) = 0.0
+		_GrassTilingScale("GrassTilingScale", Float) = 1.0
 		_Color ("Color", Color) = (1,1,1,1)
 		_RangeLineColor ("RangeLineColor", Color) = (1,0,0,1)
 		_MainTex ("MainTex", 2D) = "white" {}
@@ -36,6 +37,7 @@
 		float _RangeRadius;
 		float _RangeLineWidth;
 		float _GrassFieldOpaticy;
+		float _GrassTilingScale;
 		half _Glossiness;
 		half _Metallic;
 		fixed4 _Color;
@@ -50,7 +52,7 @@
 
 			// Albedo comes from a texture tinted by color
 			fixed4 g = tex2D(_GrassMask, IN.uv_GrassMask);
-			fixed4 c = tex2D(_MainTex, IN.uv_MainTex) * (1-g.a) + tex2D(_GrassTex, IN.uv_MainTex)*g.a;
+			fixed4 c = tex2D(_MainTex, IN.uv_MainTex) * (1-g.a) + tex2D(_GrassTex, IN.uv_MainTex*_GrassTilingScale)*g.a;
 
 			fixed4 gf = tex2D(_GrassField, float2(1,1)-IN.uv_GrassMask);
 			float opacity = gf.a * _GrassFieldOpaticy;
