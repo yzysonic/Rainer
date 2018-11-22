@@ -31,6 +31,7 @@ public class Title : MonoBehaviour
         if (Input.GetButtonDown("Submit")  && !fadeInOut.enabled)
         {
             fadeInOut.FadeOut(() => SceneManager.LoadScene("SettingScene"));
+            BGMPlayer.Instance.Fade.Out();
         }
     }
 }

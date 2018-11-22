@@ -90,7 +90,7 @@ AudioListener:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1432392429589030}
-  m_Enabled: 1
+  m_Enabled: 0
 --- !u!111 &111859925855232956
 Animation:
   m_ObjectHideFlags: 1
@@ -102,7 +102,6 @@ Animation:
   m_Animation: {fileID: 0}
   m_Animations:
   - {fileID: 7400000, guid: 3e18177132704e445a867a4e95a1027f, type: 2}
-  - {fileID: 7400000, guid: a431a7bae3c77134893db5e1915867aa, type: 2}
   - {fileID: 7400000, guid: af0defb6e5f886d48a5a5f74c7893e8e, type: 2}
   - {fileID: 7400000, guid: 783834af3b8109e4581e40955ea518e6, type: 2}
   m_WrapMode: 0
@@ -162,4 +161,3 @@ MonoBehaviour:
     m_RotationOrder: 4
   targetPos: {x: 0, y: 271, z: 0}
   targetRot: {x: 90, y: 0, z: 0}
-  time: 0

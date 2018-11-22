@@ -47,6 +47,12 @@ namespace RainerLib
             instance = this;
         }
 
+        public void Destroy()
+        {
+            Destroy(gameObject);
+            instance = null;
+        }
+
     }
 
     public class Timer
@@ -119,6 +125,11 @@ namespace RainerLib
         public static implicit operator float(Timer timer)
         {
             return timer.elapsed;
+        }
+
+        public static implicit operator bool(Timer timer)
+        {
+            return timer.TimesUp();
         }
 
     }

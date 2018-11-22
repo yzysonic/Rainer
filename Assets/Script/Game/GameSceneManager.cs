@@ -172,11 +172,13 @@ public class GameSceneManager : Singleton<GameSceneManager>
                 activeCanvas.ForEach(c => c.gameObject.SetActive(false));
                 activeCameras.ForEach(c => c.GetComponent<CameraTopViewAnimation>().enabled = true);
                 activeCameras.ForEach(c => c.GetComponent<CameraFallow>().enabled = false);
+                BGMPlayer.Instance.Fade.Out();
                 return;
 
             case State.EnterResult:
                 var clipName = (playerCount > 2) ? "CameraEnterResult" : "CameraEnterResultTwoPlayer";
                 cameras[0].GetComponent<Animation>().Play(clipName);
+                BGMPlayer.Instance.Destroy();
                 return;
 
             case State.Result:
