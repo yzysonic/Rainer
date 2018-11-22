@@ -10,7 +10,6 @@ public class SettingManager : MonoBehaviour {
     public string nextScene = "GameScene";
 
     private PlayerIcon[] playerIcon;
-    private GameObject[] joyconModel;
     private int countPlayer = 0;
     private int CountPlayer
     {
@@ -39,13 +38,6 @@ public class SettingManager : MonoBehaviour {
         playerIcon[1] = GameObject.Find("2P").GetComponent<PlayerIcon>();
         playerIcon[2] = GameObject.Find("3P").GetComponent<PlayerIcon>();
         playerIcon[3] = GameObject.Find("4P").GetComponent<PlayerIcon>();
-
-        joyconModel = new GameObject[4];
-
-        joyconModel[0] = GameObject.Find("joycon1");
-        joyconModel[1] = GameObject.Find("joycon2");
-        joyconModel[2] = GameObject.Find("joycon3");
-        joyconModel[3] = GameObject.Find("joycon4");
 
         FadeInOut.Instance.FadeIn();
 

@@ -12,6 +12,9 @@ public class RainerManager : Singleton<RainerManager> {
     GameObject rainerPrefab;
 
     [SerializeField]
+    GameObject cloudPrefab;
+
+    [SerializeField]
     List<Material> materials;
 
     [Range(5.0f, 20.0f)]
@@ -46,44 +49,15 @@ public class RainerManager : Singleton<RainerManager> {
             spawnList.Add(spawnGroup.GetChild(i));
             spawnList[i].gameObject.SetActive(false);
         }
+        foreach (var rainer in rainers)
+        {
+            rainer.enabled = true;
+        }
     }
 
     // Update is called once per frame
     void Update()
     {
-        foreach (var rainer in rainers)
-        {            
-            if (rainer.gameObject.layer == LayerRainerFollow)
-            {
-                // 周辺のrainer.gameObjectをboidsに設定
-                rainer.FindBoidsNearby(rainers, unity_range);
-
-                rainer.move +=
-                    rainer.MoveSeparate(avoid_range) * 1.4f
-                    + rainer.MoveAlign()
-                    + rainer.MoveConhesion()
-                    + rainer.MoveChase(avoid_range);
-
-                rainer.move = Vector3.ClampMagnitude(rainer.move, max_speed);
-
-                // 移動する
-                rainer.CharacterController.SimpleMove(rainer.move);
-
-                rainer.SetSpeed(Vector3.Lerp(rainer.move, rainer.leader.CharacterController.velocity, 0.1f).magnitude);
-            }
-            else if (rainer.gameObject.layer == LayerRainerIdle)
-            {
-
-                rainer.move = Vector3.ClampMagnitude(rainer.move, max_speed);
-
-                // 移動する
-                rainer.CharacterController.SimpleMove(rainer.move);
-
-                rainer.move = rainer.point - rainer.transform.position;
-            }
-
-        }
-
         timer++;
         if (timer > pop_interval)
         {
@@ -100,17 +74,50 @@ public class RainerManager : Singleton<RainerManager> {
         }
     }
 
-    void SpawnRainer(Vector3 position)
+    public RainerController SpawnRainer(Vector3 position)
     {
         var rainerObj = Instantiate(rainerPrefab, position, Quaternion.identity, transform);
         var rainer = rainerObj.GetComponent<RainerController>();
-        rainer.SetIdle(position);
-
+        rainer.CreateCloud();
         rainers.Add(rainer);
+        return rainer;
     }
 
-    public static Material GetMaterial(int playerNo)
+    public List<RainerController> GetBoidsNearby(RainerController rainer)
     {
-        return Instance.materials[playerNo];
+        var boids = new List<RainerController>();
+
+        foreach (RainerController other in rainers)
+        {
+            if (other.gameObject != rainer.gameObject
+                && other.gameObject.layer == LayerRainerFollow
+                && other.Leader == rainer.Leader
+                )
+            {
+                var vec = other.transform.position - rainer.gameObject.transform.position;
+
+                if (vec.magnitude < unity_range)
+                {
+                    boids.Add(other);
+                }
+            }
+        }
+
+        return boids;
+    }
+
+    /// <summary>
+    /// プレイヤーの色に応じてコートのマテリアルを返す
+    /// </summary>
+    /// <param name="playerNo"></param>
+    /// <returns></returns>
+    public Material GetMaterial(int playerNo)
+    {
+        return materials[playerNo+1];
+    }
+
+    public Material GetDefaultMaterial()
+    {
+        return materials[0];
     }
 }

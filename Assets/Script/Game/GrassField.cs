@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using System.Linq;
+using UnityEngine;
 using RainerLib;
 
 public class GrassField : MonoBehaviour {
@@ -8,6 +10,8 @@ public class GrassField : MonoBehaviour {
     public float grassRadius    = 4.35f;
     public int grassDensity     = 10;
     public int grassScore       = 1;
+    public List<Color> playerColors;
+    public float switchSpeed    = 1.0f;
 
     private byte [][]grassMap;
     private int grassRadiusInBlock;
@@ -15,35 +19,76 @@ public class GrassField : MonoBehaviour {
     private ScoreManager scoreManager;
     private Terrain terrain;
     private int[,] detailValue;
+    private int opacityPropertyID;
+    private Timer timer;
+
+    public Texture2D Texture { get; private set; }
+    public float Opacity
+    {
+        get
+        {
+            return Ground.Instance.Material.GetFloat(opacityPropertyID);
+        }
+        set
+        {
+            Ground.Instance.Material.SetFloat(opacityPropertyID, Mathf.Clamp01(value));
+        }
+    }
 
 
     // Use this for initialization
     void Awake ()
     {
+        scoreManager = ScoreManager.IsCreated ? ScoreManager.Instance : null;
+        timer = new Timer();
 
+        // マップの初期化
         grassMap = new byte[blockDivision][];
         for(var i=0;i<blockDivision;i++)
         {
             grassMap[i] = new byte[blockDivision];
         }
 
+        // 半径の計算
         var radius = grassRadius / fieldSize * blockDivision;
         grassRadiusInBlock = Mathf.RoundToInt(radius);
         grassSqrRadiusInBlock = Mathf.RoundToInt(radius * radius);
 
-        scoreManager = ScoreManager.IsCreated ? ScoreManager.Instance : null;
+        // Terrain初期化
         terrain = GetComponentInChildren<Terrain>();
-
-        ClearDetailMap();
-
+        terrain.terrainData.SetDetailResolution(blockDivision, 16);
         detailValue = new int[1, 1] { { grassDensity } };
+        CleanDetailMap();
+
+        // 表示用テクスチャーの初期化
+        Texture = new Texture2D(blockDivision, blockDivision);
+        Texture.SetPixels(Enumerable.Repeat(Color.clear, blockDivision * blockDivision).ToArray());
+        opacityPropertyID = Shader.PropertyToID("_GrassFieldOpaticy");
     }
 
-    private void OnDestroy()
+    private void Start()
     {
-        ClearDetailMap();
+        ApplyTexture();
     }
 
+    private void Update()
+    {
+        Opacity = 0.5f + 0.5f * Mathf.Sin(timer++ * Mathf.PI * switchSpeed);
+    }
+
+    void OnDestroy()
+    {
+        CleanDetailMap();
+    }
+
+    private void CleanDetailMap()
+    {
+        var detailMap = new int[terrain.terrainData.detailWidth, terrain.terrainData.detailHeight];
+        for (var i = 0; i < 4; i++)
+        {
+            terrain.terrainData.SetDetailLayer(0, 0, i, detailMap);
+        }
+    }
 
 
     public void SetGrass(Vector2 uv, int playerNo)
@@ -54,13 +99,12 @@ public class GrassField : MonoBehaviour {
         {
             for (int z = posBlock.y - grassRadiusInBlock; z <= posBlock.y + grassRadiusInBlock; z++)
             {
-
-                if (!(x >= 0 && x < blockDivision && z >= 0 && z < blockDivision))
+                if (grassMap[x][z] > 0)
                 {
                     continue;
                 }
 
-                if (grassMap[x][z] > 0)
+                if (x < 0 || x >= blockDivision || z < 0 || z >= blockDivision)
                 {
                     continue;
                 }
@@ -95,15 +139,6 @@ public class GrassField : MonoBehaviour {
         return grassMap[x][y] - 1;
     }
 
-    private void ClearDetailMap()
-    {
-        var detailMap = new int[terrain.terrainData.detailWidth, terrain.terrainData.detailHeight];
-        for(var i=0;i<4;i++)
-        {
-            terrain.terrainData.SetDetailLayer(0, 0, i, detailMap);
-        }
-    }
-
     public Int2 UVToBlockPos(Vector2 uv)
     {
         return new Int2((Vector2.one - uv) * blockDivision);
@@ -114,4 +149,19 @@ public class GrassField : MonoBehaviour {
         return (new Vector3(pos.x, 0.0f, pos.y) / blockDivision - new Vector3(0.5f, 0.0f, 0.5f)) * fieldSize + transform.position;
     }
 
+    public void ApplyTexture()
+    {
+        for(var x = 0; x<blockDivision; x++)
+        {
+            for(var y= 0; y<blockDivision; y++)
+            {
+                var no = grassMap[x][y]-1;
+                if (no >= 0)
+                {
+                    Texture.SetPixel(x, y, playerColors[no]);
+                }
+            }
+        }
+        Texture.Apply();
+    }
 }

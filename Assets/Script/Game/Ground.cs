@@ -8,35 +8,47 @@ using Tree = RainerLib.Tree;
 public class Ground : Singleton<Ground> {
 
     [SerializeField] private Texture2D grassTex;
+    [SerializeField, Range(0.1f, 10.0f)] private float tilingScale = 1.0f;
     [SerializeField] private GameObject treePrefab;
 
     private new Renderer renderer;
     private Dictionary<Int2, Tree> treeMap = new Dictionary<Int2, Tree>();
+    private RaycastHit hitInfo;
 
     public GrassField GrassField { get; private set; }
     public PaintGrass PaintGrass { get; private set; }
     public MoveRange MoveRange { get; private set; }
+    public int LayerMask { get; private set; }
+    public Material Material { get; private set; }
 
-    // Use this for initialization
-    void Start () {
+    protected override void Awake()
+    {
         renderer = transform.Find("Plane").GetComponent<Renderer>();
         GrassField = GetComponent<GrassField>();
         PaintGrass = GetComponent<PaintGrass>();
         MoveRange = GetComponentInChildren<MoveRange>();
+        LayerMask = UnityEngine.LayerMask.GetMask(UnityEngine.LayerMask.LayerToName(gameObject.layer));
+        Material = renderer.material;
+    }
 
-        var mat = renderer.material;
-        mat.shader = Shader.Find("Custom/Ground");
-        mat.SetTexture("_GrassMask", PaintGrass.RenderTex);
-        mat.SetTexture("_GrassTex", grassTex);
-        if(MoveRange != null)
+    // Use this for initialization
+    void Start () {
+
+        Material.shader = Shader.Find("Custom/Ground");
+        Material.SetTexture("_GrassMask", PaintGrass.RenderTex);
+        Material.SetTexture("_GrassTex", grassTex);
+        Material.SetTexture("_GrassField", GrassField.Texture);
+        Material.SetFloat("_GrassTilingScale", tilingScale);
+        if (MoveRange != null)
         {
-            mat.SetFloat("_RangeRadius", GetMoveRangeRadiusInUV());
+            Material.SetFloat("_RangeRadius", GetMoveRangeRadiusInUV());
         }
         else
         {
-            mat.SetFloat("_RangeRadius", 0.0f);
-            mat.SetFloat("RangeLineWidth", 0.0f);
+            Material.SetFloat("_RangeRadius", 0.0f);
+            Material.SetFloat("RangeLineWidth", 0.0f);
         }
+
 
     }
 
@@ -50,35 +62,42 @@ public class Ground : Singleton<Ground> {
     {
         var pos = GrassField.UVToBlockPos(uv);
 
-        if(GrassField.GetPlayerNoOfGrass(pos) != playerNo)
+        // 既存の木を返す
+        if(treeMap.ContainsKey(pos))
         {
-            return null;
+            return treeMap[pos];
         }
 
-        Tree tree;
-        if(treeMap.TryGetValue(pos, out tree))
-        {
-            return tree;
-        }
-
-        tree = Instantiate(treePrefab, GrassField.BlockPosToWorldPos(pos), Quaternion.identity, transform).GetComponent<Tree>();
+        // 新しい木を返す
+        var tree = Instantiate(treePrefab, GrassField.BlockPosToWorldPos(pos), Quaternion.identity, transform).GetComponent<Tree>();
         treeMap.Add(pos, tree);
         return tree;
 
     }
 
-    private float GetMoveRangeRadiusInUV()
+    /// <summary>
+    /// 指定された座標から直下にレイキャストしてUVを取得する。レイが当たらなかった場合(0,0)を返す。
+    /// </summary>
+    /// <param name="pos">レイを発射するワールド座標</param>
+    /// <param name="heightOffset">レイを発射する高さを調整</param>
+    /// <returns>グランド空間でのUV座標</returns>
+    public Vector2 GetUV(Vector3 rayPos, float heightOffset = 0.0f)
     {
-        var radius = GetComponentInChildren<MoveRange>().radius;
-        var rayPos = transform.position + transform.rotation * new Vector3(radius, 1.0f, 0.0f);
-        RaycastHit hitInfo;
+        rayPos.y += heightOffset;
 
-        if (Physics.Raycast(rayPos, Vector3.down, out hitInfo, Mathf.Infinity, LayerMask.GetMask("Ground")))
+        if (Physics.Raycast(rayPos, Vector3.down, out hitInfo, Mathf.Infinity, LayerMask))
         {
-            return Mathf.Abs(hitInfo.textureCoord.x - 0.5f);
+            return hitInfo.textureCoord;
         }
 
-        return 0.0f;
+        return Vector2.zero;
+    }
+
+    private float GetMoveRangeRadiusInUV()
+    {
+        var rayPos = transform.position + transform.rotation * new Vector3(MoveRange.radius, 1.0f, 0.0f);
+
+        return Mathf.Abs(GetUV(rayPos).x - 0.5f);
 
     }
 

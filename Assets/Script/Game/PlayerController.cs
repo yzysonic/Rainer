@@ -1,4 +1,4 @@
-﻿using System.Collections;
+﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -25,7 +25,9 @@ public class PlayerController : Rainer {
     [Range(1.0f, 30.0f)]
     public float max_speed = 10.0f;
     [Range(0.0f, 10.0f)]
-    public float rotation_speed_scale = 1.0f;
+    public float rotation_speed = 1.0f;
+    [Range(0.0f, 10.0f)]
+    public float auto_rotation_speed = 1.0f;
     [Range(0.0f, 0.1f)]
     public float dead_zone = 0.08f;
     [Range(10.0f, 90.0f)]
@@ -36,13 +38,16 @@ public class PlayerController : Rainer {
     private Stack<RainerController> followers;
     private Transform model;
     private byte buttonBuffer;
+    private Action startAction;
 
     public Vector3 MoveInput { get; private set; }
+    public Vector3 MoveInputLocal { get; private set; }
     public Vector3 RotateInput { get; private set; }
 
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         followers = new Stack<RainerController>();
         PlayerNo = int.Parse(gameObject.name.Substring(6, 1)) - 1;
     }
@@ -52,6 +57,7 @@ public class PlayerController : Rainer {
         base.Start();
         joycon      = GameSetting.PlayerJoycons[PlayerNo] ?? (JoyconManager.Instance.j.Count > PlayerNo ? JoyconManager.Instance.j[PlayerNo] : null);
         rainerCount = canvas.transform.Find("RainerCount").GetComponent<RainerCount>();
+        startAction?.Invoke();
     }
 	
 	// Update is called once per frame
@@ -60,7 +66,11 @@ public class PlayerController : Rainer {
         UpdateInput();
 
         // カメラ回転
-        transform.Rotate(RotateInput * rotation_speed_scale * Time.deltaTime * 60.0f);
+        var rotate =
+            RotateInput * rotation_speed + // 入力による回転
+            Vector3.up * Vector3.Dot(MoveInputLocal, Vector3.right) * auto_rotation_speed; // 移動による自動回転
+
+        transform.Rotate(rotate * Time.deltaTime * 60.0f);
 
         // 移動する
         CharacterController.SimpleMove(MoveInput * max_speed);
@@ -68,11 +78,6 @@ public class PlayerController : Rainer {
         if(GetActionDown(ActionButton.PopRainer))
         {
             PopRainer();
-        }
-
-        if (GetActionDown(ActionButton.GrowTree))
-        {
-            StartGrowTree();
         }
 
         base.Update();
@@ -112,10 +117,10 @@ public class PlayerController : Rainer {
                 #region Move
 
                 // Joyconの向きのベクトルを計算
-                var raw_vector = Quaternion.Euler(90.0f, 0.0f, 0.0f) * joycon.GetVector() * Vector3.forward;
+                var raw_vector = joycon.GetAccel();
 
                 // 移動方向に適用
-                MoveInput = new Vector3(raw_vector.x, 0.0f, raw_vector.z);
+                MoveInput = new Vector3(-raw_vector.y, 0.0f, -raw_vector.z);
 
                 // 最大角度を制限
                 var max_value = Mathf.Sin(max_angle * Mathf.Deg2Rad);
@@ -176,32 +181,39 @@ public class PlayerController : Rainer {
         }
 
         // DeadZoneのチェック
-        if (MoveInput.sqrMagnitude >= dead_zone * dead_zone)
-        {
-            // 回転の適用
-            MoveInput = transform.rotation * MoveInput;
-        }
-        else
+        if (MoveInput.sqrMagnitude <= dead_zone * dead_zone)
         {
             MoveInput = Vector3.zero;
         }
 
+        MoveInputLocal = MoveInput;
+
+        // 回転の適用
+        MoveInput = transform.rotation * MoveInput;
+
+
     }
 
-    private void PushRainer(RainerController rainer)
+    public void PushRainer(RainerController rainer)
     {
         rainer.SetFollow(this);
         followers.Push(rainer);
         rainerCount.Value++;
     }
 
-    private RainerController PopRainer()
+    public RainerController PopRainer()
     {
         if (followers.Count == 0)
             return null;
 
+        var tree = FindTree();
+
+        if (tree == null || tree.IsGrowing)
+            return null;
+
         var rainer = followers.Pop();
-        rainer.SetIdle(gameObject.transform.position);
+        rainer.SetGrowTree(tree);
+        rainerCount.Value--;
         return rainer;
     }
 
@@ -213,5 +225,10 @@ public class PlayerController : Rainer {
     public bool GetActionDown(ActionButton action)
     {
         return (buttonBuffer & (byte)action) != 0;
+    }
+
+    public void AddStartAction(Action action)
+    {
+        startAction += action;
     }
 }

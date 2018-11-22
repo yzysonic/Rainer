@@ -27,11 +27,12 @@ public class GameTimer : Singleton<GameTimer> {
 
     [Range(0, 300)]
     public int initTime = 60;
+    [Range(0, 300)]
+    public int startTime = 30;
+    public CircularGauge gauge;
 
     private bool started = false;
-    private Text text;
     private float remainingTime;
-    private CircularGauge gauge;
     private List<PeriodEvent> periodEvents = new List<PeriodEvent>();
 
     #endregion
@@ -49,8 +50,6 @@ public class GameTimer : Singleton<GameTimer> {
         }
         set
         {
-            var displayTime = (int)(value+0.99f);
-            text.text = displayTime.ToString();
             gauge.Values[0] = initTime - value;
             gauge.Values[1] = value;
             remainingTime = value;
@@ -73,14 +72,13 @@ public class GameTimer : Singleton<GameTimer> {
 
     private void OnValidate()
     {
-        GetComponentInChildren<Text>().text = initTime.ToString();
+        startTime = Mathf.Min(startTime, initTime);
     }
 
     // Use this for initialization
     void Start () {
-        text = GetComponentInChildren<Text>();
         gauge = GetComponentInChildren<CircularGauge>();
-        RemainingTime = initTime;
+        RemainingTime = startTime;
         started = true;
     }
 	

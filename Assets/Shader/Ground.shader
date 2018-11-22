@@ -2,11 +2,14 @@
 	Properties {
 		_RangeLineWidth ("RangeLineWidth", Float) = 0.01
 		_RangeRadius ("RangeRadius", Float) = 0.46
+		_GrassFieldOpaticy("GrassFieldOpaticy", Range(0,1)) = 0.0
+		_GrassTilingScale("GrassTilingScale", Float) = 1.0
 		_Color ("Color", Color) = (1,1,1,1)
 		_RangeLineColor ("RangeLineColor", Color) = (1,0,0,1)
 		_MainTex ("MainTex", 2D) = "white" {}
 		_GrassTex ("GrassTex", 2D) = "white" {}
 		_GrassMask ("GrassMask", 2D) = "white" {}
+		_GrassField("GrassField", 2D) = "white" {}
 		_Glossiness ("Smoothness", Range(0,1)) = 0.5
 		_Metallic ("Metallic", Range(0,1)) = 0.0
 	}
@@ -24,6 +27,7 @@
 		sampler2D _MainTex;
 		sampler2D _GrassTex;
 		sampler2D _GrassMask;
+		sampler2D _GrassField;
 
 		struct Input {
 			float2 uv_MainTex;
@@ -32,6 +36,8 @@
 
 		float _RangeRadius;
 		float _RangeLineWidth;
+		float _GrassFieldOpaticy;
+		float _GrassTilingScale;
 		half _Glossiness;
 		half _Metallic;
 		fixed4 _Color;
@@ -46,9 +52,11 @@
 
 			// Albedo comes from a texture tinted by color
 			fixed4 g = tex2D(_GrassMask, IN.uv_GrassMask);
-			fixed3 c = tex2D(_MainTex, IN.uv_MainTex).rgb * (1-g.a) + tex2D(_GrassTex, IN.uv_MainTex).rgb*g.a;
+			fixed4 c = tex2D(_MainTex, IN.uv_MainTex) * (1-g.a) + tex2D(_GrassTex, IN.uv_MainTex*_GrassTilingScale)*g.a;
 
-			// if((uv.z+((uint)(uv.z/_Division)%2)) % 2 == 0) c *= 0.8f;
+			fixed4 gf = tex2D(_GrassField, float2(1,1)-IN.uv_GrassMask);
+			float opacity = gf.a * _GrassFieldOpaticy;
+			c = c * (1 - opacity) + gf * opacity;
 
 			o.Albedo = c.rgb * _Color;
 

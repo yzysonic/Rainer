@@ -10,6 +10,7 @@ public class GameSceneManager : Singleton<GameSceneManager>
 {
     public enum State
     {
+        Init,
         FadeIn,
         CameraworkStart,
         StartLogo,
@@ -42,9 +43,6 @@ public class GameSceneManager : Singleton<GameSceneManager>
     private List<GameObject> canvas = new List<GameObject>();
 
     [SerializeField]
-    private List<GameObject> clouds = new List<GameObject>();
-
-    [SerializeField]
     private StartLogo startLogo;
 
     [SerializeField]
@@ -59,7 +57,6 @@ public class GameSceneManager : Singleton<GameSceneManager>
     private List<GameObject> activePlayers;
     private List<GameObject> activeCameras;
     private List<GameObject> activeCanvas;
-    private List<GameObject> activeClouds;
     private GameTimer timer;
 
     #endregion
@@ -123,17 +120,22 @@ public class GameSceneManager : Singleton<GameSceneManager>
         base.Awake();
 
         timer = GameTimer.Instance;
-
-        SetPlayerCount();
-        SetPlayer();
-        SetCamera();
-        currentState = startState;
+        currentState = State.Init;
     }
 
     private void Start()
     {
         switch (CurrentState)
         {
+            case State.Init:
+
+                SetPlayerCount();
+                SetPlayer();
+                SetCamera();
+
+                CurrentState = startState;
+                return;
+
             case State.FadeIn:
                 FadeInOut.Instance.FadeIn();
                 CurrentState++;
@@ -150,13 +152,13 @@ public class GameSceneManager : Singleton<GameSceneManager>
 
             case State.Game:
                 timer.gameObject.SetActive(true);
-                RainerManager.Instance.gameObject.SetActive(true);
+                RainerManager.Instance.enabled = true;
                 activePlayers.ForEach(p => p.GetComponent<PlayerController>().enabled = true);
                 activeCanvas.ForEach(c => c.gameObject.SetActive(true));
                 return;
 
             case State.EndLogo:
-                RainerManager.Instance.gameObject.SetActive(false);
+                RainerManager.Instance.enabled = false;
                 activePlayers.ForEach(p => p.GetComponent<PlayerController>().enabled = false);
                 timer.enabled = false;
                 ScoreManager.Instance.GetComponent<CircularGauge>().enabled = false;
@@ -168,17 +170,21 @@ public class GameSceneManager : Singleton<GameSceneManager>
             case State.CameraworkEnd:
                 timer.gameObject.SetActive(false);
                 activeCanvas.ForEach(c => c.gameObject.SetActive(false));
-                activeCameras.ForEach(c => c.GetComponent<Animation>().Play("CameraEnd"));
+                activeCameras.ForEach(c => c.GetComponent<CameraTopViewAnimation>().enabled = true);
+                activeCameras.ForEach(c => c.GetComponent<CameraFallow>().enabled = false);
+                BGMPlayer.Instance.Fade.Out();
                 return;
 
             case State.EnterResult:
                 var clipName = (playerCount > 2) ? "CameraEnterResult" : "CameraEnterResultTwoPlayer";
                 cameras[0].GetComponent<Animation>().Play(clipName);
+                BGMPlayer.Instance.Destroy();
                 return;
 
             case State.Result:
                 SceneManager.LoadSceneAsync("ResultScene", LoadSceneMode.Additive);
                 activeCameras.GetRange(1, playerCount - 1).ForEach(c => c.SetActive(false));
+                Ground.Instance.GrassField.enabled = true;
                 return;
         }
 
@@ -198,16 +204,6 @@ public class GameSceneManager : Singleton<GameSceneManager>
                 return;
 
             case State.Game:
-                foreach(var player in activePlayers)
-                {
-                    var vPlayerToCenter = moveRange.transform.position - player.transform.position;
-                    var distance = vPlayerToCenter.magnitude;
-                    var diff = distance - moveRange.radius;
-                    if (diff > 0.0f)
-                    {
-                        player.transform.Translate(vPlayerToCenter / distance * diff, Space.World);
-                    }
-                }
                 if (timer.TimesUp)
                 {
                     CurrentState++;
@@ -217,7 +213,7 @@ public class GameSceneManager : Singleton<GameSceneManager>
             case State.CameraworkEnd:
                 foreach (var camera in activeCameras)
                 {
-                    if (camera.GetComponent<Animation>().isPlaying)
+                    if (camera.GetComponent<CameraTopViewAnimation>().enabled)
                         return;
                 }
                 CurrentState++;
@@ -235,6 +231,25 @@ public class GameSceneManager : Singleton<GameSceneManager>
                     FadeInOut.Instance.FadeOut(() => SceneManager.LoadScene(nextScene));
                 }
                 return;
+        }
+    }
+
+    public void LateUpdate()
+    {
+        switch (CurrentState)
+        {
+            case State.Game:
+                foreach (var player in activePlayers)
+                {
+                    var vPlayerToCenter = moveRange.transform.position - player.transform.position;
+                    var distance = vPlayerToCenter.magnitude;
+                    var diff = distance - moveRange.radius;
+                    if (diff > 0.0f)
+                    {
+                        player.transform.Translate(vPlayerToCenter / distance * diff, Space.World);
+                    }
+                }
+                break;
         }
     }
 
@@ -257,20 +272,26 @@ public class GameSceneManager : Singleton<GameSceneManager>
         {
             var active = i < playerCount;
             players[i].SetActive(active);
-            clouds[i].SetActive(active);
         }
 
         // 有効オブジェクトのリストを作成
-        activePlayers = new List<GameObject>();
-        activeCanvas = new List<GameObject>();
-        activeClouds = new List<GameObject>();
+        activePlayers = players.GetRange(0, playerCount);
+        activeCanvas = canvas.GetRange(0, playerCount);
 
-        for (var i=0;i<playerCount;i++)
+        // プレイヤーの関連オブジェクトの初期化
+        if (Application.isPlaying)
         {
-            activePlayers.AddRange(players.GetRange(0, playerCount));
-            activeCanvas.AddRange(canvas.GetRange(0, playerCount));
-            activeClouds.AddRange(clouds.GetRange(0, playerCount));
+            var players = activePlayers.Select(p => p.GetComponent<PlayerController>()).ToList();
+            foreach(var player in players)
+            {
+                player.CreateCloud(true);
+                var rainer = RainerManager.Instance.SpawnRainer(player.transform.position + Vector3.right * 2.0f);
+                rainer.SetFollow(player);
+                rainer.enabled = false;
+                player.AddStartAction(() => player.PushRainer(rainer));
+            }
         }
+
 
     }
 
