@@ -12,6 +12,7 @@ public static class GameSetting
     {
         PlayerColors = Resources.Load<PlayerColorSetting>("ScriptableObjects/DefaultPlayerColorSetting").colors;
         JoyconButton = Resources.Load<JoyconButtonSetting>("ScriptableObjects/DefaultJoyconButtonSetting");
+        JoyconSerialNumbers = Resources.Load<JoyconSerialNumberSetting>("ScriptableObjects/JoyconSerialNumberSetting").serialNumbers;
     }
 
     public static int PlayerCount
@@ -31,6 +32,8 @@ public static class GameSetting
     public static Color[] PlayerColors { get; private set; } = new Color[4];
 
     public static JoyconButtonSetting JoyconButton { get; private set; }
+
+    public static List<string> JoyconSerialNumbers { get; private set; }
 
     public static void BindPlayer(this Joycon joycon, int player)
     {

@@ -65,7 +65,7 @@ public class JoyconManager: Singleton<JoyconManager>
 					}
 					IntPtr handle = HIDapi.hid_open_path (enumerate.path);
 					HIDapi.hid_set_nonblocking (handle, 1);
-					j.Add (new Joycon (handle, EnableIMU, EnableLocalize & EnableIMU, 0.05f, isLeft));
+					j.Add (new Joycon (handle, EnableIMU, EnableLocalize & EnableIMU, 0.05f, isLeft, enumerate.serial_number));
 					++i;
 				}
 				ptr = enumerate.next;
