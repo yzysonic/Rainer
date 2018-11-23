@@ -5,18 +5,19 @@ using UnityEngine.SceneManagement;
 using System.Linq;
 using RainerLib;
 
+
 public class Title : MonoBehaviour
 {
     private FadeInOut fadeInOut;
     public PlayerControl titlePlayer;
-    public CameraFallow CameraFallow;
-    public CameraLookAt CameraLookAt;
-
+    public CameraFallow cameraFallow;
+    private Vector3 oldPlayerPos;
 
     private void Awake()
     {
         fadeInOut = FadeInOut.Instance;
 
+        oldPlayerPos = titlePlayer.transform.position;
     }
 
     // Use this for initialization
@@ -36,15 +37,22 @@ public class Title : MonoBehaviour
             BGMPlayer.Instance.Fade.Out();
         }
 
-        //if (titlePlayer.position.x < 50.0f)
-        //{
-        //    fadeInOut.FadeOut(() => SceneManager.LoadScene("SettingScene"));
-        //}
-
-        if (Input.GetKeyDown(KeyCode.F))
+        if (titlePlayer.transform.position.x < -120.0f && !fadeInOut.enabled )
         {
-            CameraFallow.target = null;
-            //fadeInOut.FadeOut(() => SceneManager.LoadScene("TitleScene"));
+            fadeInOut.FadeOut(() =>
+            {
+                titlePlayer.transform.position = oldPlayerPos;
+                titlePlayer.DestroyCloud();
+                titlePlayer.CreateCloud(true);
+                Ground.Instance.ResetGrass();
+                fadeInOut.FadeIn();
+            });
+        }
+
+        if (Input.GetKeyDown(KeyCode.F) && !fadeInOut.enabled)
+        {
+            cameraFallow.target = null;
+            fadeInOut.FadeOut(() => SceneManager.LoadScene("SettingScene"));
 
         }
     }

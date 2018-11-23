@@ -7,8 +7,9 @@ public class PlayerControl : Rainer {
     public float speed = 1.0f;
     public int playerNo;
 
-    private void Awake()
+    protected override void Awake()
     {
+        base.Awake();
         PlayerNo = playerNo;
 
     }
@@ -16,7 +17,7 @@ public class PlayerControl : Rainer {
     protected override void Start () {
 
         base.Start();
-
+        CreateCloud(true);
     }
 
     // Update is called once per frame
