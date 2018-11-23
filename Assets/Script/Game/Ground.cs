@@ -46,7 +46,7 @@ public class Ground : Singleton<Ground> {
         else
         {
             Material.SetFloat("_RangeRadius", 0.0f);
-            Material.SetFloat("RangeLineWidth", 0.0f);
+            Material.SetFloat("_RangeLineWidth", 0.0f);
         }
 
 

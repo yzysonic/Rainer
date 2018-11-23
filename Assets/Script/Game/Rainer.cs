@@ -77,6 +77,7 @@ public class Rainer : MonoBehaviour {
         if (Cloud != null)
         {
             Destroy(Cloud.gameObject);
+            Cloud = null;
         }
     }
 
