@@ -299,9 +299,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioClips:
-  - {fileID: 8300000, guid: 5b65826a1b80d3a45adac4ab5adc1406, type: 3}
   - {fileID: 8300000, guid: 14e6657a57fee024ca27b6ec9afe89b3, type: 3}
-  hasIntro: 1
+  - {fileID: 8300000, guid: 5b65826a1b80d3a45adac4ab5adc1406, type: 3}
+  hasIntro: 0
 --- !u!4 &404281750
 Transform:
   m_ObjectHideFlags: 0
@@ -645,7 +645,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: 50f5c9f3fd5c1b54eab7f8f41125d8af, type: 2}
+  - {fileID: 2100000, guid: 7eb5897710a12894ea27764ee2650668, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1179,7 +1179,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: 03071e7b6d1dd9944b34a6dc9a7fed0e, type: 2}
+  - {fileID: 2100000, guid: 7eb5897710a12894ea27764ee2650668, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -1460,7 +1460,7 @@ MeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: 2e8885c5011d15344946946fdadd592d, type: 2}
+  - {fileID: 2100000, guid: 7eb5897710a12894ea27764ee2650668, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

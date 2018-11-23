@@ -43,6 +43,7 @@ public class Lank : MonoBehaviour {
             Data data = dataList[i] = new Data();
 
             data.player = transform.Find("Player" + (i+1)).gameObject;
+            data.player.GetComponent<Renderer>().material.color = GameSetting.PlayerColors[i];
 
             data.medal = GameObject.Find("Medal" + (i+1)).GetComponent<RawImage>();
 
