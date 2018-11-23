@@ -54,11 +54,13 @@ public class JoyconManager: Singleton<JoyconManager>
 				if (enumerate.product_id == product_l || enumerate.product_id == product_r) {
 					if (enumerate.product_id == product_l) {
 						isLeft = true;
-						Debug.Log ("Left Joy-Con connected.");
-					} else if (enumerate.product_id == product_r) {
+					    Debug.Log ("Left Joy-Con connected.");
+                        Debug.Log($"SerialNumber: {enumerate.serial_number}");
+                } else if (enumerate.product_id == product_r) {
 						isLeft = false;
 						Debug.Log ("Right Joy-Con connected.");
-					} else {
+                        Debug.Log($"SerialNumber: {enumerate.serial_number}");
+                } else {
 						Debug.Log ("Non Joy-Con input device skipped.");
 					}
 					IntPtr handle = HIDapi.hid_open_path (enumerate.path);
@@ -100,17 +102,17 @@ public class JoyconManager: Singleton<JoyconManager>
 		}
     }
 
-    public bool GetAnyButton(Joycon.Button button)
+    public static bool GetButton(Joycon.Button button)
     {
-        return j.Any(j => j.GetButton(button));
+        return Instance.j.Any(j => j.GetButton(button));
     }
-    public bool GetAnyButtonUp(Joycon.Button button)
+    public static bool GetButtonUp(Joycon.Button button)
     {
-        return j.Any(j => j.GetButtonUp(button));
+        return Instance.j.Any(j => j.GetButtonUp(button));
     }
-    public bool GetAnyButtonDown(Joycon.Button button)
+    public static bool GetButtonDown(Joycon.Button button)
     {
-        return j.Any(j => j.GetButtonDown(button));
+        return Instance.j.Any(j => j.GetButtonDown(button));
     }
 
 }

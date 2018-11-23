@@ -1,12 +1,18 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public static class GameSetting
 {
     private static int numPlayer = 4;
     private static Dictionary<Joycon, int> joyconPlayerMap = new Dictionary<Joycon, int>();
+
+    [RuntimeInitializeOnLoadMethod]
+    public static void LoadData()
+    {
+        PlayerColors = Resources.Load<PlayerColorSetting>("ScriptableObjects/DefaultPlayerColorSetting").colors;
+        JoyconButton = Resources.Load<JoyconButtonSetting>("ScriptableObjects/DefaultJoyconButtonSetting");
+    }
 
     public static int PlayerCount
     {
@@ -21,6 +27,10 @@ public static class GameSetting
     }
 
     public static Joycon[] PlayerJoycons { get; } = new Joycon[4];
+
+    public static Color[] PlayerColors { get; private set; } = new Color[4];
+
+    public static JoyconButtonSetting JoyconButton { get; private set; }
 
     public static void BindPlayer(this Joycon joycon, int player)
     {

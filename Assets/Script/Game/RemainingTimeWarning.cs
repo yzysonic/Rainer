@@ -10,7 +10,7 @@ public class RemainingTimeWarning : MonoBehaviour {
 
     private GameTimer gameTimer;
     private Text text;
-    private Animation animation;
+    private new Animation animation;
     private bool timeTrigger;
 
     void Start()
