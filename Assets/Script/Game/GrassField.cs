@@ -98,12 +98,13 @@ public class GrassField : MonoBehaviour {
         {
             for (int z = posBlock.y - grassRadiusInBlock; z <= posBlock.y + grassRadiusInBlock; z++)
             {
-                if (grassMap[x][z] > 0)
+
+                if (x < 0 || x >= blockDivision || z < 0 || z >= blockDivision)
                 {
                     continue;
                 }
 
-                if (x < 0 || x >= blockDivision || z < 0 || z >= blockDivision)
+                if (grassMap[x][z] > 0)
                 {
                     continue;
                 }
