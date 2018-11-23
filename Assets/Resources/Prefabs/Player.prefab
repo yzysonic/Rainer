@@ -96,6 +96,7 @@ GameObject:
   - component: {fileID: 4259269926089914}
   - component: {fileID: 143075803149691724}
   - component: {fileID: 114445810483842752}
+  - component: {fileID: 114921072449851286}
   m_Layer: 13
   m_Name: Player
   m_TagString: Player
@@ -1809,6 +1810,18 @@ MonoBehaviour:
   auto_rotation_speed: 1
   dead_zone: 0.08
   max_angle: 40
+--- !u!114 &114921072449851286
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1128682177121510}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a0a0b6b784038674a8051856525ae3e8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  joyconNo: 0
 --- !u!137 &137208281530966894
 SkinnedMeshRenderer:
   m_ObjectHideFlags: 1
