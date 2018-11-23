@@ -16,7 +16,7 @@ public class PlayerController : Rainer {
     public enum ActionButton : byte
     {
         PopRainer = 0x1,
-        GrowTree = 0x2,
+        PushRainer = 0x2,
     }
 
     public Canvas canvas;
@@ -57,6 +57,7 @@ public class PlayerController : Rainer {
         base.Start();
         joycon      = GameSetting.PlayerJoycons[PlayerNo] ?? (JoyconManager.Instance.j.Count > PlayerNo ? JoyconManager.Instance.j[PlayerNo] : null);
         rainerCount = canvas.transform.Find("RainerCount").GetComponent<RainerCount>();
+        MinimapIcon.GetComponent<Renderer>().material.color = GameSetting.PlayerColors[PlayerNo];
         startAction?.Invoke();
     }
 	
@@ -128,6 +129,17 @@ public class PlayerController : Rainer {
 
                 #endregion
 
+                #region Action
+                if (joycon.GetButtonDown(GameSetting.JoyconButton.PushRainer))
+                {
+                    SetActionDown(ActionButton.PushRainer);
+                }
+                if (joycon.GetButtonDown(GameSetting.JoyconButton.PopRainer))
+                {
+                    SetActionDown(ActionButton.PopRainer);
+                }
+                #endregion
+
                 break;
 
 
@@ -153,7 +165,7 @@ public class PlayerController : Rainer {
 
                 if(Input.GetKeyDown(KeyCode.T))
                 {
-                    SetActionDown(ActionButton.GrowTree);
+                    SetActionDown(ActionButton.PushRainer);
                 }
 
                 break;
@@ -174,7 +186,7 @@ public class PlayerController : Rainer {
 
                 if(Input.GetButtonDown("JoyAction2"))
                 {
-                    SetActionDown(ActionButton.GrowTree);
+                    SetActionDown(ActionButton.PushRainer);
                 }
 
                 break;

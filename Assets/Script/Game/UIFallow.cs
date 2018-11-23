@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class UIFallow : MonoBehaviour {
 
-    public Camera camera;
+    public new Camera camera;
     public Transform target;
 
 	// Use this for initialization

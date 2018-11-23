@@ -22,17 +22,7 @@ public class Test : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Return))
-        {
-            if (GetComponent<AudioSource>().volume == 0.0f)
-            {
-                audioFade.In();
-            }
-            else
-            {
-                audioFade.Out();
-            }
-        }
+
     }
 
 

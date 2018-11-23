@@ -226,7 +226,7 @@ public class GameSceneManager : Singleton<GameSceneManager>
                 return;
 
             case State.Result:
-                if ((Input.GetButtonDown("Submit")) && !FadeInOut.Instance.enabled)
+                if ((Input.GetButtonDown("Submit") || JoyconManager.GetButtonDown(GameSetting.JoyconButton.Start)) && !FadeInOut.Instance.enabled)
                 {
                     FadeInOut.Instance.FadeOut(() => SceneManager.LoadScene(nextScene));
                 }
@@ -292,6 +292,19 @@ public class GameSceneManager : Singleton<GameSceneManager>
             }
         }
 
+
+    }
+
+    public void SetPlayerColor()
+    {
+        GameSetting.LoadData();
+
+        var players = this.players.Select(p => p.GetComponent<PlayerController>()).ToList();
+
+        for (var i = 0; i< players.Count; i++)
+        {
+            players[i].transform.GetChild(0).GetChild(1).GetComponent<Renderer>().sharedMaterial.color = GameSetting.PlayerColors[i];
+        }
 
     }
 
