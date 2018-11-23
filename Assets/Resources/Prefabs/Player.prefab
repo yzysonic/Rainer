@@ -1804,7 +1804,7 @@ MonoBehaviour:
   cloudPrefab: {fileID: 1993422119229240, guid: 4589070e4e5ae6c4fbceff3bf63750f2,
     type: 2}
   canvas: {fileID: 0}
-  controllType: 0
+  controllType: 1
   max_speed: 10
   rotation_speed: 3
   auto_rotation_speed: 1
@@ -1922,7 +1922,7 @@ SkinnedMeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: 23905a3619ccb60428c83626cd54e91a, type: 2}
+  - {fileID: 2100000, guid: a3e44e4318a9e3645b24452d3cbb6157, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
