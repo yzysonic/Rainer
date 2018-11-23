@@ -54,11 +54,13 @@ public class JoyconManager: Singleton<JoyconManager>
 				if (enumerate.product_id == product_l || enumerate.product_id == product_r) {
 					if (enumerate.product_id == product_l) {
 						isLeft = true;
-						Debug.Log ("Left Joy-Con connected.");
-					} else if (enumerate.product_id == product_r) {
+					    Debug.Log ("Left Joy-Con connected.");
+                        Debug.Log($"SerialNumber: {enumerate.serial_number}");
+                } else if (enumerate.product_id == product_r) {
 						isLeft = false;
 						Debug.Log ("Right Joy-Con connected.");
-					} else {
+                        Debug.Log($"SerialNumber: {enumerate.serial_number}");
+                } else {
 						Debug.Log ("Non Joy-Con input device skipped.");
 					}
 					IntPtr handle = HIDapi.hid_open_path (enumerate.path);

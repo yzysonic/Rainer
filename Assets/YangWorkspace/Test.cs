@@ -10,6 +10,11 @@ public class Test : MonoBehaviour
 
     private AudioFade audioFade;
 
+    private void Awake()
+    {
+        
+    }
+
     private void Start()
     {
         audioFade = GetComponent<AudioFade>();
