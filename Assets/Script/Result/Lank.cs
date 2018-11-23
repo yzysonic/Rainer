@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Lank : MonoBehaviour {
 
@@ -95,6 +96,17 @@ public class Lank : MonoBehaviour {
         IsFinish = dataList[playerCount - 1].endGrowup;
 
         myAlpha();
+
+        if ((Input.GetButtonDown("Submit") || JoyconManager.GetButtonDown(GameSetting.JoyconButton.Start)) && !FadeInOut.Instance.enabled && IsFinish)
+        {
+            BGMPlayer.Instance.Fade.Out();
+            FadeInOut.Instance.FadeOut(() => {
+                BGMPlayer.Instance.Destroy();
+                Ground.Instance.Destroy();
+                SceneManager.LoadScene("TitleScene");
+            });
+        }
+
     }
 
     void myAlpha()

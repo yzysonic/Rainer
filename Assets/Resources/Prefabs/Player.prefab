@@ -1804,7 +1804,7 @@ MonoBehaviour:
   cloudPrefab: {fileID: 1993422119229240, guid: 4589070e4e5ae6c4fbceff3bf63750f2,
     type: 2}
   canvas: {fileID: 0}
-  controllType: 1
+  controllType: 0
   max_speed: 10
   rotation_speed: 3
   auto_rotation_speed: 1

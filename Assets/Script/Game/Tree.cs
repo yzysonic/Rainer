@@ -68,7 +68,7 @@ namespace RainerLib
             if (scoreTimer.TimesUp())
             {
                 scoreTimer.Reset();
-                //ScoreManager.Instance.AddScore(playerNo, growScore);
+                ScoreManager.Instance.AddScore(playerNo, growScore);
                 //スコア更新
 
             }
@@ -76,7 +76,7 @@ namespace RainerLib
             if (bonusTimer.TimesUp())
             {
                 //ボーナススコア更新
-                //ScoreManager.Instance.AddScore(playerNo, bonusScore);
+                ScoreManager.Instance.AddScore(playerNo, bonusScore);
                 IsEndGrow = true;
             }
 

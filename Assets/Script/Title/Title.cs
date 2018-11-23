@@ -37,7 +37,7 @@ public class Title : MonoBehaviour
             BGMPlayer.Instance.Fade.Out();
         }
 
-        if (titlePlayer.transform.position.x < -120.0f && !fadeInOut.enabled )
+        if (titlePlayer.transform.position.x < -100.0f && !fadeInOut.enabled )
         {
             fadeInOut.FadeOut(() =>
             {
@@ -49,10 +49,13 @@ public class Title : MonoBehaviour
             });
         }
 
-        if (Input.GetKeyDown(KeyCode.F) && !fadeInOut.enabled)
+        if ((Input.GetKeyDown(KeyCode.Return) || JoyconManager.GetButtonDown(GameSetting.JoyconButton.Start)) && !fadeInOut.enabled)
         {
             cameraFallow.target = null;
-            fadeInOut.FadeOut(() => SceneManager.LoadScene("SettingScene"));
+            fadeInOut.FadeOut(() => {
+                BGMPlayer.Instance.Destroy();
+                SceneManager.LoadScene("SettingScene");
+            });
 
         }
     }

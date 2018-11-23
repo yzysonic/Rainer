@@ -8,8 +8,6 @@ using System.Linq;
 public class Test : MonoBehaviour
 {
 
-    private AudioFade audioFade;
-
     private void Awake()
     {
         
@@ -17,7 +15,7 @@ public class Test : MonoBehaviour
 
     private void Start()
     {
-        audioFade = GetComponent<AudioFade>();
+
     }
 
     private void Update()
