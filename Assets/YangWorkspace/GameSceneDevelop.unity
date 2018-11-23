@@ -3534,7 +3534,7 @@ MonoBehaviour:
   - {fileID: 761603140}
   startLogo: {fileID: 1736080832}
   moveRange: {fileID: 2098398098}
-  startState: 4
+  startState: 8
   playerCountSet: 0
 --- !u!4 &1082321933
 Transform:
@@ -5129,7 +5129,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   initTime: 120
-  startTime: 5
+  startTime: 120
   gauge: {fileID: 112343658}
 --- !u!1 &1457598865 stripped
 GameObject:

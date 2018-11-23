@@ -23,6 +23,7 @@ public class Ground : Singleton<Ground> {
 
     protected override void Awake()
     {
+        base.Awake();
         renderer = transform.Find("Plane").GetComponent<Renderer>();
         GrassField = GetComponent<GrassField>();
         PaintGrass = GetComponent<PaintGrass>();

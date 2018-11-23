@@ -63,7 +63,7 @@ public class Lank : MonoBehaviour {
 
         audioSources = GetComponents<AudioSource>();
         audioFade = GetComponent<AudioFade>();
-
+        FadeInOut.Instance.Alpha = 0.0f;
     }
 
     // Update is called once per frame
@@ -114,7 +114,10 @@ public class Lank : MonoBehaviour {
         {
             audioFade.Out();
             FadeInOut.Instance.FadeOut(() => {
-                Ground.Instance.Destroy();
+                if (Ground.IsCreated)
+                {
+                    Ground.Instance.Destroy();
+                }                
                 SceneManager.LoadScene("TitleScene");
             });
         }
