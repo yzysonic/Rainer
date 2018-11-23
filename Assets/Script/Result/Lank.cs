@@ -20,6 +20,7 @@ public class Lank : MonoBehaviour {
     private Data[] dataList;
     private int playerCount;
     public int graphFrame;
+    public bool IsFinish { get; private set; }
 
     [HideInInspector] public string setWinner;
     [HideInInspector] public float scoreTop;
@@ -91,6 +92,7 @@ public class Lank : MonoBehaviour {
         scoreTop = dataList[playerCount - 1].score;
         scoreUnit = dataList[playerCount - 1].score / graphFrame;
 
+        IsFinish = dataList[playerCount - 1].endGrowup;
 
         myAlpha();
     }
@@ -105,4 +107,5 @@ public class Lank : MonoBehaviour {
             }
         }
     }
+
 }
