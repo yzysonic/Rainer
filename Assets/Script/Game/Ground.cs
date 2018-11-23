@@ -52,6 +52,14 @@ public class Ground : Singleton<Ground> {
 
     }
 
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Return))
+        {
+            ResetGrass();
+        }
+    }
+
     public void GrowGrass(Vector2 uv, int playerNo)
     {
         GrassField.SetGrass(uv, playerNo);
@@ -91,6 +99,13 @@ public class Ground : Singleton<Ground> {
         }
 
         return Vector2.zero;
+    }
+
+    public void ResetGrass()
+    {
+        GrassField.Awake();
+        PaintGrass.Awake();
+        Material.SetTexture("_GrassMask", PaintGrass.RenderTex);
     }
 
     private float GetMoveRangeRadiusInUV()
