@@ -15,20 +15,20 @@ public class PaintGrass : MonoBehaviour {
 
 
     // Use this for initialization
-    void Awake () {
+    public void Awake () {
         blushSizeNormalized = grassBlushSize / grassMaskResolution;
         InitRenderTexture();
         InitPaintMaterial();
     }
 
-    private void InitRenderTexture()
+    public void InitRenderTexture()
     {
         RenderTex = new RenderTexture(grassMaskResolution, grassMaskResolution, 0, RenderTextureFormat.ARGB32, RenderTextureReadWrite.Default);
         RenderTex.useMipMap = true;
         //renderTex.filterMode = FilterMode.Point;
     }
 
-    private void InitPaintMaterial()
+    public void InitPaintMaterial()
     {
         paintMat.SetTexture("_MainTex", RenderTex);
         paintMat.SetFloat("_BlushSize", blushSizeNormalized);

@@ -37,7 +37,7 @@ public class GrassField : MonoBehaviour {
 
 
     // Use this for initialization
-    void Awake ()
+    public void Awake ()
     {
         scoreManager = ScoreManager.IsCreated ? ScoreManager.Instance : null;
         timer = new Timer();
@@ -89,7 +89,6 @@ public class GrassField : MonoBehaviour {
             terrain.terrainData.SetDetailLayer(0, 0, i, detailMap);
         }
     }
-
 
     public void SetGrass(Vector2 uv, int playerNo)
     {
