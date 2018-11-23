@@ -174,7 +174,7 @@ public class GameSceneManager : Singleton<GameSceneManager>
                 activeCanvas.ForEach(c => c.gameObject.SetActive(false));
                 activeCameras.ForEach(c => c.GetComponent<CameraTopViewAnimation>().enabled = true);
                 activeCameras.ForEach(c => c.GetComponent<CameraFallow>().enabled = false);
-                BGMPlayer.Instance.Fade.Out();
+                BGMPlayer.Instance.Fade.Out(5.0f);
                 return;
 
             case State.EnterResult:

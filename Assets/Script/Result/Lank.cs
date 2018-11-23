@@ -20,6 +20,8 @@ public class Lank : MonoBehaviour {
     public Texture []texMedal;
     private Data[] dataList;
     private int playerCount;
+    private AudioSource[] audioSources;
+    private AudioFade audioFade;
     public int graphFrame;
     public bool IsFinish { get; private set; }
 
@@ -59,6 +61,8 @@ public class Lank : MonoBehaviour {
 
         }
 
+        audioSources = GetComponents<AudioSource>();
+        audioFade = GetComponent<AudioFade>();
 
     }
 
@@ -94,15 +98,22 @@ public class Lank : MonoBehaviour {
         scoreTop = dataList[playerCount - 1].score;
         scoreUnit = dataList[playerCount - 1].score / graphFrame;
 
-        IsFinish = dataList[playerCount - 1].endGrowup;
+        if (!IsFinish)
+        {
+            IsFinish = dataList[playerCount - 1].endGrowup;
+            if (IsFinish)
+            {
+                audioSources[1].Play();
+            }
+        }
 
         myAlpha();
 
+
         if ((Input.GetButtonDown("Submit") || JoyconManager.GetButtonDown(GameSetting.JoyconButton.Start)) && !FadeInOut.Instance.enabled && IsFinish)
         {
-            BGMPlayer.Instance.Fade.Out();
+            audioFade.Out();
             FadeInOut.Instance.FadeOut(() => {
-                BGMPlayer.Instance.Destroy();
                 Ground.Instance.Destroy();
                 SceneManager.LoadScene("TitleScene");
             });

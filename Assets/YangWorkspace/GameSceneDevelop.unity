@@ -5129,7 +5129,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   initTime: 120
-  startTime: 120
+  startTime: 5
   gauge: {fileID: 112343658}
 --- !u!1 &1457598865 stripped
 GameObject:
