@@ -21,7 +21,7 @@ public class Rainer : MonoBehaviour {
     // Use this for initialization
     protected virtual void Awake () {
         Model = transform.Find("model");
-        MinimapIcon = transform.Find("minimapIcon");
+        MinimapIcon = Model.Find("minimapIcon");
         CharacterController = GetComponent<CharacterController>();
         Animator = GetComponentInChildren<Animator>();
 	}
@@ -77,6 +77,7 @@ public class Rainer : MonoBehaviour {
         if (Cloud != null)
         {
             Destroy(Cloud.gameObject);
+            Cloud = null;
         }
     }
 

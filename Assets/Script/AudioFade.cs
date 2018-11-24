@@ -92,9 +92,21 @@ public class AudioFade : MonoBehaviour {
         enabled = true;
     }
 
+    public void In(float fadeTime)
+    {
+        this.fadeTime = fadeTime;
+        In();
+    }
+
     public void Out()
     {
         isFadeOut = true;
         enabled = true;
+    }
+
+    public void Out(float fadeTime)
+    {
+        this.fadeTime = fadeTime;
+        Out();
     }
 }

@@ -16,8 +16,7 @@ public class ScoreManager : Singleton<ScoreManager>
     // Use this for initialization
     public void Start () {
         circularGauge = GetComponent<CircularGauge>();
-        circularGauge.Division = GameSetting.PlayerCount;
-        circularGauge.UpdateGauge();
+        InitGauge();
         GameTimer.Instance.AddPeriodEvent(showPeriod, ShowScoreGauge);
 	}
 
@@ -71,5 +70,37 @@ public class ScoreManager : Singleton<ScoreManager>
 
         circularGauge.enabled = true;
         GameTimer.Instance.AddPeriodEvent(showInterval, () => circularGauge.enabled = false, 1);
+    }
+
+    public void InitGauge()
+    {
+        var playerCount = GameSetting.PlayerCount;
+        circularGauge.Division = playerCount;
+        var colors = new Color[playerCount];
+
+        switch (playerCount)
+        {
+            case 2:
+                colors[0] = GameSetting.PlayerColors[1];
+                colors[1] = GameSetting.PlayerColors[0];
+                break;
+
+            case 3:
+                colors[0] = GameSetting.PlayerColors[1];
+                colors[1] = GameSetting.PlayerColors[2];
+                colors[2] = GameSetting.PlayerColors[0];
+                break;
+
+            case 4:
+                colors[0] = GameSetting.PlayerColors[1];
+                colors[1] = GameSetting.PlayerColors[3];
+                colors[2] = GameSetting.PlayerColors[2];
+                colors[3] = GameSetting.PlayerColors[0];
+                break;
+        }
+
+        circularGauge.Colors = new List<Color>(colors);
+        circularGauge.UpdateGauge();
+
     }
 }

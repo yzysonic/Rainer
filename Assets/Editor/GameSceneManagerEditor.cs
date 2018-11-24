@@ -22,6 +22,11 @@ public class GameSceneManagerEditor : Editor
             gcm.SetCamera();
         }
 
+        if (GUILayout.Button("SetPlayerColor"))
+        {
+            gcm.SetPlayerColor();
+        }
+
         if (GUILayout.Button("SetCamerasRect"))
         {
             gcm.SetCameraRect();

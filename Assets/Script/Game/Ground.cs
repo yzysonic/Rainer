@@ -23,6 +23,7 @@ public class Ground : Singleton<Ground> {
 
     protected override void Awake()
     {
+        base.Awake();
         renderer = transform.Find("Plane").GetComponent<Renderer>();
         GrassField = GetComponent<GrassField>();
         PaintGrass = GetComponent<PaintGrass>();
@@ -46,10 +47,18 @@ public class Ground : Singleton<Ground> {
         else
         {
             Material.SetFloat("_RangeRadius", 0.0f);
-            Material.SetFloat("RangeLineWidth", 0.0f);
+            Material.SetFloat("_RangeLineWidth", 0.0f);
         }
 
 
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Return))
+        {
+            ResetGrass();
+        }
     }
 
     public void GrowGrass(Vector2 uv, int playerNo)
@@ -91,6 +100,13 @@ public class Ground : Singleton<Ground> {
         }
 
         return Vector2.zero;
+    }
+
+    public void ResetGrass()
+    {
+        GrassField.Awake();
+        PaintGrass.Awake();
+        Material.SetTexture("_GrassMask", PaintGrass.RenderTex);
     }
 
     private float GetMoveRangeRadiusInUV()

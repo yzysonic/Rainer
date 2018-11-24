@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class Lank : MonoBehaviour {
 
@@ -19,7 +20,10 @@ public class Lank : MonoBehaviour {
     public Texture []texMedal;
     private Data[] dataList;
     private int playerCount;
+    private AudioSource[] audioSources;
+    private AudioFade audioFade;
     public int graphFrame;
+    public bool IsFinish { get; private set; }
 
     [HideInInspector] public string setWinner;
     [HideInInspector] public float scoreTop;
@@ -41,6 +45,7 @@ public class Lank : MonoBehaviour {
             Data data = dataList[i] = new Data();
 
             data.player = transform.Find("Player" + (i+1)).gameObject;
+            data.player.GetComponent<Renderer>().material.color = GameSetting.PlayerColors[i];
 
             data.medal = GameObject.Find("Medal" + (i+1)).GetComponent<RawImage>();
 
@@ -56,7 +61,9 @@ public class Lank : MonoBehaviour {
 
         }
 
-
+        audioSources = GetComponents<AudioSource>();
+        audioFade = GetComponent<AudioFade>();
+        FadeInOut.Instance.Alpha = 0.0f;
     }
 
     // Update is called once per frame
@@ -91,8 +98,30 @@ public class Lank : MonoBehaviour {
         scoreTop = dataList[playerCount - 1].score;
         scoreUnit = dataList[playerCount - 1].score / graphFrame;
 
+        if (!IsFinish)
+        {
+            IsFinish = dataList[playerCount - 1].endGrowup;
+            if (IsFinish)
+            {
+                audioSources[1].Play();
+            }
+        }
 
         myAlpha();
+
+
+        if ((Input.GetButtonDown("Submit") || JoyconManager.GetButtonDown(GameSetting.JoyconButton.Start)) && !FadeInOut.Instance.enabled && IsFinish)
+        {
+            audioFade.Out();
+            FadeInOut.Instance.FadeOut(() => {
+                if (Ground.IsCreated)
+                {
+                    Ground.Instance.Destroy();
+                }                
+                SceneManager.LoadScene("TitleScene");
+            });
+        }
+
     }
 
     void myAlpha()
@@ -105,4 +134,5 @@ public class Lank : MonoBehaviour {
             }
         }
     }
+
 }

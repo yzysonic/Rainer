@@ -37,7 +37,7 @@ public class GrassField : MonoBehaviour {
 
 
     // Use this for initialization
-    void Awake ()
+    public void Awake ()
     {
         scoreManager = ScoreManager.IsCreated ? ScoreManager.Instance : null;
         timer = new Timer();
@@ -90,7 +90,6 @@ public class GrassField : MonoBehaviour {
         }
     }
 
-
     public void SetGrass(Vector2 uv, int playerNo)
     {
         var posBlock = UVToBlockPos(uv);
@@ -99,12 +98,13 @@ public class GrassField : MonoBehaviour {
         {
             for (int z = posBlock.y - grassRadiusInBlock; z <= posBlock.y + grassRadiusInBlock; z++)
             {
-                if (grassMap[x][z] > 0)
+
+                if (x < 0 || x >= blockDivision || z < 0 || z >= blockDivision)
                 {
                     continue;
                 }
 
-                if (x < 0 || x >= blockDivision || z < 0 || z >= blockDivision)
+                if (grassMap[x][z] > 0)
                 {
                     continue;
                 }

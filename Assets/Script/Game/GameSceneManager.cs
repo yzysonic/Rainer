@@ -31,7 +31,6 @@ public class GameSceneManager : Singleton<GameSceneManager>
 
     #region Fields
 
-    public string nextScene = "TitleScene";
 
     [SerializeField]
     private List<GameObject> players = new List<GameObject>();
@@ -159,7 +158,10 @@ public class GameSceneManager : Singleton<GameSceneManager>
 
             case State.EndLogo:
                 RainerManager.Instance.enabled = false;
-                activePlayers.ForEach(p => p.GetComponent<PlayerController>().enabled = false);
+                activePlayers.ForEach(p => {
+                    p.GetComponent<PlayerController>().enabled = false;
+                    p.GetComponent<RainRumble>().enabled = false;
+                });
                 timer.enabled = false;
                 ScoreManager.Instance.GetComponent<CircularGauge>().enabled = false;
                 startLogo.GetComponent<Text>().text = "終了";
@@ -172,16 +174,16 @@ public class GameSceneManager : Singleton<GameSceneManager>
                 activeCanvas.ForEach(c => c.gameObject.SetActive(false));
                 activeCameras.ForEach(c => c.GetComponent<CameraTopViewAnimation>().enabled = true);
                 activeCameras.ForEach(c => c.GetComponent<CameraFallow>().enabled = false);
-                BGMPlayer.Instance.Fade.Out();
+                BGMPlayer.Instance.Fade.Out(5.0f);
                 return;
 
             case State.EnterResult:
                 var clipName = (playerCount > 2) ? "CameraEnterResult" : "CameraEnterResultTwoPlayer";
                 cameras[0].GetComponent<Animation>().Play(clipName);
-                BGMPlayer.Instance.Destroy();
                 return;
 
             case State.Result:
+                BGMPlayer.Instance.Destroy();
                 SceneManager.LoadSceneAsync("ResultScene", LoadSceneMode.Additive);
                 activeCameras.GetRange(1, playerCount - 1).ForEach(c => c.SetActive(false));
                 Ground.Instance.GrassField.enabled = true;
@@ -225,12 +227,6 @@ public class GameSceneManager : Singleton<GameSceneManager>
                 CurrentState++;
                 return;
 
-            case State.Result:
-                if ((Input.GetButtonDown("Submit")) && !FadeInOut.Instance.enabled)
-                {
-                    FadeInOut.Instance.FadeOut(() => SceneManager.LoadScene(nextScene));
-                }
-                return;
         }
     }
 
@@ -292,6 +288,19 @@ public class GameSceneManager : Singleton<GameSceneManager>
             }
         }
 
+
+    }
+
+    public void SetPlayerColor()
+    {
+        GameSetting.LoadData();
+
+        var players = this.players.Select(p => p.GetComponent<PlayerController>()).ToList();
+
+        for (var i = 0; i< players.Count; i++)
+        {
+            players[i].transform.GetChild(0).GetChild(1).GetComponent<Renderer>().sharedMaterial.color = GameSetting.PlayerColors[i];
+        }
 
     }
 

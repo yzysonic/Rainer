@@ -254,7 +254,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f15f6a8d713369b47b59a73a4c80f3a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  growScore: 2
-  bonusScore: 50
-  scoreTime: 0.5
+  growScore: 100
+  bonusScore: 500
+  scoreTime: 1
   growTime: 10
