@@ -8,6 +8,7 @@ using System.Linq;
 public class SettingManager : MonoBehaviour {
 
     public string nextScene = "GameScene";
+    public GameObject PlayerField;
 
     private PlayerIcon[] playerIcon;
     private int countPlayer = 0;
@@ -23,7 +24,6 @@ public class SettingManager : MonoBehaviour {
             countPlayer = value;
         }
     }
-    private bool startButtonDown;
     private List<Joycon> joycons;
     public bool CanStart { get; private set; }
 
@@ -63,36 +63,61 @@ public class SettingManager : MonoBehaviour {
             playerIcon[3].IsJoin = !playerIcon[3].IsJoin;
         }
 
-        foreach(var joycon in joycons)
+        for(var i =0; i<joycons.Count; i++)
         {
-            if (joycon.GetButtonDown(GameSetting.Button.Join) && joycon.GetPlayerNo() == -1)
+            if (joycons[i].GetButtonDown(GameSetting.Button.Join) && joycons[i].GetPlayerNo() == -1)
             {
-                SetJoin(joycon);
+                playerIcon[i].Joycon = joycons[i];
+                joycons[i].BindPlayer(i);
             }
         }
 
         CountPlayer = playerIcon.Sum(p => p.IsJoin ? 1 : 0);
 
-        startButtonDown = Input.GetKeyDown(KeyCode.Return) || playerIcon.Any(p => p.Joycon?.GetButtonDown(GameSetting.Button.Start) ?? false);
+        bool startButtonDown = Input.GetKeyDown(KeyCode.Return) || playerIcon.Any(p => p.Joycon?.GetButtonDown(GameSetting.Button.Start) ?? false);
 
         if (CanStart && startButtonDown && !FadeInOut.Instance.enabled)
         {
             GameSetting.PlayerCount = CountPlayer;
             FadeInOut.Instance.FadeOut(() => SceneManager.LoadScene(nextScene));
         }
-    }
 
-    void SetJoin(Joycon joycon)
-    {
-        for(var i = 0; i < 4; i++)
+        //if ((Input.GetKey(KeyCode.LeftShift) && Input.GetKey(KeyCode.Tab)) || playerIcon.Any(p => (p.Joycon?.GetStick()[0] ?? 0.0f) < -0.1f))
+        //{
+        //    PlayerCamera.transform.position = Quaternion.Euler(0, -1, 0) * PlayerCamera.transform.position;
+        //    PlayerCamera.transform.LookAt(new Vector3(0, PlayerCamera.transform.position.y, 0));
+        //}
+        //else if (Input.GetKey(KeyCode.Tab) || playerIcon.Any(p => (p.Joycon?.GetStick()[0] ?? 0.0f) > 0.1f))
+        //{
+        //    PlayerCamera.transform.position = Quaternion.Euler(0, 1, 0) * PlayerCamera.transform.position;
+        //    PlayerCamera.transform.LookAt(new Vector3(0, PlayerCamera.transform.position.y, 0));
+        //}
+
+        if ((Input.GetKey(KeyCode.LeftShift) && Input.GetKey(KeyCode.Tab)) || playerIcon.Any(p => (p.Joycon?.GetStick()[0] ?? 0.0f) < -0.1f))
         {
-            if(!playerIcon[i].IsJoin)
+            PlayerField.transform.Rotate(0, -1, 0);
+        }
+        else if (Input.GetKey(KeyCode.Tab) || playerIcon.Any(p => (p.Joycon?.GetStick()[0] ?? 0.0f) > 0.1f))
+        {
+            PlayerField.transform.Rotate(0, 1, 0);
+        }
+        else
+        {
+            var direction = PlayerField.transform.rotation.eulerAngles;
+            var deltaRotate = direction.y % 90;
+            if (deltaRotate != 0.0f)
             {
-                playerIcon[i].Joycon = joycon;
-                joycon.BindPlayer(i);
-                break;
+                if (deltaRotate < 45)
+                {
+                    direction = Vector3.Lerp(direction, new Vector3(direction.x, direction.y - deltaRotate, direction.z), 0.1f);
+                }
+                else
+                {
+                    direction = Vector3.Lerp(direction, new Vector3(direction.x, direction.y - deltaRotate + 90, direction.z), 0.1f);
+                }
+                PlayerField.transform.rotation = Quaternion.Euler(direction);
             }
         }
     }
-
+    
 }

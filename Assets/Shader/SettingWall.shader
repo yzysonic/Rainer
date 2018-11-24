@@ -1,4 +1,4 @@
-﻿Shader "Custom/TestSurfaceShader" {
+﻿Shader "Custom/SettingWall" {
 	Properties {
 		_Color ("Color", Color) = (1,1,1,1)
 		_MainTex ("Albedo (RGB)", 2D) = "white" {}
@@ -25,6 +25,7 @@
 		half _Glossiness;
 		half _Metallic;
 		fixed4 _Color;
+		float _Alpha;
 
 		// Add instancing support for this shader. You need to check 'Enable Instancing' on materials that use the shader.
 		// See https://docs.unity3d.com/Manual/GPUInstancing.html for more information about instancing.
@@ -35,7 +36,7 @@
 
 		void surf (Input IN, inout SurfaceOutputStandard o) {
 			// Albedo comes from a texture tinted by color
-			fixed4 c = fixed4(1,1,1,1) * (1-_Color.a) + tex2D (_MainTex, IN.uv_MainTex) * _Color * _Color.a;
+			fixed4 c = fixed4(1,1,1,1) * (1-_Alpha) + tex2D (_MainTex, IN.uv_MainTex) * _Color * _Alpha;
 			o.Albedo = c.rgb;
 			// Metallic and smoothness come from slider variables
 			o.Metallic = _Metallic;

@@ -54,7 +54,7 @@ public class JoyconModel : MonoBehaviour {
         // Joyconの向きのベクトルを計算
         var raw_vector = m_joycon.GetAccel();
 
-        var targetRotation = Quaternion.Euler(raw_vector.z * 90.0f, 180.0f, -raw_vector.y * 90.0f);
+        var targetRotation = Quaternion.Euler(raw_vector.z * 60.0f, 180.0f, -raw_vector.y * 60.0f);
 
         // モデル回転に適用
         transform.localRotation = Quaternion.Lerp(transform.localRotation, targetRotation, lpf * Time.deltaTime);

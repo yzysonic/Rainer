@@ -32,6 +32,7 @@ public class SettingPlayerControl : Rainer {
             if (playerIcon.IsJoin)
             {
                 Model.gameObject.SetActive(true);
+                Model.rotation = Quaternion.identity;
                 CharacterController.enabled = true;
                 transform.position = resetPosition;
                 joycon = playerIcon.Joycon;
@@ -39,20 +40,20 @@ public class SettingPlayerControl : Rainer {
             else
             {
                 CharacterController.SimpleMove(Vector3.zero);
-                CharacterController.Move(Vector3.up);
+                //CharacterController.Move(Vector3.zero);
+                transform.Translate(Vector3.up);
                 if (transform.position.y > resetPosition.y)
                 {
-                    Model.rotation = Quaternion.identity;
                     Model.gameObject.SetActive(false);
                 }
             }
         }
 
-        if (Model.gameObject.activeSelf)
+        if (playerIcon.IsJoin)
         {
             var vector = Vector3.zero;
 
-            if(joycon != null)
+            if (joycon != null)
             {
                 // Joyconの向きのベクトルを計算
                 var raw_vector = joycon.GetAccel();
@@ -71,7 +72,12 @@ public class SettingPlayerControl : Rainer {
                 }
             }
 
+            CharacterController.Move(Vector3.down);
             CharacterController.SimpleMove(vector * max_speed);
+        }
+
+        if (Model.gameObject.activeSelf)
+        {
             base.Update();
         }
     }

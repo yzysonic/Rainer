@@ -20,11 +20,11 @@ public class JoinText : MonoBehaviour
     {
         if (playerIcon.IsJoin)
         {
-            joinText.text = ("Bボタンでキャンセル");
+            joinText.text = ("Ⓑ 退出");
         }
         else
         {
-            joinText.text = ("Aボタンで参加");
+            joinText.text = ("Ⓐ 参加");
         }
     }
 }
