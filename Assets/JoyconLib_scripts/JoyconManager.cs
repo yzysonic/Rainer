@@ -47,6 +47,7 @@ public class JoyconManager: Singleton<JoyconManager>
 			}
 		}
 		hid_device_info enumerate;
+        GameSetting.LoadAndSetData();
 		while (ptr != IntPtr.Zero) {
 			enumerate = (hid_device_info)Marshal.PtrToStructure (ptr, typeof(hid_device_info));
 

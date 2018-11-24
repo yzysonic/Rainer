@@ -7,13 +7,29 @@ public static class GameSetting
     private static int numPlayer = 4;
     private static Dictionary<Joycon, int> joyconPlayerMap = new Dictionary<Joycon, int>();
 
+    /// <summary>
+    /// 設定データをロードして保存する
+    /// </summary>
     [RuntimeInitializeOnLoadMethod]
-    public static void LoadData()
+    public static void LoadAndSetData()
     {
-        PlayerColors = Resources.Load<PlayerColorSetting>("ScriptableObjects/DefaultPlayerColorSetting").colors;
-        JoyconButton = Resources.Load<JoyconButtonSetting>("ScriptableObjects/DefaultJoyconButtonSetting");
-        JoyconSerialNumbers = Resources.Load<JoyconSerialNumberSetting>("ScriptableObjects/JoyconSerialNumberSetting").serialNumbers;
+        PlayerColors = LoadScriptableObject<PlayerColorSetting>()?.colors;
+        JoyconButton = LoadScriptableObject<JoyconButtonSetting>();
+        JoyconSerialNumbers = LoadScriptableObject<JoyconSerialNumberSetting>()?.serialNumbers;
     }
+
+    /// <summary>
+    /// 設定データをロードして返す
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
+    /// <returns>設定データのオブジェクト</returns>
+    public static T LoadScriptableObject<T>() where T : UnityEngine.Object
+    {
+        return 
+            Resources.Load<T>($"ScriptableObjects/{typeof(T).Name}") ?? 
+            Resources.Load<T>($"ScriptableObjects/Default{typeof(T).Name}");
+    }
+
 
     public static int PlayerCount
     {
@@ -66,28 +82,19 @@ public static class GameSetting
         else
             return no;
     }
-
-    public enum Button
+    public static bool GetButton(this Joycon joycon, Joycon.Button button)
     {
-        Join = Joycon.Button.DPAD_RIGHT,
-        Cancel = Joycon.Button.DPAD_DOWN,
-        Start = Joycon.Button.PLUS,
+        return joycon.GetButton(button);
     }
 
-
-    public static bool GetButton(this Joycon joycon, Button button)
+    public static bool GetButtonUp(this Joycon joycon, Joycon.Button button)
     {
-        return joycon.GetButton((Joycon.Button)button);
+        return joycon.GetButtonUp(button);
     }
 
-    public static bool GetButtonUp(this Joycon joycon, Button button)
+    public static bool GetButtonDown(this Joycon joycon, Joycon.Button button)
     {
-        return joycon.GetButtonUp((Joycon.Button)button);
-    }
-
-    public static bool GetButtonDown(this Joycon joycon, Button button)
-    {
-        return joycon.GetButtonDown((Joycon.Button)button);
+        return joycon.GetButtonDown(button);
     }
 
 }

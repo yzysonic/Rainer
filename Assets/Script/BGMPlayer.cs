@@ -7,6 +7,7 @@ public class BGMPlayer : Singleton<BGMPlayer> {
 
     public List<AudioClip> audioClips;
     public bool hasIntro;
+    public float delay = 0.5f;
 
     public List<AudioSource> AudioSources { get; private set; } = new List<AudioSource>();
     public List<AudioFade> AudioFades { get; private set; } = new List<AudioFade>();
@@ -34,12 +35,15 @@ public class BGMPlayer : Singleton<BGMPlayer> {
             AudioFades.Add(fade);
         }
 
-        AudioSources[0].PlayScheduled(AudioSettings.dspTime + 0.1f);
-
         if (hasIntro && AudioSources.Count >= 2)
         {
             AudioSources[1].loop = true;
-            AudioSources[1].PlayScheduled(AudioSettings.dspTime + AudioSources[0].clip.length + 0.1f);
+            AudioSources[0].PlayScheduled(AudioSettings.dspTime + delay);
+            AudioSources[1].PlayScheduled(AudioSettings.dspTime + AudioSources[0].clip.length + delay);
+        }
+        else
+        {
+            AudioSources[0].Play();
         }
     }
 }

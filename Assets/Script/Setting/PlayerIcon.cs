@@ -17,7 +17,7 @@ public class PlayerIcon : MonoBehaviour {
         set
         {
             IsJoin = value != null;
-            SetJoycon(value);
+            joycon = value;
         }
     }
 
@@ -29,23 +29,10 @@ public class PlayerIcon : MonoBehaviour {
 	// Update is called once per frame
 	void LateUpdate () {
         
-        if(Joycon?.GetButtonDown(GameSetting.Button.Cancel) ?? false)
+        if(Joycon?.GetButtonDown(GameSetting.JoyconButton.Cancel) ?? false)
         {
-            //StartCoroutine(UnsetJoycon());
             Joycon = null;
         }
-    }
-
-    void UnsetJoycon()
-    {
-        Joycon = null;
-        joycon.UnbindPlayer();
-    }
-
-    void SetJoycon(Joycon joycon)
-    {
-        this.joycon?.UnbindPlayer();
-        this.joycon = joycon;
     }
 
 }

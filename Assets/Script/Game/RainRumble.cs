@@ -13,7 +13,15 @@ public class RainRumble : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
-        joycon = JoyconManager.Instance.j[joyconNo];
+        var manager = JoyconManager.Instance;
+
+        if(joyconNo >= manager.j.Count)
+        {
+            enabled = false;
+            return;
+        }
+
+        joycon = manager.j[joyconNo];
 
         var controller = GetComponent<PlayerController>();
         if (controller)

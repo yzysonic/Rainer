@@ -174,7 +174,7 @@ public class GameSceneManager : Singleton<GameSceneManager>
                 activeCanvas.ForEach(c => c.gameObject.SetActive(false));
                 activeCameras.ForEach(c => c.GetComponent<CameraTopViewAnimation>().enabled = true);
                 activeCameras.ForEach(c => c.GetComponent<CameraFallow>().enabled = false);
-                BGMPlayer.Instance.Fade.Out(5.0f);
+                BGMPlayer.Instance.Fade.Out(7.0f);
                 return;
 
             case State.EnterResult:
@@ -293,7 +293,7 @@ public class GameSceneManager : Singleton<GameSceneManager>
 
     public void SetPlayerColor()
     {
-        GameSetting.LoadData();
+        GameSetting.LoadAndSetData();
 
         var players = this.players.Select(p => p.GetComponent<PlayerController>()).ToList();
 

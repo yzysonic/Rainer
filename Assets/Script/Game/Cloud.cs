@@ -8,7 +8,7 @@ public class Cloud : MonoBehaviour {
     public float fallow_speed = 2.0f;
     public float height = 7.0f;
 
-    private void Start()
+    private void OnEnable()
     {
         transform.position = new Vector3(target.position.x, height, target.position.z);
     }

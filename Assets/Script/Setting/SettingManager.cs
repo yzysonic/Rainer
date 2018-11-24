@@ -9,6 +9,7 @@ public class SettingManager : MonoBehaviour {
 
     public string nextScene = "GameScene";
     public GameObject PlayerField;
+    public Light spotLight;
 
     private PlayerIcon[] playerIcon;
     private int countPlayer = 0;
@@ -65,41 +66,32 @@ public class SettingManager : MonoBehaviour {
 
         for(var i =0; i<joycons.Count; i++)
         {
-            if (joycons[i].GetButtonDown(GameSetting.Button.Join) && joycons[i].GetPlayerNo() == -1)
+            if (joycons[i].GetButtonDown(GameSetting.JoyconButton.Join))
             {
-                playerIcon[i].Joycon = joycons[i];
-                joycons[i].BindPlayer(i);
+                playerIcon[joycons[i].GetPlayerNo()].Joycon = joycons[i];
             }
         }
 
         CountPlayer = playerIcon.Sum(p => p.IsJoin ? 1 : 0);
 
-        bool startButtonDown = Input.GetKeyDown(KeyCode.Return) || playerIcon.Any(p => p.Joycon?.GetButtonDown(GameSetting.Button.Start) ?? false);
+        bool startButtonDown = Input.GetKeyDown(KeyCode.Return) || playerIcon.Any(p => p.Joycon?.GetButtonDown(GameSetting.JoyconButton.Start) ?? false);
 
         if (CanStart && startButtonDown && !FadeInOut.Instance.enabled)
         {
             GameSetting.PlayerCount = CountPlayer;
-            FadeInOut.Instance.FadeOut(() => SceneManager.LoadScene(nextScene));
+            BGMPlayer.Instance.Fade.Out();
+            FadeInOut.Instance.FadeOut(() => {
+                BGMPlayer.Instance.Destroy();
+                SceneManager.LoadScene(nextScene);
+            });
         }
 
-        //if ((Input.GetKey(KeyCode.LeftShift) && Input.GetKey(KeyCode.Tab)) || playerIcon.Any(p => (p.Joycon?.GetStick()[0] ?? 0.0f) < -0.1f))
-        //{
-        //    PlayerCamera.transform.position = Quaternion.Euler(0, -1, 0) * PlayerCamera.transform.position;
-        //    PlayerCamera.transform.LookAt(new Vector3(0, PlayerCamera.transform.position.y, 0));
-        //}
-        //else if (Input.GetKey(KeyCode.Tab) || playerIcon.Any(p => (p.Joycon?.GetStick()[0] ?? 0.0f) > 0.1f))
-        //{
-        //    PlayerCamera.transform.position = Quaternion.Euler(0, 1, 0) * PlayerCamera.transform.position;
-        //    PlayerCamera.transform.LookAt(new Vector3(0, PlayerCamera.transform.position.y, 0));
-        //}
+        var rot = Input.GetAxisRaw("KeyMoveX") + 2.0f*playerIcon.Sum(p => -p.Joycon?.GetStick()[0] ?? 0.0f);
 
-        if ((Input.GetKey(KeyCode.LeftShift) && Input.GetKey(KeyCode.Tab)) || playerIcon.Any(p => (p.Joycon?.GetStick()[0] ?? 0.0f) < -0.1f))
+        if (Mathf.Abs(rot) > 0.1f)
         {
-            PlayerField.transform.Rotate(0, -1, 0);
-        }
-        else if (Input.GetKey(KeyCode.Tab) || playerIcon.Any(p => (p.Joycon?.GetStick()[0] ?? 0.0f) > 0.1f))
-        {
-            PlayerField.transform.Rotate(0, 1, 0);
+            PlayerField.transform.Rotate(0, rot * 60.0f * Time.deltaTime, 0);
+            spotLight.intensity = Mathf.Lerp(spotLight.intensity, 0.0f, 5.0f * Time.deltaTime);
         }
         else
         {
@@ -117,6 +109,7 @@ public class SettingManager : MonoBehaviour {
                 }
                 PlayerField.transform.rotation = Quaternion.Euler(direction);
             }
+            spotLight.intensity = Mathf.Lerp(spotLight.intensity, 5.02f, 5.0f * Time.deltaTime);
         }
     }
     

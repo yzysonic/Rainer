@@ -65,7 +65,7 @@ public class Rainer : MonoBehaviour {
         if (Cloud != null)
             return;
 
-        Cloud = Instantiate(cloudPrefab, transform.parent).GetComponent<Cloud>();
+        Cloud = Instantiate(cloudPrefab, transform).GetComponent<Cloud>();
         Cloud.target = transform;
         Cloud.enabled = true;
         Cloud.GetComponentInChildren<RainRayCast>().enabled = enableRainRayCast;

@@ -1398,10 +1398,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioClips:
-  - {fileID: 8300000, guid: f7324d21ed495e846b1df1f8fa9e2b39, type: 3}
-  - {fileID: 8300000, guid: 4aa8c4b14afb4734eaa5f653e712773f, type: 3}
-  - {fileID: 8300000, guid: bdbcbb6f166e5094d94d5f5d6e84ab80, type: 3}
+  - {fileID: 8300000, guid: 6a1885b8ad1de68488636001c91578a2, type: 3}
+  - {fileID: 8300000, guid: 4c47bdc1721cd9f4ca2af430c598d1ae, type: 3}
+  - {fileID: 8300000, guid: 56434f33070135e4ba12990728a2782a, type: 3}
   hasIntro: 0
+  delay: 0.5
 --- !u!114 &407206577
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3534,7 +3535,7 @@ MonoBehaviour:
   - {fileID: 761603140}
   startLogo: {fileID: 1736080832}
   moveRange: {fileID: 2098398098}
-  startState: 8
+  startState: 4
   playerCountSet: 0
 --- !u!4 &1082321933
 Transform:
@@ -5129,7 +5130,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   initTime: 120
-  startTime: 120
+  startTime: 10
   gauge: {fileID: 112343658}
 --- !u!1 &1457598865 stripped
 GameObject:
