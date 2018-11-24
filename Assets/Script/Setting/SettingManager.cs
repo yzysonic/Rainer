@@ -27,6 +27,7 @@ public class SettingManager : MonoBehaviour {
     }
     private List<Joycon> joycons;
     public bool CanStart { get; private set; }
+    private float intensity;
 
     // Use this for initialization
     void Start () {
@@ -39,6 +40,7 @@ public class SettingManager : MonoBehaviour {
         playerIcon[1] = GameObject.Find("2P").GetComponent<PlayerIcon>();
         playerIcon[2] = GameObject.Find("3P").GetComponent<PlayerIcon>();
         playerIcon[3] = GameObject.Find("4P").GetComponent<PlayerIcon>();
+        intensity = spotLight.intensity;
 
         FadeInOut.Instance.FadeIn();
 
@@ -109,7 +111,7 @@ public class SettingManager : MonoBehaviour {
                 }
                 PlayerField.transform.rotation = Quaternion.Euler(direction);
             }
-            spotLight.intensity = Mathf.Lerp(spotLight.intensity, 5.02f, 5.0f * Time.deltaTime);
+            spotLight.intensity = Mathf.Lerp(spotLight.intensity, intensity, 5.0f * Time.deltaTime);
         }
     }
     
