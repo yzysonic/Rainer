@@ -5,11 +5,11 @@ using RainerLib;
 
 public class AudioFade : MonoBehaviour {
 
-    public AnimationCurve curve = AnimationCurve.Linear(0.0f, 0.0f, 1.0f, 1.0f);
     public float fadeTime = 1.0f;
     public bool stopAfterOut;
     public bool pauseAfterOut;
 
+    private AnimationCurve curve = AnimationCurve.Linear(0.0f, 0.0f, 1.0f, 1.0f);
     private Timer timer;
     private bool isFadeIn;
     private bool isFadeOut;
@@ -39,24 +39,19 @@ public class AudioFade : MonoBehaviour {
             AudioSource = GetComponent<AudioSource>();
         }
 
-        var keys = curve.keys;
-
         if (isFadeIn)
         {
             if (!AudioSource.isPlaying)
             {
                 AudioSource.Play();
             }
-            keys[0].value = 0.0f;
-            keys[1].value = 1.0f;
+            curve = AnimationCurve.Linear(0.0f, 0.0f, 1.0f, 1.0f);
         }
         else
         {
-            keys[0].value = 1.0f;
-            keys[1].value = 0.0f;
+            curve = AnimationCurve.Linear(0.0f, 1.0f, 1.0f, 0.0f);
         }
 
-        curve.keys = keys;
         timer.Reset(fadeTime);
     }
 	

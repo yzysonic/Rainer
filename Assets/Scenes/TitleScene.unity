@@ -801,8 +801,8 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 731423092}
-  m_LocalRotation: {x: 0.07454975, y: -0.3435874, z: 0.027372874, w: 0.9357568}
-  m_LocalPosition: {x: 123.49443, y: 1.7172389, z: -119.3101}
+  m_LocalRotation: {x: 0.07941622, y: 0, z: 0, w: 0.99684155}
+  m_LocalPosition: {x: 120.6, y: 1.7172389, z: -120.37286}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -1976,14 +1976,14 @@ Transform:
     type: 2}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1514627119}
-  m_LocalRotation: {x: -0, y: -0.34467623, z: -0, w: 0.9387217}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 120.6, y: 1, z: -115.9}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1007154333}
   m_Father: {fileID: 0}
   m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: -40.324, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1552182189
 GameObject:
   m_ObjectHideFlags: 0
@@ -2528,8 +2528,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioClips:
-  - {fileID: 8300000, guid: 52ed71b50ba39444ea0f0d0fb9c58574, type: 3}
-  - {fileID: 8300000, guid: 90cca8c563262d64797539db0cadcfa2, type: 3}
+  - {fileID: 8300000, guid: cdcd51079165b384f8a39ac85741a6ca, type: 3}
+  - {fileID: 8300000, guid: 93197befdbdea824bb0f0bbfbb5703f4, type: 3}
   hasIntro: 1
 --- !u!4 &1872957069
 Transform:

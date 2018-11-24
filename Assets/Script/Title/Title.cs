@@ -52,6 +52,7 @@ public class Title : MonoBehaviour
         if ((Input.GetKeyDown(KeyCode.Return) || JoyconManager.GetButtonDown(GameSetting.JoyconButton.Start)) && !fadeInOut.enabled)
         {
             cameraFallow.target = null;
+            BGMPlayer.Instance.Fade.Out();
             fadeInOut.FadeOut(() => {
                 BGMPlayer.Instance.Destroy();
                 SceneManager.LoadScene("SettingScene");
