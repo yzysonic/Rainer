@@ -49,7 +49,6 @@ public class BGMPlayer : Singleton<BGMPlayer>
             var source = gameObject.AddComponent<AudioSource>();
             source.clip = clip;
             source.playOnAwake = false;
-            source.loop = true;
             AudioSources.Add(source);
             InitVolumes.Add(source.volume);
             AddFade(source);
@@ -65,8 +64,6 @@ public class BGMPlayer : Singleton<BGMPlayer>
         {
             AudioSources[0].Play();
         }
-
-        DontDestroyOnLoad(this.gameObject);
     }
 
     private void AddFade(AudioSource source)

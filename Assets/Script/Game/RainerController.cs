@@ -36,9 +36,7 @@ public class RainerController : Rainer
     protected override void Awake()
     {
         base.Awake();
-        manager = RainerManager.Instance;
-        state = State.Free;
-        gameObject.layer = RainerManager.LayerRainerIdle;
+        manager = RainerManager.Instance;        
         CoatRenderer = Model.GetChild(1).GetComponent<Renderer>();
     }
 
@@ -67,12 +65,11 @@ public class RainerController : Rainer
 
             case State.MoveToTree:
 
-                move = targetTree.transform.position - transform.position;
+                move = targetTree.Seed.transform.position - transform.position;
 
                 if(move.sqrMagnitude < 4.0f)
                 {
-                    //StartGrowTree(targetTree);
-                    targetTree.enabled = true;
+                    targetTree.StartGrow();
                     state = State.GrowTree;
                     move = Vector3.zero;
                     goto case State.GrowTree;
@@ -85,11 +82,7 @@ public class RainerController : Rainer
 
             case State.GrowTree:
 
-                if (!targetTree.IsEndGrow)
-                {
-                    targetTree.Grow(PlayerNo);
-                }
-                else
+                if (targetTree.IsEndGrow)
                 {
                     targetTree = null;
                     SetFree();
@@ -236,11 +229,13 @@ public class RainerController : Rainer
         state = State.MoveToTree;
         gameObject.layer = RainerManager.LayerRainerIdle;
         targetTree = tree;
+        targetTree.PlayerNo = PlayerNo;
     }
 
     // 追跡状態にする
     public void SetFollow(PlayerController player)
     {
+        targetTree?.StopGrow();
         Leader = player;
         state = State.Follow;
         gameObject.layer = RainerManager.LayerRainerFollow;

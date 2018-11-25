@@ -79,6 +79,7 @@ public class RainerManager : Singleton<RainerManager> {
         var rainerObj = Instantiate(rainerPrefab, position, Quaternion.identity, transform);
         var rainer = rainerObj.GetComponent<RainerController>();
         rainer.CreateCloud();
+        rainer.SetFree();
         rainers.Add(rainer);
         return rainer;
     }

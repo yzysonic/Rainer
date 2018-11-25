@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using UnityEngine;
+using Tree = RainerLib.Tree;
 
 
 public class PlayerController : Rainer {
@@ -19,7 +20,9 @@ public class PlayerController : Rainer {
         PushRainer = 0x2,
     }
 
-    public Canvas canvas;
+    public GameObject seedPerfab;
+    public float seedSpeed = 2.0f;
+    public PlayerUIManager uiManager;
     public ControllType controllType;
 
     [Range(1.0f, 30.0f)]
@@ -34,11 +37,11 @@ public class PlayerController : Rainer {
     public float max_angle = 40.0f;
 
     private Joycon joycon;
-    private RainerCount rainerCount;
     private Stack<RainerController> followers;
     private Transform model;
     private byte buttonBuffer;
     private Action startAction;
+    private PlayerUITrigger uiTrigger;
 
     public Vector3 MoveInput { get; private set; }
     public Vector3 MoveInputLocal { get; private set; }
@@ -56,8 +59,9 @@ public class PlayerController : Rainer {
     {
         base.Start();
         joycon      = GameSetting.PlayerJoycons[PlayerNo] ?? (JoyconManager.Instance.j.Count > PlayerNo ? JoyconManager.Instance.j[PlayerNo] : null);
-        rainerCount = canvas.transform.Find("RainerCount").GetComponent<RainerCount>();
         MinimapIcon.GetComponent<Renderer>().material.color = GameSetting.PlayerColors[PlayerNo];
+        uiTrigger   = GetComponentInChildren<PlayerUITrigger>();
+        uiTrigger.enabled = true;
         startAction?.Invoke();
     }
 	
@@ -81,18 +85,12 @@ public class PlayerController : Rainer {
             PopRainer();
         }
 
-        base.Update();
-    }
-
-    // 当たり判定
-    private void OnControllerColliderHit(ControllerColliderHit hit)
-    {
-        var target = hit.gameObject;
-        if (target.layer == RainerManager.LayerRainerIdle)
+        if (GetActionDown(ActionButton.PushRainer))
         {
-            var rainer = target.GetComponent<RainerController>();
-            PushRainer(rainer);
+            PushRainer(uiTrigger.NearestRainer);
         }
+
+        base.Update();
     }
 
     private void UpdateInput()
@@ -163,7 +161,7 @@ public class PlayerController : Rainer {
                     SetActionDown(ActionButton.PopRainer);
                 }
 
-                if(Input.GetKeyDown(KeyCode.T))
+                if(Input.GetKeyDown(KeyCode.Return))
                 {
                     SetActionDown(ActionButton.PushRainer);
                 }
@@ -208,30 +206,57 @@ public class PlayerController : Rainer {
 
     public void PushRainer(RainerController rainer)
     {
+        if(rainer == null)
+        {
+            return;
+        }
+
         rainer.SetFollow(this);
         followers.Push(rainer);
-        rainerCount.Value++;
+        uiManager.RainerCount.Value++;
+
+        if(followers.Count == 1)
+        {
+            uiManager.GrowTreeFixed.gameObject.SetActive(true);
+        }
     }
 
     public RainerController PopRainer()
     {
         if (followers.Count == 0)
+        {
             return null;
+        }
 
-        var tree = FindTree();
+        var tree = uiTrigger.NearestTree ?? ThrowSeed().Tree;
 
-        if (tree == null || tree.IsGrowing)
+        if (tree == null)
+        {
             return null;
+        }
 
         var rainer = followers.Pop();
         rainer.SetGrowTree(tree);
-        rainerCount.Value--;
+        uiManager.RainerCount.Value--;
+
+        if(followers.Count == 0)
+        {
+            uiManager.GrowTreeFixed.gameObject.SetActive(false);
+        }
+
         return rainer;
     }
 
     private void SetActionDown(ActionButton action)
     {
         buttonBuffer |= (byte)action;
+    }
+
+    private Seed ThrowSeed()
+    {
+        var seed = Instantiate(seedPerfab, transform.position - Model.forward * 1.5f, Quaternion.identity).GetComponent<Seed>();
+        seed.GetComponent<Rigidbody>().AddForce(CharacterController.velocity + Model.rotation * new Vector3(1.0f, 1.0f, -1.0f) * seedSpeed, ForceMode.VelocityChange);
+        return seed;
     }
 
     public bool GetActionDown(ActionButton action)
@@ -243,4 +268,5 @@ public class PlayerController : Rainer {
     {
         startAction += action;
     }
+
 }

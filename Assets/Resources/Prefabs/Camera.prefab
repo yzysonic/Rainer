@@ -21,8 +21,8 @@ GameObject:
   - component: {fileID: 4588506070124868}
   - component: {fileID: 20527997183452424}
   - component: {fileID: 81125622376757350}
-  - component: {fileID: 114532341166695772}
   - component: {fileID: 111859925855232956}
+  - component: {fileID: 114532341166695772}
   - component: {fileID: 114860864179899398}
   m_Layer: 0
   m_Name: Camera
@@ -72,7 +72,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 81719
+    m_Bits: 212791
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0

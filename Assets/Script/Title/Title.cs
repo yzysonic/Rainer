@@ -11,6 +11,7 @@ public class Title : MonoBehaviour
     private FadeInOut fadeInOut;
     public PlayerControl titlePlayer;
     public CameraFallow cameraFallow;
+    public Animation startAnimation;
     private Vector3 oldPlayerPos;
 
     private void Awake()
@@ -31,13 +32,19 @@ public class Title : MonoBehaviour
 	void Update ()
     {
 
-        if (Input.GetButtonDown("Submit")  && !fadeInOut.enabled)
+        if ((Input.GetButtonDown("Submit") || JoyconManager.GetButtonDown(GameSetting.JoyconButton.Start)) && !fadeInOut.enabled)
         {
-            fadeInOut.FadeOut(() => SceneManager.LoadScene("SettingScene"));
+            cameraFallow.target = null;
             BGMPlayer.Instance.Fade.Out();
+            startAnimation.Play();
+            fadeInOut.FadeOut(() =>
+            {
+                BGMPlayer.Instance.Destroy();
+                SceneManager.LoadScene("SettingScene");
+            });
         }
 
-        if (titlePlayer.transform.position.x < -100.0f && !fadeInOut.enabled )
+        if (titlePlayer.transform.position.x < -145.0f && !fadeInOut.enabled )
         {
             fadeInOut.FadeOut(() =>
             {
@@ -49,15 +56,6 @@ public class Title : MonoBehaviour
             });
         }
 
-        if ((Input.GetKeyDown(KeyCode.Return) || JoyconManager.GetButtonDown(GameSetting.JoyconButton.Start)) && !fadeInOut.enabled)
-        {
-            cameraFallow.target = null;
-            BGMPlayer.Instance.Fade.Out();
-            fadeInOut.FadeOut(() => {
-                BGMPlayer.Instance.Destroy();
-                SceneManager.LoadScene("SettingScene");
-            });
 
-        }
     }
 }

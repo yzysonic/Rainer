@@ -883,7 +883,7 @@ GameObject:
   - component: {fileID: 114723824662633900}
   m_Layer: 0
   m_Name: Rainer
-  m_TagString: Untagged
+  m_TagString: Rainer
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -923,8 +923,8 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1984977183495734}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.108463, y: 1.09, z: 0.26462746}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 4.4729996, y: 0.20599997, z: -1.4720001}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4735383206466022}

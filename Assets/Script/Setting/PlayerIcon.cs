@@ -5,8 +5,22 @@ using UnityEngine.UI;
 
 public class PlayerIcon : MonoBehaviour {
 
+    private bool isJoin = false;
     private Joycon joycon;
-    public bool IsJoin { get; set; } = false;
+    private AudioSource[] audios;
+
+    public bool IsJoin
+    {
+        get
+        {
+            return isJoin;
+        }
+        set
+        {
+            audios[value ? 0 : 1].Play();
+            isJoin = value;
+        }
+    }
     public int PlayerNo { get; set; }
     public Joycon Joycon
     {
@@ -23,8 +37,8 @@ public class PlayerIcon : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        
-	}
+        audios = GetComponents<AudioSource>();
+    }
 	
 	// Update is called once per frame
 	void LateUpdate () {

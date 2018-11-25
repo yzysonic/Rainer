@@ -10,6 +10,7 @@ public class Ground : Singleton<Ground> {
     [SerializeField] private Texture2D grassTex;
     [SerializeField, Range(0.1f, 10.0f)] private float tilingScale = 1.0f;
     [SerializeField] private GameObject treePrefab;
+    [SerializeField, Range(0.001f, 0.01f)] private float redLineWidth = 0.003f;
 
     private new Renderer renderer;
     private Dictionary<Int2, Tree> treeMap = new Dictionary<Int2, Tree>();
@@ -43,6 +44,7 @@ public class Ground : Singleton<Ground> {
         if (MoveRange != null)
         {
             Material.SetFloat("_RangeRadius", GetMoveRangeRadiusInUV());
+            Material.SetFloat("_RangeLineWidth", redLineWidth);
         }
         else
         {
@@ -51,14 +53,6 @@ public class Ground : Singleton<Ground> {
         }
 
 
-    }
-
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Return))
-        {
-            ResetGrass();
-        }
     }
 
     public void GrowGrass(Vector2 uv, int playerNo)

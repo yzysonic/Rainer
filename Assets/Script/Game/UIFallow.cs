@@ -5,22 +5,36 @@ using UnityEngine;
 public class UIFallow : MonoBehaviour {
 
     public new Camera camera;
-    public Transform target;
+    public Vector3 offsetWorld;
+    public Vector2 offsetLocal;
 
-	// Use this for initialization
-	void Start () {
-		
-	}
-	
-	// Update is called once per frame
-	void Update () {
+    [SerializeField]
+    private Transform target;
+    private RectTransform rectTransform;
+    private Vector2 sizeDelta;
 
-        if (target == null)
+    public Transform Target
+    {
+        get
         {
-            enabled = false;
+            return target;
         }
+        set
+        {
+            target = value;
+            gameObject.SetActive(target != null);
+        }
+    }
 
-        transform.position = camera.WorldToScreenPoint(target.position);
-
+	void Start ()
+    {
+        rectTransform = GetComponent<RectTransform>();
+        sizeDelta = transform.parent.GetComponent<RectTransform>().sizeDelta;
 	}
+
+
+    private void LateUpdate()
+    {
+        rectTransform.localPosition = (camera.WorldToViewportPoint(target.position + offsetWorld) - 0.5f * Vector3.one) * sizeDelta + offsetLocal;
+    }
 }

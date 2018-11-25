@@ -5,6 +5,8 @@ TagManager:
   serializedVersion: 2
   tags:
   - RainArea
+  - Rainer
+  - Tree
   layers:
   - Default
   - TransparentFX
@@ -23,8 +25,8 @@ TagManager:
   - Result
   - Minimap
   - GroundObject
-  - 
-  - 
+  - PlayerUITrigger
+  - Tree
   - 
   - 
   - 

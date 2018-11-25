@@ -7,7 +7,6 @@ public class Rainer : MonoBehaviour {
 
     public float rotateThreshold = 0.1f;
     public GameObject cloudPrefab;
-    protected IEnumerator growTreeCoroutine;
 
     public virtual int PlayerNo { get; protected set; }
     public Transform Model { get; protected set; }
@@ -83,45 +82,8 @@ public class Rainer : MonoBehaviour {
 
     public Tree FindTree()
     {
-        RaycastHit hitInfo;
-        if (!Physics.Raycast(transform.position, Vector3.down, out hitInfo, Mathf.Infinity, LayerMask.GetMask("Ground")))
-        {
-            return null;
-        }
-
-        return Ground.Instance.GetTree(hitInfo.textureCoord, PlayerNo);
+        var uv = Ground.Instance.GetUV(transform.position - Model.forward * 3.0f);
+        return Ground.Instance.GetTree(uv, PlayerNo);
     }
 
-    public void StartGrowTree(Tree tree)
-    {
-        if (growTreeCoroutine != null || tree == null)
-        {
-            return;
-        }
-
-        growTreeCoroutine = GrowTree(tree);
-        StartCoroutine(growTreeCoroutine);
-    }
-
-    public void StopGrowTree()
-    {
-        if (growTreeCoroutine == null)
-            return;
-
-        StopCoroutine(growTreeCoroutine);
-        growTreeCoroutine = null;
-    }
-
-    private IEnumerator GrowTree(Tree tree)
-    {
-        yield return null;
-
-        while (!tree.IsEndGrow)
-        {
-            tree.Grow(PlayerNo);
-            yield return null;
-        }
-
-        growTreeCoroutine = null;
-    }
 }

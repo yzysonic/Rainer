@@ -7322,6 +7322,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1478004629}
   - component: {fileID: 1478004630}
+  - component: {fileID: 1478004631}
   m_Layer: 0
   m_Name: SettingManager
   m_TagString: Untagged
@@ -7368,6 +7369,13 @@ MonoBehaviour:
   nextScene: GameScene
   PlayerField: {fileID: 1497844200}
   spotLight: {fileID: 915855722}
+--- !u!81 &1478004631
+AudioListener:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1478004628}
+  m_Enabled: 1
 --- !u!1 &1478866104
 GameObject:
   m_ObjectHideFlags: 0

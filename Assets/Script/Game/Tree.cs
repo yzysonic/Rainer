@@ -8,78 +8,99 @@ namespace RainerLib
     public class Tree : MonoBehaviour
     {
 
-        public int growScore = 2;
+        public int normalScore = 2;
         public int bonusScore = 50;
         public float scoreTime = 0.5f;
         public float growTime = 10;
 
         private Timer scoreTimer;
-        private Timer bonusTimer;
+        private Timer growTimer;
         private Vector3 treeMaxScl;
 
         public bool IsEndGrow { get; private set; }
         public bool IsGrowing { get; private set; }
         public Transform Model { get; private set; }
+        public float Progress
+        {
+            get
+            {
+                return growTimer.Progress;
+            }
+        }
+        public int PlayerNo { get; set; }
+        public float Speed { get; set; }
+        public Seed Seed { get; private set; }
 
 
         private void Awake()
         {
             scoreTimer = new Timer(scoreTime);
-            bonusTimer = new Timer(growTime);
+            growTimer = new Timer(growTime);
             Model = transform.Find("Model");
             treeMaxScl = Model.localScale;
             Model.localScale = Vector3.zero;
             IsEndGrow = false;
-
-            var ground = Ground.Instance;
-            ground.PaintGrass.Paint(ground.GetUV(transform.position, 1.0f));
+            PlayerNo = -1;
+            Speed = 1.0f;
+            Seed = transform.parent.GetComponent<Seed>();
         }
 
         // Use this for initialization
         void Start()
         {
-            transform.Find("SeedIcon")?.gameObject.SetActive(false);
+            Seed.enabled = false;
         }
 
         // Update is called once per frame
-        void LateUpdate()
+        void Update()
         {
-            IsGrowing = false;
-        }
-
-        private void OnDisable()
-        {
-            IsGrowing = false;
-        }
-
-        public void Grow(int playerNo)
-        {
-            if (IsEndGrow || !enabled)
+            if (IsEndGrow)
             {
+                enabled = false;
                 return;
             }
 
-            IsGrowing = true;
-
-            bonusTimer.Step();
-            scoreTimer.Step();
-            Model.localScale = Vector3.Lerp(Vector3.zero, treeMaxScl, bonusTimer.Progress);
+            growTimer.Step(Speed);
+            scoreTimer.Step(Speed);
+            Model.localScale = Vector3.Lerp(Vector3.zero, treeMaxScl, growTimer.Progress);
 
             if (scoreTimer.TimesUp())
             {
                 scoreTimer.Reset();
-                ScoreManager.Instance.AddScore(playerNo, growScore);
+                ScoreManager.Instance.AddScore(PlayerNo, normalScore);
                 //スコア更新
 
             }
 
-            if (bonusTimer.TimesUp())
+            if (growTimer.TimesUp())
             {
                 //ボーナススコア更新
-                ScoreManager.Instance.AddScore(playerNo, bonusScore);
+                ScoreManager.Instance.AddScore(PlayerNo, bonusScore);
                 IsEndGrow = true;
+                IsGrowing = false;
+                enabled = false;
+                gameObject.layer = 0;
             }
 
+        }
+
+        public void StartGrow()
+        {
+            if(IsGrowing || PlayerNo < 0)
+            {
+                return;
+            }
+
+            enabled = true;
+            Speed = 1.0f;
+            IsGrowing = true;
+        }
+
+        public void StopGrow()
+        {
+            PlayerNo = -1;
+            IsGrowing = false;
+            enabled = false;
         }
     }
 

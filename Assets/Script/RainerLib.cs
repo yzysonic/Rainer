@@ -104,6 +104,11 @@ namespace RainerLib
             Elapsed += Time.deltaTime;
         }
 
+        public void Step(float speedScale)
+        {
+            Elapsed += Time.deltaTime * speedScale;
+        }
+
         public void Reset()
         {
             Elapsed = 0.0f;
