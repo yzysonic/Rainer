@@ -3,14 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using RainerLib;
 
-public class BGMPlayer : Singleton<BGMPlayer> {
+public class BGMPlayer : Singleton<BGMPlayer>
+{
+    [SerializeField] private List<AudioClip> audioClips;
+    [SerializeField] private List<AudioSource> audioSources;
 
-    public List<AudioClip> audioClips;
     public bool hasIntro;
     public float delay = 0.5f;
 
-    public List<AudioSource> AudioSources { get; private set; } = new List<AudioSource>();
-    public List<AudioFade> AudioFades { get; private set; } = new List<AudioFade>();
+    public List<float> InitVolumes { get; private set; }
+    public List<AudioFade> AudioFades { get; private set; }
+    public List<AudioSource> AudioSources { get; private set; }
     public AudioFade Fade
     {
         get
@@ -23,16 +26,33 @@ public class BGMPlayer : Singleton<BGMPlayer> {
     {
         base.Awake();
 
-        foreach(var clip in audioClips)
+        InitVolumes = new List<float>();
+        AudioFades = new List<AudioFade>();
+        AudioSources = audioSources;
+
+        if (AudioSources == null)
+        {
+            AudioSources = new List<AudioSource>();
+        }
+        else
+        {
+            foreach (var source in AudioSources)
+            {
+                InitVolumes.Add(source.volume);
+                AddFade(source);
+            }
+        }
+
+
+        foreach (var clip in audioClips)
         {
             var source = gameObject.AddComponent<AudioSource>();
             source.clip = clip;
             source.playOnAwake = false;
+            source.loop = true;
             AudioSources.Add(source);
-
-            var fade = gameObject.AddComponent<AudioFade>();
-            fade.AudioSource = source;
-            AudioFades.Add(fade);
+            InitVolumes.Add(source.volume);
+            AddFade(source);
         }
 
         if (hasIntro && AudioSources.Count >= 2)
@@ -45,5 +65,15 @@ public class BGMPlayer : Singleton<BGMPlayer> {
         {
             AudioSources[0].Play();
         }
+
+        DontDestroyOnLoad(this.gameObject);
+    }
+
+    private void AddFade(AudioSource source)
+    {
+        var fade = gameObject.AddComponent<AudioFade>();
+        fade.AudioSource = source;
+        fade.maxVolume = source.volume;
+        AudioFades.Add(fade);
     }
 }

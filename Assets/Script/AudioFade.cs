@@ -6,10 +6,11 @@ using RainerLib;
 public class AudioFade : MonoBehaviour {
 
     public float fadeTime = 1.0f;
+    [Range(0,1)] public float maxVolume = 1.0f;
     public bool stopAfterOut;
     public bool pauseAfterOut;
 
-    private AnimationCurve curve = AnimationCurve.Linear(0.0f, 0.0f, 1.0f, 1.0f);
+    private AnimationCurve curve;
     private Timer timer;
     private bool isFadeIn;
     private bool isFadeOut;
@@ -45,11 +46,11 @@ public class AudioFade : MonoBehaviour {
             {
                 AudioSource.Play();
             }
-            curve = AnimationCurve.Linear(0.0f, 0.0f, 1.0f, 1.0f);
+            curve = AnimationCurve.Linear(0.0f, 0.0f, 1.0f, maxVolume);
         }
         else
         {
-            curve = AnimationCurve.Linear(0.0f, 1.0f, 1.0f, 0.0f);
+            curve = AnimationCurve.Linear(0.0f, maxVolume, 1.0f, 0.0f);
         }
 
         timer.Reset(fadeTime);

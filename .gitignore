@@ -5,8 +5,7 @@
 /[Bb]uilds/
 /.vs/
 /Assets/AssetStoreTools*
-/Assets/Resources/Sound/*.wav
-/Assets/Resources/Sound/*.mp3
+/Assets/Resources/Sound/
 /run_Data/
 run.exe
 
