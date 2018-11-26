@@ -1142,15 +1142,17 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1426593814}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 55b858427a89ee9478fa7ba2e52b748e, type: 3}
+  m_Script: {fileID: 11500000, guid: a1a8184e5713a604c9a06f217500e77f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fadeTime: 1
-  maxVolume: 1
-  stopAfterOut: 0
-  pauseAfterOut: 0
+  audioClips: []
+  audioSources:
+  - {fileID: 1426593819}
+  - {fileID: 1426593818}
+  hasIntro: 0
+  delay: 0.5
 --- !u!82 &1426593818
 AudioSource:
   m_ObjectHideFlags: 0

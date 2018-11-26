@@ -50,7 +50,9 @@ namespace RainerLib
         protected Singleton()
         {
             if (instance != null)
-                throw new Exception($"シングルトンのインスタンスが複数生成された: {typeof(T).ToString()}");
+            {
+                Debug.LogWarning($"シングルトンのインスタンスが複数生成された: {typeof(T).ToString()}");
+            }
 
             instance = this;
         }

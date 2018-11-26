@@ -21,8 +21,6 @@ public class Lank : MonoBehaviour {
     public Texture []texMedal;
     private Data[] dataList;
     private int playerCount;
-    private AudioSource[] audioSources;
-    private AudioFade audioFade;
     public int graphFrame;
     public bool IsFinish { get; private set; }
 
@@ -64,8 +62,6 @@ public class Lank : MonoBehaviour {
 
         endLogo = GameObject.Find("EndLogo").GetComponent<RawImage>();
 
-        audioSources = GetComponents<AudioSource>();
-        audioFade = GetComponent<AudioFade>();
         FadeInOut.Instance.Alpha = 0.0f;
     }
 
@@ -106,7 +102,7 @@ public class Lank : MonoBehaviour {
             IsFinish = dataList[playerCount - 1].endGrowup;
             if (IsFinish)
             {
-                audioSources[1].Play();
+                BGMPlayer.Instance.AudioSources[1].Play();
                 endLogo.color = new Color(1, 1, 1, 1);
             }
         }
@@ -117,12 +113,13 @@ public class Lank : MonoBehaviour {
         if ((Input.GetButtonDown("Submit") || JoyconManager.GetButtonDown(GameSetting.JoyconButton.Start)) && !FadeInOut.Instance.enabled && IsFinish)
         {
             endLogo.GetComponent<Animation>().Play();
-            audioFade.Out();
+            BGMPlayer.Instance.Fade.Out();
             FadeInOut.Instance.FadeOut(() => {
                 if (Ground.IsCreated)
                 {
                     Ground.Instance.Destroy();
-                }                
+                }
+                BGMPlayer.Instance.Destroy();
                 SceneManager.LoadScene("TitleScene");
             });
         }

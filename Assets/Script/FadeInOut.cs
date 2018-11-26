@@ -91,8 +91,6 @@ public class FadeInOut : Singleton<FadeInOut> {
             }
 
         }
-
-        if (Input.GetKey(KeyCode.P)) enabled = false;
     }
 
     public void FadeIn(float fadeTime, System.Action callBack = null)
