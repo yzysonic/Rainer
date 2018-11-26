@@ -206,12 +206,11 @@ public class PlayerController : Rainer {
 
     public void PushRainer(RainerController rainer)
     {
-        if(rainer == null)
+        if(!(rainer?.SetFollow(this) ?? false))
         {
             return;
         }
 
-        rainer.SetFollow(this);
         followers.Push(rainer);
         uiManager.RainerCount.Value++;
 
