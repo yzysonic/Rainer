@@ -150,6 +150,7 @@ public class CircularGauge : MonoBehaviour
 
     public void Init()
     {
+        material = GetComponent<RawImage>().material;
         Radius = radius;
         Width = width;
         Division = division;

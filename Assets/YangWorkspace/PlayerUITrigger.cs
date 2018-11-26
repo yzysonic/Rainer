@@ -24,7 +24,7 @@ public class PlayerUITrigger : MonoBehaviour
         uiManager.GetRainer.Target = NearestRainer?.transform;
 
         NearestTree = FindNearest(NearTrees);
-        uiManager.GrowTree.Target = (uiManager.RainerCount.Value > 0) ? NearestTree?.transform : null;
+        uiManager.UITreeProgress.Target = (uiManager.RainerCount.Value > 0) ? NearestTree?.transform : null;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -37,6 +37,7 @@ public class PlayerUITrigger : MonoBehaviour
         else if(other.tag == "Tree")
         {
             var tree = other.GetComponent<Tree>();
+
             if(tree.PlayerNo < 0)
             {
                 NearTrees.Add(tree);

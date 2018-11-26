@@ -30,6 +30,15 @@ public class UIFallow : MonoBehaviour {
     {
         rectTransform = GetComponent<RectTransform>();
         sizeDelta = transform.parent.GetComponent<RectTransform>().sizeDelta;
+        for (var parent = transform.parent; parent != null; parent = parent.parent)
+        {
+            var canvas = parent.GetComponent<Canvas>();            
+            if (canvas != null)
+            {
+                sizeDelta = canvas.GetComponent<RectTransform>().sizeDelta;
+                break;
+            }
+        }
 	}
 
 
