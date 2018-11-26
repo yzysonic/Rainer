@@ -15,7 +15,7 @@ public class Seed : MonoBehaviour {
     private void OnDisable()
     {
         transform.Find("Model").gameObject.SetActive(false);
-        transform.Find("Icon").gameObject.SetActive(false);
+        //transform.Find("Icon").gameObject.SetActive(false);
     }
 
     private void OnCollisionEnter(Collision collision)

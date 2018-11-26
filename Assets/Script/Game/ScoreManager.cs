@@ -99,7 +99,7 @@ public class ScoreManager : Singleton<ScoreManager>
                 break;
         }
 
-        circularGauge.Colors = new List<Color>(colors);
+        circularGauge.Colors = colors;
         circularGauge.UpdateGauge();
 
     }

@@ -282,9 +282,8 @@ public class GameSceneManager : Singleton<GameSceneManager>
             {
                 player.CreateCloud(true);
                 var rainer = RainerManager.Instance.SpawnRainer(player.transform.position + Vector3.right * 2.0f);
-                rainer.SetFollow(player);
+                player.PushRainer(rainer);
                 rainer.enabled = false;
-                player.AddStartAction(() => player.PushRainer(rainer));
             }
         }
 

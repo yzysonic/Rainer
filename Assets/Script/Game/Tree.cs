@@ -19,7 +19,6 @@ namespace RainerLib
 
         public bool IsEndGrow { get; private set; }
         public bool IsGrowing { get; private set; }
-        public Transform Model { get; private set; }
         public float Progress
         {
             get
@@ -36,9 +35,8 @@ namespace RainerLib
         {
             scoreTimer = new Timer(scoreTime);
             growTimer = new Timer(growTime);
-            Model = transform.Find("Model");
-            treeMaxScl = Model.localScale;
-            Model.localScale = Vector3.zero;
+            treeMaxScl = transform.localScale;
+            transform.localScale = Vector3.zero;
             IsEndGrow = false;
             PlayerNo = -1;
             Speed = 1.0f;
@@ -62,7 +60,7 @@ namespace RainerLib
 
             growTimer.Step(Speed);
             scoreTimer.Step(Speed);
-            Model.localScale = Vector3.Lerp(Vector3.zero, treeMaxScl, growTimer.Progress);
+            transform.localScale = Vector3.Lerp(Vector3.zero, treeMaxScl, growTimer.Progress);
 
             if (scoreTimer.TimesUp())
             {

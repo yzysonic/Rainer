@@ -24,7 +24,7 @@ public class PlayerUITrigger : MonoBehaviour
         uiManager.GetRainer.Target = NearestRainer?.transform;
 
         NearestTree = FindNearest(NearTrees);
-        uiManager.UITreeProgress.Target = (uiManager.RainerCount.Value > 0) ? NearestTree?.transform : null;
+        //uiManager.UITreeProgress.Target = (uiManager.RainerCount.Value > 0) ? NearestTree?.transform : null;
     }
 
     private void OnTriggerEnter(Collider other)
@@ -74,7 +74,7 @@ public class PlayerUITrigger : MonoBehaviour
             nearest = obj;
         }
 
-        return nearest;        
+        return nearest;
     }
 
     private static void RemoveFromList<T>(List<T> list, GameObject gameObject) where T : MonoBehaviour

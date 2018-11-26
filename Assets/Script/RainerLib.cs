@@ -147,6 +147,85 @@ namespace RainerLib
 
     }
 
+    public class Pool<T> : MonoBehaviour where T : Component, IPoolObject
+    {
+
+        public GameObject perfab;
+        public int maxCount;
+
+        private List<T> list;
+
+        protected virtual void Awake()
+        {
+            list = new List<T>(maxCount);
+            for(var i = 0; i < maxCount; i++)
+            {
+                var t = Instantiate(perfab, transform).GetComponent<T>();
+                t.gameObject.SetActive(false);
+                list.Add(t);
+            }
+        }
+
+        public T Get()
+        {
+            foreach (var obj in list)
+            {
+                if (!obj.IsUsing)
+                {
+                    obj.Init();
+                    obj.gameObject.SetActive(true);
+                    obj.IsUsing = true;
+                    return obj;
+                }
+            }
+
+            return null;
+        }
+
+        public T Get(Transform parent)
+        {
+            var obj = Get();
+            if (obj != null)
+            {
+                obj.transform.parent = parent;
+            }
+            return obj;
+        }
+
+        public T Get(Vector3 position, Quaternion rotation)
+        {
+            var obj = Get();
+            if (obj != null)
+            {
+                obj.transform.position = position;
+                obj.transform.rotation = rotation;
+            }
+            return obj;
+
+        }
+
+        public T Get(Vector3 position, Quaternion rotation, Transform parent)
+        {
+            var obj = Get();
+            if(obj != null)
+            {
+                obj.transform.position = position;
+                obj.transform.rotation = rotation;
+                obj.transform.parent = parent;
+            }
+            return obj;
+        }
+
+
+    }
+
+    public interface IPoolObject
+    {
+        bool IsUsing { get; set; }
+        void Init();
+        void Uninit();
+    }
+
     public struct Int2
     {
         public int x;
