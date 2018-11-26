@@ -24,6 +24,7 @@ public class Seed : MonoBehaviour {
         {
             GetComponent<Rigidbody>().isKinematic = true;
             GetComponent<Collider>().enabled = false;
+            Tree.GetComponent<Collider>().enabled = true;
         }
     }
 }
