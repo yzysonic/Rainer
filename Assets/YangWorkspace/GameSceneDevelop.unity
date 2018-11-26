@@ -391,6 +391,7 @@ MonoBehaviour:
   camera: {fileID: 0}
   offsetWorld: {x: 0, y: 2.83, z: 0}
   offsetLocal: {x: 0, y: 34.41}
+  popupAnimation: {fileID: 0}
   target: {fileID: 0}
 --- !u!114 &69808962
 MonoBehaviour:
@@ -406,6 +407,7 @@ MonoBehaviour:
   camera: {fileID: 0}
   offsetWorld: {x: 0, y: 0, z: 0}
   offsetLocal: {x: 0, y: 0}
+  popupAnimation: {fileID: 0}
   target: {fileID: 0}
 --- !u!1 &110147613
 GameObject:
@@ -8465,6 +8467,7 @@ MonoBehaviour:
   camera: {fileID: 0}
   offsetWorld: {x: 0, y: 0.7, z: 0}
   offsetLocal: {x: 0, y: 35}
+  popupAnimation: {fileID: 0}
   target: {fileID: 0}
 --- !u!1 &1773156139
 GameObject:

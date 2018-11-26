@@ -18,7 +18,7 @@ public class BGMPlayer : Singleton<BGMPlayer>
     {
         get
         {
-            return AudioFades.Find(f => f.AudioSource.isPlaying) ?? AudioFades[0];
+            return AudioFades?.Find(f => f.AudioSource.isPlaying) ?? AudioFades[0];
         }
     }
 

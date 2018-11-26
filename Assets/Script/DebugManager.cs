@@ -19,6 +19,13 @@ public class DebugManager : Singleton<DebugManager>
             return BGMPlayer.IsCreated ? BGMPlayer.Instance : null;
         }
     }
+    FadeInOut FadeInOut
+    {
+        get
+        {
+            return FadeInOut.IsCreated ? FadeInOut.Instance : null;
+        }
+    }
     bool pause;
     GUIStyle style;
     GUIStyleState styleState;
@@ -39,11 +46,11 @@ public class DebugManager : Singleton<DebugManager>
 	void Update ()
     {
         Time.timeScale = Mathf.Lerp(Time.timeScale, pause ? 0.0f : 1.0f, 0.2f);
-        if (BGMPlayer)
+        if (BGMPlayer?.AudioFades?.Count > 0)
             BGMPlayer.Fade.AudioSource.pitch = Time.timeScale;
 
 
-        if (FadeInOut.Instance.enabled)
+        if (FadeInOut?.enabled ?? false)
         {
             return;
         }
