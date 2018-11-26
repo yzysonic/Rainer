@@ -13,7 +13,7 @@ public class GameSceneManager : Singleton<GameSceneManager>
         Init,
         FadeIn,
         CameraworkStart,
-        StartLogo,
+        //StartLogo,
         Game,
         EndLogo,
         CameraworkEnd,
@@ -142,12 +142,13 @@ public class GameSceneManager : Singleton<GameSceneManager>
 
             case State.CameraworkStart:
                 activeCameras.ForEach(c => c.GetComponent<Animation>().Play("CameraStart"));
+                startLogo.gameObject.SetActive(true);
                 return;
 
-            case State.StartLogo:
-                startLogo.gameObject.SetActive(true);
-                startLogo.callback = () => CurrentState++;
-                return;
+            //case State.StartLogo:
+            //    startLogo.gameObject.SetActive(true);
+            //    startLogo.callback = () => CurrentState++;
+            //    return;
 
             case State.Game:
                 timer.gameObject.SetActive(true);
