@@ -159,5 +159,5 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  targetPos: {x: 0, y: 271, z: 0}
+  targetPos: {x: 0, y: 250, z: 0}
   targetRot: {x: 90, y: 0, z: 0}

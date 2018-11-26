@@ -45,6 +45,9 @@ public class GameSceneManager : Singleton<GameSceneManager>
     private StartLogo startLogo;
 
     [SerializeField]
+    private StartLogo endLogo;
+
+    [SerializeField]
     private MoveRange moveRange;
 
     public State startState;
@@ -151,7 +154,7 @@ public class GameSceneManager : Singleton<GameSceneManager>
             //    return;
 
             case State.Game:
-                timer.gameObject.SetActive(true);
+                timer.enabled = true;
                 RainerManager.Instance.enabled = true;
                 activePlayers.ForEach(p => p.GetComponent<PlayerController>().enabled = true);
                 activeCanvas.ForEach(c => c.gameObject.SetActive(true));
@@ -165,9 +168,8 @@ public class GameSceneManager : Singleton<GameSceneManager>
                 });
                 timer.enabled = false;
                 ScoreManager.Instance.GetComponent<CircularGauge>().enabled = false;
-                startLogo.GetComponent<Text>().text = "終了";
-                startLogo.callback = () => CurrentState++;
-                startLogo.gameObject.SetActive(true);
+                endLogo.gameObject.SetActive(true);
+                endLogo.callback = () => CurrentState++;
                 return;
 
             case State.CameraworkEnd:
