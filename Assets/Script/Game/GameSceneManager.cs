@@ -13,7 +13,7 @@ public class GameSceneManager : Singleton<GameSceneManager>
         Init,
         FadeIn,
         CameraworkStart,
-        StartLogo,
+        //StartLogo,
         Game,
         EndLogo,
         CameraworkEnd,
@@ -43,6 +43,9 @@ public class GameSceneManager : Singleton<GameSceneManager>
 
     [SerializeField]
     private StartLogo startLogo;
+
+    [SerializeField]
+    private StartLogo endLogo;
 
     [SerializeField]
     private MoveRange moveRange;
@@ -142,15 +145,16 @@ public class GameSceneManager : Singleton<GameSceneManager>
 
             case State.CameraworkStart:
                 activeCameras.ForEach(c => c.GetComponent<Animation>().Play("CameraStart"));
+                startLogo.gameObject.SetActive(true);
                 return;
 
-            case State.StartLogo:
-                startLogo.gameObject.SetActive(true);
-                startLogo.callback = () => CurrentState++;
-                return;
+            //case State.StartLogo:
+            //    startLogo.gameObject.SetActive(true);
+            //    startLogo.callback = () => CurrentState++;
+            //    return;
 
             case State.Game:
-                timer.gameObject.SetActive(true);
+                timer.enabled = true;
                 RainerManager.Instance.enabled = true;
                 activePlayers.ForEach(p => p.GetComponent<PlayerController>().enabled = true);
                 activeCanvas.ForEach(c => c.gameObject.SetActive(true));
@@ -164,9 +168,8 @@ public class GameSceneManager : Singleton<GameSceneManager>
                 });
                 timer.enabled = false;
                 ScoreManager.Instance.GetComponent<CircularGauge>().enabled = false;
-                startLogo.GetComponent<Text>().text = "終了";
-                startLogo.callback = () => CurrentState++;
-                startLogo.gameObject.SetActive(true);
+                endLogo.gameObject.SetActive(true);
+                endLogo.callback = () => CurrentState++;
                 return;
 
             case State.CameraworkEnd:
