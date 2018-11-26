@@ -13,6 +13,8 @@ public class RainerCount : MonoBehaviour
     [SerializeField]
     private int value;
 
+    private Animation animation;
+
     public int Value
     {
         get
@@ -21,6 +23,10 @@ public class RainerCount : MonoBehaviour
         }
         set
         {
+            if(value > this.value)
+            {
+                animation.Play();
+            }
             this.value = value;
             text.text = GetValueString();
         }
@@ -35,6 +41,7 @@ public class RainerCount : MonoBehaviour
     // Use this for initialization
     void Awake () {
         text = GetComponent<Text>();
+        animation = GetComponent<Animation>();
 	}
 
     string GetValueString()

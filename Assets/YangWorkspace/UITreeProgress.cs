@@ -12,7 +12,8 @@ public class UITreeProgress : UIFallow
 
 
     // Use this for initialization
-    void Awake () {
+    protected override void Awake () {
+        base.Awake();
         CircularGauge = transform.Find("Guage").GetComponent<CircularGauge>();
     }
 

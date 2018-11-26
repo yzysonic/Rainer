@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 224878275805325658}
   - component: {fileID: 222003095383330044}
   - component: {fileID: 114894131489631342}
+  - component: {fileID: 111980836671098610}
   m_Layer: 5
   m_Name: GrowTreeFixed
   m_TagString: Untagged
@@ -37,6 +38,7 @@ GameObject:
   m_Component:
   - component: {fileID: 224964598197904282}
   - component: {fileID: 114367577915555262}
+  - component: {fileID: 111314104208807398}
   m_Layer: 5
   m_Name: GetRainer
   m_TagString: Untagged
@@ -122,6 +124,7 @@ GameObject:
   m_Component:
   - component: {fileID: 224206771270286956}
   - component: {fileID: 114613589404855582}
+  - component: {fileID: 111352403286266224}
   m_Layer: 5
   m_Name: TreeProgress
   m_TagString: Untagged
@@ -157,6 +160,7 @@ GameObject:
   - component: {fileID: 222996252682123000}
   - component: {fileID: 114530014884127758}
   - component: {fileID: 114304164104562092}
+  - component: {fileID: 111734097500940996}
   m_Layer: 5
   m_Name: RainerCount
   m_TagString: Untagged
@@ -250,6 +254,67 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!111 &111314104208807398
+Animation:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1101279785937660}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: 7aef7a7211380b54d85de135f3a414e1, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: 7aef7a7211380b54d85de135f3a414e1, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_CullingType: 0
+--- !u!111 &111352403286266224
+Animation:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1530990829430654}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: 7aef7a7211380b54d85de135f3a414e1, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: 7aef7a7211380b54d85de135f3a414e1, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_CullingType: 0
+--- !u!111 &111734097500940996
+Animation:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1597128388379780}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: 13f64e1167a13f842b4765547510d15b, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: 13f64e1167a13f842b4765547510d15b, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
+  m_AnimatePhysics: 0
+  m_CullingType: 0
+--- !u!111 &111980836671098610
+Animation:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1040025078147600}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: 9aa21b3b7867c0a4b962dad4235d87fd, type: 2}
+  m_Animations:
+  - {fileID: 7400000, guid: 9aa21b3b7867c0a4b962dad4235d87fd, type: 2}
+  - {fileID: 7400000, guid: cb61877f86b4c5a49a80c3109a101124, type: 2}
+  m_WrapMode: 0
+  m_PlayAutomatically: 1
+  m_AnimatePhysics: 0
+  m_CullingType: 0
 --- !u!114 &114025403606129816
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -855,7 +920,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1381061875293858}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0.000082751925}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 224964598197904282}
@@ -874,7 +939,7 @@ RectTransform:
   m_GameObject: {fileID: 1707973031458774}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1.0007788, y: 1.0007793, z: 1.0007793}
+  m_LocalScale: {x: 1.0007788, y: 1.000779, z: 1.000779}
   m_Children:
   - {fileID: 224141665071410326}
   m_Father: {fileID: 224878275805325658}
@@ -892,7 +957,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1725752698107732}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0.0007061498}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 224750211646721850}
@@ -900,9 +965,9 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0.5}
   m_AnchorMax: {x: 0, y: 0.5}
-  m_AnchoredPosition: {x: -64.6, y: -4}
+  m_AnchoredPosition: {x: -33.80005, y: -3.9994965}
   m_SizeDelta: {x: 55.8, y: 55.8}
-  m_Pivot: {x: 0, y: 0.5}
+  m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224711795465545172
 RectTransform:
   m_ObjectHideFlags: 1
