@@ -17,6 +17,11 @@ public class PlayerIcon : MonoBehaviour {
         }
         set
         {
+            if(isJoin == value)
+            {
+                return;
+            }
+
             audios[value ? 0 : 1].Play();
             isJoin = value;
         }
