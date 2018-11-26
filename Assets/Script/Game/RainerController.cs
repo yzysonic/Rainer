@@ -221,6 +221,7 @@ public class RainerController : Rainer
         state = State.Free;
         gameObject.layer = RainerManager.LayerRainerIdle;
         CoatRenderer.material = manager.GetDefaultMaterial();
+        Leader = null;
         MinimapIcon.gameObject.SetActive(true);
     }
 
@@ -233,14 +234,20 @@ public class RainerController : Rainer
     }
 
     // 追跡状態にする
-    public void SetFollow(PlayerController player)
+    public bool SetFollow(PlayerController player)
     {
+        if(gameObject.layer == RainerManager.LayerRainerFollow)
+        {
+            return false;
+        }
+
         targetTree?.StopGrow();
         Leader = player;
         state = State.Follow;
         gameObject.layer = RainerManager.LayerRainerFollow;
         CoatRenderer.material = manager.GetMaterial(PlayerNo);
         MinimapIcon.gameObject.SetActive(false);
+        return true;
     }
 
 }
