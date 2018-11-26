@@ -17,6 +17,7 @@ public class Lank : MonoBehaviour {
     }
 
 
+    private RawImage endLogo;
     public Texture []texMedal;
     private Data[] dataList;
     private int playerCount;
@@ -58,8 +59,10 @@ public class Lank : MonoBehaviour {
             data.setWinner = (i+1) +"P WIN";
 
             data.medal.color = new Color(data.medal.color.r, data.medal.color.g, data.medal.color.b, 0);
-
+            
         }
+
+        endLogo = GameObject.Find("EndLogo").GetComponent<RawImage>();
 
         audioSources = GetComponents<AudioSource>();
         audioFade = GetComponent<AudioFade>();
@@ -104,6 +107,7 @@ public class Lank : MonoBehaviour {
             if (IsFinish)
             {
                 audioSources[1].Play();
+                endLogo.color = new Color(1, 1, 1, 1);
             }
         }
 
@@ -112,6 +116,7 @@ public class Lank : MonoBehaviour {
 
         if ((Input.GetButtonDown("Submit") || JoyconManager.GetButtonDown(GameSetting.JoyconButton.Start)) && !FadeInOut.Instance.enabled && IsFinish)
         {
+            endLogo.GetComponent<Animation>().Play();
             audioFade.Out();
             FadeInOut.Instance.FadeOut(() => {
                 if (Ground.IsCreated)
@@ -130,7 +135,7 @@ public class Lank : MonoBehaviour {
         {
             if (dataList[i].endGrowup)
             {
-                dataList[i].medal.color = new Color(dataList[i].medal.color.r, dataList[i].medal.color.g, dataList[i].medal.color.b, 255);
+                dataList[i].medal.color = new Color(dataList[i].medal.color.r, dataList[i].medal.color.g, dataList[i].medal.color.b, 1);
             }
         }
     }
