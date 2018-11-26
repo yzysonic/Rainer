@@ -79,7 +79,6 @@ namespace RainerLib
                 IsEndGrow = true;
                 IsGrowing = false;
                 enabled = false;
-                gameObject.layer = 0;
             }
 
         }
