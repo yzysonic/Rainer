@@ -123,6 +123,7 @@ GameObject:
   - component: {fileID: 10639308}
   - component: {fileID: 10639307}
   - component: {fileID: 10639306}
+  - component: {fileID: 10639309}
   m_Layer: 0
   m_Name: BGMPlayer
   m_TagString: Untagged
@@ -152,6 +153,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1a8184e5713a604c9a06f217500e77f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioMixerGroup: {fileID: 243547383077124968, guid: d1fb1ce8eb2c3274cb44d913fff4b652,
+    type: 2}
   audioClips:
   - {fileID: 8300000, guid: 6a1885b8ad1de68488636001c91578a2, type: 3}
   - {fileID: 8300000, guid: 4c47bdc1721cd9f4ca2af430c598d1ae, type: 3}
@@ -172,6 +175,102 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!82 &10639309
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 10639305}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 243089378352237102, guid: d1fb1ce8eb2c3274cb44d913fff4b652,
+    type: 2}
+  m_audioClip: {fileID: 8300000, guid: 320715ac6d3371f4392e39b7b8b5eb4e, type: 3}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 1
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &13627878
 GameObject:
   m_ObjectHideFlags: 0
@@ -641,7 +740,7 @@ Prefab:
     - target: {fileID: 20527997183452424, guid: 82e9372abd2106c40831a6e4972a2150,
         type: 2}
       propertyPath: m_NormalizedViewPortRect.y
-      value: 0.5
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 20527997183452424, guid: 82e9372abd2106c40831a6e4972a2150,
         type: 2}
@@ -651,7 +750,7 @@ Prefab:
     - target: {fileID: 20527997183452424, guid: 82e9372abd2106c40831a6e4972a2150,
         type: 2}
       propertyPath: m_NormalizedViewPortRect.height
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 20527997183452424, guid: 82e9372abd2106c40831a6e4972a2150,
         type: 2}
@@ -721,7 +820,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1128682177121510, guid: 4b0e0927f6631cd41a88eec52072302f, type: 2}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 114445810483842752, guid: 4b0e0927f6631cd41a88eec52072302f,
         type: 2}
@@ -1465,6 +1564,7 @@ MonoBehaviour:
   - 1
   - 1
   division: 4
+  material: {fileID: 2100000, guid: bb7ddb7b3ec08034f8b051499c9106e3, type: 2}
 --- !u!114 &157882477
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1626,7 +1726,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1432392429589030, guid: 82e9372abd2106c40831a6e4972a2150, type: 2}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 20527997183452424, guid: 82e9372abd2106c40831a6e4972a2150,
         type: 2}
@@ -1886,23 +1986,14 @@ Prefab:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1400432447848854, guid: 77bc72fb580d9bd418d154fccc1cdaa0, type: 2}
-      propertyPath: m_Name
-      value: PlayerCanvas2
-      objectReference: {fileID: 0}
     - target: {fileID: 223706146533183120, guid: 77bc72fb580d9bd418d154fccc1cdaa0,
         type: 2}
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 89267028}
     - target: {fileID: 1400432447848854, guid: 77bc72fb580d9bd418d154fccc1cdaa0, type: 2}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 224878275805325658, guid: 77bc72fb580d9bd418d154fccc1cdaa0,
-        type: 2}
-      propertyPath: m_AnchoredPosition.y
-      value: 67.399994
+      propertyPath: m_Name
+      value: PlayerCanvas2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 77bc72fb580d9bd418d154fccc1cdaa0, type: 2}
@@ -3153,6 +3244,21 @@ Prefab:
     - target: {fileID: 1432392429589030, guid: 82e9372abd2106c40831a6e4972a2150, type: 2}
       propertyPath: m_Name
       value: Camera1
+      objectReference: {fileID: 0}
+    - target: {fileID: 20527997183452424, guid: 82e9372abd2106c40831a6e4972a2150,
+        type: 2}
+      propertyPath: m_NormalizedViewPortRect.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 20527997183452424, guid: 82e9372abd2106c40831a6e4972a2150,
+        type: 2}
+      propertyPath: m_NormalizedViewPortRect.height
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 20527997183452424, guid: 82e9372abd2106c40831a6e4972a2150,
+        type: 2}
+      propertyPath: m_NormalizedViewPortRect.width
+      value: 0.5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 82e9372abd2106c40831a6e4972a2150, type: 2}
@@ -4424,7 +4530,7 @@ Prefab:
       objectReference: {fileID: 77096595}
     - target: {fileID: 1128682177121510, guid: 4b0e0927f6631cd41a88eec52072302f, type: 2}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 0}
       propertyPath: m_Materials.Array.data[0]
@@ -5875,33 +5981,16 @@ Prefab:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 1400432447848854, guid: 77bc72fb580d9bd418d154fccc1cdaa0, type: 2}
-      propertyPath: m_Name
-      value: PlayerCanvas1
-      objectReference: {fileID: 0}
     - target: {fileID: 223706146533183120, guid: 77bc72fb580d9bd418d154fccc1cdaa0,
         type: 2}
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 676841650}
-    - target: {fileID: 224878275805325658, guid: 77bc72fb580d9bd418d154fccc1cdaa0,
-        type: 2}
-      propertyPath: m_AnchoredPosition.y
-      value: 67.399994
+    - target: {fileID: 1400432447848854, guid: 77bc72fb580d9bd418d154fccc1cdaa0, type: 2}
+      propertyPath: m_Name
+      value: PlayerCanvas1
       objectReference: {fileID: 0}
-    - target: {fileID: 114367577915555262, guid: 77bc72fb580d9bd418d154fccc1cdaa0,
-        type: 2}
-      propertyPath: popupAnimation
-      value: 
-      objectReference: {fileID: 7400000, guid: 7aef7a7211380b54d85de135f3a414e1, type: 2}
-    - target: {fileID: 114613589404855582, guid: 77bc72fb580d9bd418d154fccc1cdaa0,
-        type: 2}
-      propertyPath: popupAnimation
-      value: 
-      objectReference: {fileID: 7400000, guid: 7aef7a7211380b54d85de135f3a414e1, type: 2}
-    m_RemovedComponents:
-    - {fileID: 111314104208807398, guid: 77bc72fb580d9bd418d154fccc1cdaa0, type: 2}
-    - {fileID: 111352403286266224, guid: 77bc72fb580d9bd418d154fccc1cdaa0, type: 2}
+    m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 77bc72fb580d9bd418d154fccc1cdaa0, type: 2}
   m_IsPrefabAsset: 0
 --- !u!114 &1384849177 stripped
@@ -6181,6 +6270,7 @@ MonoBehaviour:
   - 0
   - 0
   division: 2
+  material: {fileID: 2100000, guid: 27c4c5be8996fd649a87decaf5925c08, type: 2}
 --- !u!114 &1516738654
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7267,7 +7357,7 @@ Prefab:
       objectReference: {fileID: 0}
     - target: {fileID: 1432392429589030, guid: 82e9372abd2106c40831a6e4972a2150, type: 2}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 20527997183452424, guid: 82e9372abd2106c40831a6e4972a2150,
         type: 2}

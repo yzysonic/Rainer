@@ -28,7 +28,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &1101279785937660
 GameObject:
   m_ObjectHideFlags: 0
@@ -38,7 +38,6 @@ GameObject:
   m_Component:
   - component: {fileID: 224964598197904282}
   - component: {fileID: 114367577915555262}
-  - component: {fileID: 111314104208807398}
   m_Layer: 5
   m_Name: GetRainer
   m_TagString: Untagged
@@ -124,7 +123,6 @@ GameObject:
   m_Component:
   - component: {fileID: 224206771270286956}
   - component: {fileID: 114613589404855582}
-  - component: {fileID: 111352403286266224}
   m_Layer: 5
   m_Name: TreeProgress
   m_TagString: Untagged
@@ -254,36 +252,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!111 &111314104208807398
-Animation:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1101279785937660}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Animation: {fileID: 7400000, guid: 7aef7a7211380b54d85de135f3a414e1, type: 2}
-  m_Animations:
-  - {fileID: 7400000, guid: 7aef7a7211380b54d85de135f3a414e1, type: 2}
-  m_WrapMode: 0
-  m_PlayAutomatically: 1
-  m_AnimatePhysics: 0
-  m_CullingType: 0
---- !u!111 &111352403286266224
-Animation:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1530990829430654}
-  m_Enabled: 1
-  serializedVersion: 3
-  m_Animation: {fileID: 7400000, guid: 7aef7a7211380b54d85de135f3a414e1, type: 2}
-  m_Animations:
-  - {fileID: 7400000, guid: 7aef7a7211380b54d85de135f3a414e1, type: 2}
-  m_WrapMode: 0
-  m_PlayAutomatically: 1
-  m_AnimatePhysics: 0
-  m_CullingType: 0
 --- !u!111 &111734097500940996
 Animation:
   m_ObjectHideFlags: 1
@@ -421,6 +389,7 @@ MonoBehaviour:
   camera: {fileID: 0}
   offsetWorld: {x: 0, y: 0.7, z: 0}
   offsetLocal: {x: 0, y: 35}
+  popupAnimation: {fileID: 7400000, guid: 7aef7a7211380b54d85de135f3a414e1, type: 2}
   target: {fileID: 0}
 --- !u!114 &114392877017665342
 MonoBehaviour:
@@ -436,7 +405,7 @@ MonoBehaviour:
   m_UiScaleMode: 1
   m_ReferencePixelsPerUnit: 100
   m_ScaleFactor: 1
-  m_ReferenceResolution: {x: 1280, y: 720}
+  m_ReferenceResolution: {x: 967, y: 675}
   m_ScreenMatchMode: 0
   m_MatchWidthOrHeight: 0
   m_PhysicalUnit: 3
@@ -516,6 +485,7 @@ MonoBehaviour:
   camera: {fileID: 0}
   offsetWorld: {x: 0, y: 2.83, z: 0}
   offsetLocal: {x: 0, y: 34.41}
+  popupAnimation: {fileID: 7400000, guid: 7aef7a7211380b54d85de135f3a414e1, type: 2}
   target: {fileID: 0}
 --- !u!114 &114633674973735766
 MonoBehaviour:
@@ -594,6 +564,7 @@ MonoBehaviour:
   - 1
   - 1
   division: 2
+  material: {fileID: 2100000, guid: 9833dfe3c56352049a2b8d6e9350bdf8, type: 2}
 --- !u!114 &114725166038385784
 MonoBehaviour:
   m_ObjectHideFlags: 1
