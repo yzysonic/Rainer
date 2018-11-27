@@ -4,6 +4,7 @@
 public class Billboard : MonoBehaviour {
 
     public Transform parent;
+    public bool alignWithY;
 
     private void Awake()
     {
@@ -15,7 +16,14 @@ public class Billboard : MonoBehaviour {
 
     private void OnWillRenderObject()
     {
-        parent.rotation = Camera.current.transform.rotation;
+        if (alignWithY)
+        {
+            parent.rotation = Quaternion.Euler(0.0f, Camera.current.transform.rotation.eulerAngles.y, 0.0f);
+        }
+        else
+        {
+            parent.rotation = Camera.current.transform.rotation;
+        }
     }
 
 }

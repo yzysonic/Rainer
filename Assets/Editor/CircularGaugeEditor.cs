@@ -23,6 +23,7 @@ public class CircularGaugeEditor : Editor
 
         serializedObject.Update();
 
+        EditorGUILayout.PropertyField(serializedObject.FindProperty("material"));
         EditorGUILayout.PropertyField(serializedObject.FindProperty("lerpSpeed"));
 
         EditorGUI.BeginChangeCheck();

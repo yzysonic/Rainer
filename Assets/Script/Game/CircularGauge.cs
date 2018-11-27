@@ -5,7 +5,7 @@ using UnityEngine.UI;
 using System.Linq;
 using System;
 
-[RequireComponent(typeof(RawImage)), ExecuteInEditMode]
+[ExecuteInEditMode]
 public class CircularGauge : MonoBehaviour
 {
     #region Fields
@@ -22,7 +22,7 @@ public class CircularGauge : MonoBehaviour
     private float width = 0.3f;
 
     [SerializeField]
-    private List<Color> colors = new List<Color>(Enumerable.Repeat(Color.white, MaxDivisoin));
+    private Color[] colors = new List<Color>(Enumerable.Repeat(Color.white, MaxDivisoin)).ToArray();
 
     [SerializeField]
     private float[] values = Enumerable.Repeat(1.0f, MaxDivisoin).ToArray();
@@ -30,7 +30,7 @@ public class CircularGauge : MonoBehaviour
     [SerializeField]
     private int division = MaxDivisoin;
 
-    private Material material;
+    public Material material;
     private float[] ratios = new float[MaxDivisoin];
 
     #endregion
@@ -61,7 +61,7 @@ public class CircularGauge : MonoBehaviour
             width = value;
         }
     }
-    public List<Color> Colors
+    public Color[] Colors
     {
         get
         {
@@ -105,17 +105,17 @@ public class CircularGauge : MonoBehaviour
     private void OnValidate()
     {
         if (material == null)
-            material = GetComponent<RawImage>().material;
+            material = GetComponent<RawImage>()?.material ?? GetComponent<Renderer>()?.sharedMaterial;
     }
 
     private void OnEnable()
     {
-        GetComponent<RawImage>().enabled = enabled;
+        SetDispEnable();
     }
 
     private void OnDisable()
     {
-        GetComponent<RawImage>().enabled = enabled;
+        SetDispEnable();
     }
 
     private void Awake()
@@ -150,13 +150,26 @@ public class CircularGauge : MonoBehaviour
 
     public void Init()
     {
-        material = GetComponent<RawImage>().material;
+        material = 
+            GetComponent<RawImage>()?.material ??
+                (Application.isPlaying ? 
+                    GetComponent<Renderer>()?.material :
+                    GetComponent<Renderer>()?.sharedMaterial
+                ) ?? null;
         Radius = radius;
         Width = width;
         Division = division;
         Colors = colors;
 
         UpdateGauge();
+    }
+
+    private void SetDispEnable()
+    {
+        var rawImg = GetComponent<RawImage>();
+        if (rawImg) rawImg.enabled = enabled;
+        var renderer = GetComponent<Renderer>();
+        if (renderer) renderer.enabled = enabled;
     }
 
     #endregion
