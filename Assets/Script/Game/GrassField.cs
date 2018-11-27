@@ -84,7 +84,7 @@ public class GrassField : MonoBehaviour {
     private void CleanDetailMap()
     {
         var detailMap = new int[terrain.terrainData.detailWidth, terrain.terrainData.detailHeight];
-        for (var i = 0; i < 4; i++)
+        for (var i = 0; i < 5; i++)
         {
             terrain.terrainData.SetDetailLayer(0, 0, i, detailMap);
         }

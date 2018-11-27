@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.4465806, g: 0.49641532, b: 0.574818, a: 1}
+  m_IndirectSpecularColor: {r: 0.44658035, g: 0.49641502, b: 0.57481754, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -2212,7 +2212,7 @@ MonoBehaviour:
   cloudPrefab: {fileID: 1993422119229240, guid: 4589070e4e5ae6c4fbceff3bf63750f2,
     type: 2}
   speed: 8
-  playerNo: 3
+  playerNo: 4
 --- !u!143 &1514627121
 CharacterController:
   m_ObjectHideFlags: 0
