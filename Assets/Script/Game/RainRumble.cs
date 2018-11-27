@@ -38,6 +38,11 @@ public class RainRumble : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 
+        if(Time.timeScale < 0.8f)
+        {
+            return;
+        }
+
         System.Random ran = new System.Random();
         int l_f = ran.Next(100, 130);
         int h_f = ran.Next(120, 150);

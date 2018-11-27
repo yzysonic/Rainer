@@ -27,6 +27,7 @@ public class DebugManager : Singleton<DebugManager>
         }
     }
     bool pause;
+    float targetTimeScale;
     GUIStyle style;
     GUIStyleState styleState;
 
@@ -40,12 +41,13 @@ public class DebugManager : Singleton<DebugManager>
         styleState = new GUIStyleState();
         styleState.textColor = Color.white;
         style.normal = styleState;
+        targetTimeScale = 1.0f;
     }
 	
 	// Update is called once per frame
 	void Update ()
     {
-        Time.timeScale = Mathf.Lerp(Time.timeScale, pause ? 0.0f : 1.0f, 0.2f);
+        Time.timeScale = Mathf.Lerp(Time.timeScale, targetTimeScale, 0.2f);
         if (BGMPlayer?.AudioFades?.Count > 0)
             BGMPlayer.Fade.AudioSource.pitch = Time.timeScale;
 
@@ -69,9 +71,27 @@ public class DebugManager : Singleton<DebugManager>
             LoadScene("GameScene");
         }
 
-        if (Input.GetKeyDown(KeyCode.Pause))
+        if (Input.GetKeyDown(KeyCode.Pause) || JoyconManager.GetButtonDown(Joycon.Button.HOME))
         {
             pause = !pause;
+            targetTimeScale = pause ? 0.0f : 1.0f;
+        }
+
+        if (GameTimer.IsCreated)
+        {
+            if (JoyconManager.GetButtonDown(Joycon.Button.PLUS))
+            {
+                GameTimer.Instance.RemainingTime = 31.0f;
+            }
+
+            //if (JoyconManager.GetButton(Joycon.Button.SHOULDER_2))
+            //{
+            //    targetTimeScale = 3.0f* Mathf.Max(JoyconManager.Instance.j[0].GetStick()[1], 0.0f);
+            //}
+            //else if (JoyconManager.GetButtonUp(Joycon.Button.SHOULDER_2))
+            //{
+            //    targetTimeScale = 1.0f;
+            //}
         }
 
 

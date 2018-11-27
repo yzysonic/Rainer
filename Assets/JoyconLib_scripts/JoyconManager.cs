@@ -116,4 +116,12 @@ public class JoyconManager: Singleton<JoyconManager>
         return Instance.j.Any(j => j.GetButtonDown(button));
     }
 
+    public static float[] GetStick()
+    {
+        var sum = new float[2];
+        sum[0] = Instance.j.Sum(j => j.GetStick()[0]);
+        sum[1] = Instance.j.Sum(j => j.GetStick()[1]);
+        return sum;
+    }
+
 }
