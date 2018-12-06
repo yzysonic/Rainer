@@ -14,8 +14,6 @@ public class RainerManager : Singleton<RainerManager> {
     [SerializeField]
     GameObject cloudPrefab;
 
-    [SerializeField]
-    List<Material> materials;
 
     [Range(5.0f, 20.0f)]
     public float max_speed = 10.0f;
@@ -30,6 +28,7 @@ public class RainerManager : Singleton<RainerManager> {
     List<RainerController> rainers = new List<RainerController>();
 
     public Transform spawnGroup;
+    List<Material> materials = new List<Material>();
     List<Transform> spawnList = new List<Transform>();
     int timer;
 
@@ -38,6 +37,15 @@ public class RainerManager : Singleton<RainerManager> {
         base.Awake();
         LayerRainerIdle     = LayerMask.NameToLayer("RainerIdle");
         LayerRainerFollow   = LayerMask.NameToLayer("RainerFollow");
+
+        materials.Add(Resources.Load<Material>("Materials/Rainer_coat"));
+
+        foreach (var color in GameSetting.PlayerColors)
+        {
+            var material = new Material(materials[0]);
+            material.color = Color.Lerp(Color.white * 0.7f, color, 0.3f);
+            materials.Add(material);
+        }
     }
 
     // Use this for initialization

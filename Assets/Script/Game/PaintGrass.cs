@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class PaintGrass : MonoBehaviour {
 
@@ -25,7 +26,10 @@ public class PaintGrass : MonoBehaviour {
     {
         RenderTex = new RenderTexture(grassMaskResolution, grassMaskResolution, 0, RenderTextureFormat.ARGB32, RenderTextureReadWrite.Default);
         RenderTex.useMipMap = true;
-        //renderTex.filterMode = FilterMode.Point;
+        var clear = new Texture2D(grassMaskResolution, grassMaskResolution);
+        clear.SetPixels(Enumerable.Repeat(Color.clear, grassMaskResolution * grassMaskResolution).ToArray());
+        clear.Apply();
+        Graphics.Blit(clear, RenderTex);
     }
 
     public void InitPaintMaterial()

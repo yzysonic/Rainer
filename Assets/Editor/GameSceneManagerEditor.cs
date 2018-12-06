@@ -24,7 +24,7 @@ public class GameSceneManagerEditor : Editor
 
         if (GUILayout.Button("SetPlayerColor"))
         {
-            gcm.SetPlayerColor();
+            gcm.SetPlayerSharedColor();
         }
 
         if (GUILayout.Button("SetCamerasRect"))
