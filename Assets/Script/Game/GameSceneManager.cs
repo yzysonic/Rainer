@@ -120,9 +120,9 @@ public class GameSceneManager : Singleton<GameSceneManager>
     protected override void Awake()
     {
         base.Awake();
-
         timer = GameTimer.Instance;
         currentState = State.Init;
+        SetPlayerCount();
     }
 
     private void Start()
@@ -131,7 +131,6 @@ public class GameSceneManager : Singleton<GameSceneManager>
         {
             case State.Init:
 
-                SetPlayerCount();
                 SetPlayer();
                 SetCamera();
 
@@ -281,9 +280,18 @@ public class GameSceneManager : Singleton<GameSceneManager>
         if (Application.isPlaying)
         {
             var players = activePlayers.Select(p => p.GetComponent<PlayerController>()).ToList();
-            foreach(var player in players)
+            var rainerCoat = Resources.Load<Material>("Materials/Rainer_coat");
+            foreach (var player in players)
             {
+                // 色を設定する
+                var coatRenderer = player.Model.Find("Fantasy_Wizard_Cape").GetComponent<Renderer>();
+                coatRenderer.material = rainerCoat;
+                coatRenderer.material.color = GameSetting.PlayerColors[player.PlayerNo];
+
+                // 雲をつける
                 player.CreateCloud(true);
+
+                // レインナーをつける
                 var rainer = RainerManager.Instance.SpawnRainer(player.transform.position + Vector3.right * 2.0f);
                 player.PushRainer(rainer);
                 rainer.enabled = false;
@@ -293,7 +301,7 @@ public class GameSceneManager : Singleton<GameSceneManager>
 
     }
 
-    public void SetPlayerColor()
+    public void SetPlayerSharedColor()
     {
         GameSetting.LoadAndSetData();
 

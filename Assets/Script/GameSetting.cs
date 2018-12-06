@@ -10,10 +10,15 @@ public static class GameSetting
     /// <summary>
     /// 設定データをロードして保存する
     /// </summary>
-    [RuntimeInitializeOnLoadMethod]
+    [RuntimeInitializeOnLoadMethod(RuntimeInitializeLoadType.BeforeSceneLoad)]
     public static void LoadAndSetData()
     {
-        PlayerColors = LoadScriptableObject<PlayerColorSetting>()?.colors;
+        // 色設定
+        DefaultPlayerColors = LoadScriptableObject<PlayerColorSetting>()?.colors;
+        System.Array.Copy(DefaultPlayerColors, PlayerColors, DefaultPlayerColors.Length);
+        PlayerColorIndex = LoadScriptableObject<PlayerColorIndex>()?.values ?? new int[4] { 0, 1, 2, 3 };
+
+        // Joycon設定
         JoyconButton = LoadScriptableObject<JoyconButtonSetting>();
         JoyconSerialNumbers = LoadScriptableObject<JoyconSerialNumberSetting>()?.serialNumbers;
     }
@@ -44,8 +49,12 @@ public static class GameSetting
     }
 
     public static Joycon[] PlayerJoycons { get; } = new Joycon[4];
+    public static Color[] DefaultPlayerColors { get; private set; } = new Color[4];
 
-    public static Color[] PlayerColors { get; private set; } = new Color[4];
+    public static Color[] PlayerColors { get; set; } = new Color[4];
+
+    public static int[] PlayerColorIndex { get; set; }
+
 
     public static JoyconButtonSetting JoyconButton { get; private set; }
 

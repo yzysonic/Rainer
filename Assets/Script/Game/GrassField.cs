@@ -10,7 +10,6 @@ public class GrassField : MonoBehaviour {
     public float grassRadius    = 4.35f;
     public int grassDensity     = 10;
     public int grassScore       = 1;
-    public List<Color> playerColors;
     public float switchSpeed    = 1.0f;
 
     private byte [][]grassMap;
@@ -116,7 +115,7 @@ public class GrassField : MonoBehaviour {
                     continue;
                 }
 
-                terrain.terrainData.SetDetailLayer(x, z, playerNo, detailValue);
+                terrain.terrainData.SetDetailLayer(x, z, GameSetting.PlayerColorIndex[playerNo], detailValue);
                 grassMap[x][z] = (byte)(playerNo + 1);
                 scoreManager?.AddScore(playerNo, grassScore);
             }
@@ -158,7 +157,7 @@ public class GrassField : MonoBehaviour {
                 var no = grassMap[x][y]-1;
                 if (no >= 0)
                 {
-                    Texture.SetPixel(x, y, playerColors[no]);
+                    Texture.SetPixel(x, y, GameSetting.PlayerColors[no]);
                 }
             }
         }

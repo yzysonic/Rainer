@@ -1,9 +1,5 @@
 ﻿Shader "Custom/PaintGrass"
 {
-	Properties
-	{
-		_GrassTex("GrassTex", 2D) = "white"
-	}
 	SubShader
 	{
 		Tags { "RenderType"="Opaque" }
@@ -30,7 +26,6 @@
 			};
 
 			sampler2D _MainTex;
-			sampler2D _GrassTex;
 			float4 _MainTex_ST;
 			float4 _CenterUV;
 			float _BlushSize;
