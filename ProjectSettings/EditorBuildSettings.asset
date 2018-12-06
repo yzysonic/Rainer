@@ -17,7 +17,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/ResultScene.unity
     guid: b713cf7545f621a4fbfab31b594d4b7a
-  - enabled: 1
+  - enabled: 0
     path: Assets/YangWorkspace/GameSceneDevelop.unity
     guid: f0d3e2b21587f914fbe21a05e9694bff
   m_configObjects: {}

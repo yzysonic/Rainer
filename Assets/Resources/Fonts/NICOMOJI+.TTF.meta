@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 0a93d7e260db1be478a91f9e884762b7
+guid: 20ddf1c8d722cb142bb621a0bc7885e6
 TrueTypeFontImporter:
   externalObjects: {}
   serializedVersion: 4
@@ -8,9 +8,9 @@ TrueTypeFontImporter:
   characterSpacing: 0
   characterPadding: 1
   includeFontData: 1
-  fontName: Meiryo
+  fontName: NicoMoji+
   fontNames:
-  - Meiryo
+  - NicoMoji+
   fallbackFontReferences: []
   customCharacters: 
   fontRenderingMode: 0
