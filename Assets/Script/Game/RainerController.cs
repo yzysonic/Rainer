@@ -23,7 +23,6 @@ public class RainerController : Rainer
     float speed;
 
     public Rainer Leader { get; private set; }
-    public Renderer CoatRenderer { get; private set; }
 
     public override int PlayerNo
     {
@@ -40,7 +39,7 @@ public class RainerController : Rainer
         CoatRenderer = Model.GetChild(1).GetComponent<Renderer>();
     }
 
-    protected override void Update()
+    protected void Update()
     {
 
         switch (state)
@@ -95,7 +94,7 @@ public class RainerController : Rainer
         // 移動する
         CharacterController.SimpleMove(move);
 
-        base.Update();
+        UpdateModel();
     }
 
     // 距離をとる

@@ -21,8 +21,8 @@ public class PlayerControl : Rainer {
     }
 
     // Update is called once per frame
-    protected override void Update () {
+    protected void Update () {
         CharacterController.SimpleMove(Vector3.left * speed);
-        base.Update();
+        UpdateModel();
     }
 }

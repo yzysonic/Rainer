@@ -14,6 +14,19 @@ public class Rainer : MonoBehaviour {
     public CharacterController CharacterController { get; protected set; }
     public Animator Animator { get; protected set; }
     public Cloud Cloud { get; protected set; }
+    public Renderer CoatRenderer { get; set; }
+    public Color Color
+    {
+        get
+        {
+            return CoatRenderer.material.color;
+        }
+        set
+        {
+            CoatRenderer.material.color = value;
+        }
+    }
+
 
 
 
@@ -23,7 +36,8 @@ public class Rainer : MonoBehaviour {
         MinimapIcon = Model.Find("minimapIcon");
         CharacterController = GetComponent<CharacterController>();
         Animator = GetComponentInChildren<Animator>();
-	}
+        CoatRenderer = Model.Find("Fantasy_Wizard_Cape").GetComponent<Renderer>();
+    }
 
     protected virtual void Start()
     {
@@ -31,7 +45,7 @@ public class Rainer : MonoBehaviour {
     }
 	
 	// Update is called once per frame
-	protected virtual void Update () {
+    public void UpdateModel () {
         var velocity = new Vector3(-CharacterController.velocity.x, 0.0f, -CharacterController.velocity.z);
         var speed = velocity.magnitude;
 

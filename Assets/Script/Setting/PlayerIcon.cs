@@ -5,9 +5,14 @@ using UnityEngine.UI;
 
 public class PlayerIcon : MonoBehaviour {
 
+    public JoyconModel joyconModel;
+    public SettingPlayerControl playerModel;
+
     private bool isJoin = false;
     private Joycon joycon;
     private AudioSource[] audios;
+    private Color color;
+    private int colorIndex;
 
     public bool IsJoin
     {
@@ -24,6 +29,8 @@ public class PlayerIcon : MonoBehaviour {
 
             audios[value ? 0 : 1].Play();
             isJoin = value;
+            joyconModel.gameObject.SetActive(isJoin);
+            playerModel.IsJoin = IsJoin;
         }
     }
     public int PlayerNo { get; set; }
@@ -35,8 +42,40 @@ public class PlayerIcon : MonoBehaviour {
         }
         set
         {
-            IsJoin = value != null;
+            joycon?.UnbindPlayer();
             joycon = value;
+            joyconModel.Joycon = joycon;
+            playerModel.Joycon = joycon;
+            IsJoin = joycon != null;
+            ColorIndex = joycon?.ColorIndex ?? -1;
+        }
+    }
+
+    public Color Color
+    {
+        get
+        {
+            return color;
+        }
+        set
+        {
+            color = value;
+            GetComponentInChildren<Text>().color = isJoin ? color : Color.black;
+            joyconModel.GetComponent<Renderer>().material.color = color;
+            playerModel.Color = color;
+        }
+    }
+
+    public int ColorIndex
+    {
+        get
+        {
+            return colorIndex;
+        }
+        set
+        {
+            colorIndex = value;
+            Color = colorIndex >= 0 ? GameSetting.DefaultPlayerColors[colorIndex] : Color.gray;
         }
     }
 

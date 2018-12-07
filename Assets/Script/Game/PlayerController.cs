@@ -28,7 +28,7 @@ public class PlayerController : Rainer {
     [Range(1.0f, 30.0f)]
     public float max_speed = 10.0f;
     [Range(0.0f, 10.0f)]
-    public float rotation_speed = 1.0f;
+    public float rotation_speed = 3.0f;
     [Range(0.0f, 10.0f)]
     public float auto_rotation_speed = 1.0f;
     [Range(0.0f, 0.1f)]
@@ -36,13 +36,12 @@ public class PlayerController : Rainer {
     [Range(10.0f, 90.0f)]
     public float max_angle = 40.0f;
 
-    private Joycon joycon;
     private Stack<RainerController> followers;
-    private Transform model;
     private byte buttonBuffer;
     private Action startAction;
     private PlayerUITrigger uiTrigger;
 
+    public Joycon Joycon { get; set; }
     public Vector3 MoveInput { get; private set; }
     public Vector3 MoveInputLocal { get; private set; }
     public Vector3 RotateInput { get; private set; }
@@ -58,7 +57,7 @@ public class PlayerController : Rainer {
     protected override void Start ()
     {
         base.Start();
-        joycon      = GameSetting.PlayerJoycons[PlayerNo] ?? (JoyconManager.Instance.j.Count > PlayerNo ? JoyconManager.Instance.j[PlayerNo] : null);
+        Joycon      = GameSetting.PlayerJoycons[PlayerNo] ?? (JoyconManager.Instance.j.Count > PlayerNo ? JoyconManager.Instance.j[PlayerNo] : null);
         MinimapIcon.GetComponent<Renderer>().material.color = GameSetting.PlayerColors[PlayerNo];
         uiTrigger   = GetComponentInChildren<PlayerUITrigger>();
         uiTrigger.enabled = true;
@@ -66,7 +65,7 @@ public class PlayerController : Rainer {
     }
 	
 	// Update is called once per frame
-	protected override void Update ()
+	protected virtual void Update ()
     {
         UpdateInput();
 
@@ -90,10 +89,10 @@ public class PlayerController : Rainer {
             PushRainer(uiTrigger.NearestRainer);
         }
 
-        base.Update();
+        UpdateModel();
     }
 
-    private void UpdateInput()
+    public void UpdateInput()
     {
         buttonBuffer = 0;
 
@@ -101,14 +100,14 @@ public class PlayerController : Rainer {
         {
             case ControllType.Joycon:
 
-                if (joycon == null)
+                if (Joycon == null)
                 {
                     break;
                 }
 
                 #region CameraRotate
 
-                var stick = joycon.GetStick();
+                var stick = Joycon.GetStick();
                 RotateInput = new Vector3(0.0f, stick[0], 0.0f);
 
                 #endregion
@@ -116,7 +115,7 @@ public class PlayerController : Rainer {
                 #region Move
 
                 // Joyconの向きのベクトルを計算
-                var raw_vector = joycon.GetAccel();
+                var raw_vector = Joycon.GetAccel();
 
                 // 移動方向に適用
                 MoveInput = new Vector3(-raw_vector.y, 0.0f, -raw_vector.z);
@@ -128,11 +127,11 @@ public class PlayerController : Rainer {
                 #endregion
 
                 #region Action
-                if (joycon.GetButtonDown(GameSetting.JoyconButton.PushRainer))
+                if (Joycon.GetButtonDown(GameSetting.JoyconButton.PushRainer))
                 {
                     SetActionDown(ActionButton.PushRainer);
                 }
-                if (joycon.GetButtonDown(GameSetting.JoyconButton.PopRainer))
+                if (Joycon.GetButtonDown(GameSetting.JoyconButton.PopRainer))
                 {
                     SetActionDown(ActionButton.PopRainer);
                 }
@@ -212,12 +211,17 @@ public class PlayerController : Rainer {
         }
 
         followers.Push(rainer);
-        uiManager.RainerCount.Value++;
 
-        if(followers.Count == 1)
+        if(uiManager != null)
         {
-            uiManager.GrowTreeFixed.gameObject.SetActive(true);
+            uiManager.UIRainerCount.Value++;
         }
+
+    }
+
+    public void PushRainer()
+    {
+        PushRainer(uiTrigger.NearestRainer);
     }
 
     public RainerController PopRainer()
@@ -236,11 +240,10 @@ public class PlayerController : Rainer {
 
         var rainer = followers.Pop();
         rainer.SetGrowTree(tree);
-        uiManager.RainerCount.Value--;
 
-        if(followers.Count == 0)
+        if (uiManager != null)
         {
-            uiManager.GrowTreeFixed.gameObject.SetActive(false);
+            uiManager.UIRainerCount.Value--;
         }
 
         return rainer;

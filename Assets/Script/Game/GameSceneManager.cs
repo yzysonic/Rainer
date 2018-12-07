@@ -284,9 +284,9 @@ public class GameSceneManager : Singleton<GameSceneManager>
             foreach (var player in players)
             {
                 // 色を設定する
-                var coatRenderer = player.Model.Find("Fantasy_Wizard_Cape").GetComponent<Renderer>();
-                coatRenderer.material = rainerCoat;
-                coatRenderer.material.color = GameSetting.PlayerColors[player.PlayerNo];
+                player.CoatRenderer.material = rainerCoat;
+                player.Color = GameSetting.PlayerColors[player.PlayerNo];
+                player.MinimapIcon.GetComponent<Renderer>().material.color = GameSetting.PlayerColors[player.PlayerNo];
 
                 // 雲をつける
                 player.CreateCloud(true);
