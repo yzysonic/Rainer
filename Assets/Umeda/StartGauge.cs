@@ -19,14 +19,14 @@ public class StartGauge : MonoBehaviour {
 		if(t < Mathf.PI * 0.5f)
         {
             t += 0.02f;
-            value[0] = Mathf.Cos(t);
-            value[1] = 1 - value[0];
+            value[1] = Mathf.Cos(t);
+            value[0] = 1 - value[1];
             circularGauge.Values = value;
         }
         else
         {
-            value[0] = 0;
-            value[1] = 1;
+            value[0] = 1;
+            value[1] = 0;
             circularGauge.Values = value;
 
             enabled = false;

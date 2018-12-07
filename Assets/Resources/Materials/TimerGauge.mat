@@ -56,8 +56,8 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Floats:
     - _BumpScale: 1
-    - _CircleRadius: 0.343
-    - _CircleWidth: 0.136
+    - _CircleRadius: 0.35
+    - _CircleWidth: 0.1
     - _ColorMask: 15
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1

@@ -50,8 +50,8 @@ public class GameTimer : Singleton<GameTimer> {
         }
         set
         {
-            gauge.Values[0] = initTime - value;
-            gauge.Values[1] = value;
+            gauge.Values[0] = value;
+            gauge.Values[1] = initTime - value;
             remainingTime = value;
         }
     }

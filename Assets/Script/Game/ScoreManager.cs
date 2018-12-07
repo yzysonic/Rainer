@@ -18,7 +18,7 @@ public class ScoreManager : Singleton<ScoreManager>
         circularGauge = GetComponent<CircularGauge>();
         InitGauge();
         GameTimer.Instance.AddPeriodEvent(showPeriod, ShowScoreGauge);
-	}
+    }
 
     public int GetScore(int playerNo)
     {

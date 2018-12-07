@@ -46,7 +46,7 @@ public class RainerCount : MonoBehaviour
 
     string GetValueString()
     {
-        return $"x{value.ToString($"d{digit}")}";
+        return $"{value.ToString($"d{digit}")}";
     }
 
 }
