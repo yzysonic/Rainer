@@ -114,8 +114,8 @@ public class GrassField : MonoBehaviour {
                 {
                     continue;
                 }
-
-                terrain.terrainData.SetDetailLayer(x, z, GameSetting.PlayerColorIndex[playerNo], detailValue);
+                var layer = playerNo < GameSetting.PlayerColorIndex.Length ? GameSetting.PlayerColorIndex[playerNo] : playerNo;
+                terrain.terrainData.SetDetailLayer(x, z, layer, detailValue);
                 grassMap[x][z] = (byte)(playerNo + 1);
                 scoreManager?.AddScore(playerNo, grassScore);
             }
