@@ -1535,8 +1535,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 368302e01c5aaad4b940817482ba8d8d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  showPeriod: 10
-  showInterval: 0
+  showPeriod: 0
+  showInterval: 120
 --- !u!114 &157882476
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1549,8 +1549,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lerpSpeed: 10
-  radius: 0.343
-  width: 0.063
+  radius: 0.375
+  width: 0.015
   colors:
   - {r: 1, g: 0, b: 0.40392157, a: 1}
   - {r: 0, g: 1, b: 0.64102554, a: 1}
@@ -3078,7 +3078,7 @@ GameObject:
   - component: {fileID: 639912464}
   - component: {fileID: 639912463}
   m_Layer: 5
-  m_Name: RawImage
+  m_Name: TimerFrame
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6351,7 +6351,7 @@ MonoBehaviour:
   width: 0.1
   colors:
   - {r: 0.26415092, g: 0.26415092, b: 0.26415092, a: 1}
-  - {r: 0.8490566, g: 0.8490566, b: 0.8490566, a: 1}
+  - {r: 1, g: 1, b: 1, a: 1}
   - {r: 1, g: 1, b: 1, a: 1}
   - {r: 1, g: 1, b: 1, a: 1}
   values:
@@ -7955,7 +7955,7 @@ Prefab:
     - target: {fileID: 114445810483842752, guid: 4b0e0927f6631cd41a88eec52072302f,
         type: 2}
       propertyPath: controllType
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4259269926089914, guid: 4b0e0927f6631cd41a88eec52072302f, type: 2}
       propertyPath: m_LocalEulerAnglesHint.y
@@ -8421,7 +8421,7 @@ Camera:
   far clip plane: 101
   field of view: 60
   orthographic: 1
-  orthographic size: 133
+  orthographic size: 132.5
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
