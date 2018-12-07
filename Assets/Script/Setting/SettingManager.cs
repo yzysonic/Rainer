@@ -11,7 +11,7 @@ public class SettingManager : MonoBehaviour {
     public GameObject PlayerField;
     public Light spotLight;
 
-    private PlayerIcon[] playerIcon;
+    private PlayerIcon[] playerIcons;
     private int countPlayer = 0;
     private int CountPlayer
     {
@@ -34,12 +34,12 @@ public class SettingManager : MonoBehaviour {
 
         joycons = JoyconManager.Instance.j;
 
-        playerIcon = new PlayerIcon[4];
+        playerIcons = new PlayerIcon[4];
 
-        playerIcon[0] = GameObject.Find("1P").GetComponent<PlayerIcon>();
-        playerIcon[1] = GameObject.Find("2P").GetComponent<PlayerIcon>();
-        playerIcon[2] = GameObject.Find("3P").GetComponent<PlayerIcon>();
-        playerIcon[3] = GameObject.Find("4P").GetComponent<PlayerIcon>();
+        playerIcons[0] = GameObject.Find("1P").GetComponent<PlayerIcon>();
+        playerIcons[1] = GameObject.Find("2P").GetComponent<PlayerIcon>();
+        playerIcons[2] = GameObject.Find("3P").GetComponent<PlayerIcon>();
+        playerIcons[3] = GameObject.Find("4P").GetComponent<PlayerIcon>();
         intensity = spotLight.intensity;
 
         FadeInOut.Instance.FadeIn();
@@ -51,36 +51,55 @@ public class SettingManager : MonoBehaviour {
 
         if (Input.GetKeyDown(KeyCode.Alpha1))
         {
-            playerIcon[0].IsJoin = !playerIcon[0].IsJoin;
+            playerIcons[0].IsJoin = !playerIcons[0].IsJoin;
+            playerIcons[0].ColorIndex = playerIcons[0].IsJoin ? 0 : -1;
         }
         if (Input.GetKeyDown(KeyCode.Alpha2))
         {
-            playerIcon[1].IsJoin = !playerIcon[1].IsJoin;
+            playerIcons[1].IsJoin = !playerIcons[1].IsJoin;
+            playerIcons[1].ColorIndex = playerIcons[1].IsJoin ? 1 : -1;
         }
         if (Input.GetKeyDown(KeyCode.Alpha3))
         {
-            playerIcon[2].IsJoin = !playerIcon[2].IsJoin;
+            playerIcons[2].IsJoin = !playerIcons[2].IsJoin;
+            playerIcons[2].ColorIndex = playerIcons[2].IsJoin ? 2 : -1;
         }
         if (Input.GetKeyDown(KeyCode.Alpha4))
         {
-            playerIcon[3].IsJoin = !playerIcon[3].IsJoin;
+            playerIcons[3].IsJoin = !playerIcons[3].IsJoin;
+            playerIcons[3].ColorIndex = playerIcons[3].IsJoin ? 3 : -1;
         }
 
-        for(var i =0; i<joycons.Count; i++)
+        foreach(var joycon in joycons)
         {
-            if (joycons[i].GetButtonDown(GameSetting.JoyconButton.Join))
+            if (!joycon.GetButtonDown(GameSetting.JoyconButton.Join) || joycon.GetPlayerNo() >= 0)
             {
-                playerIcon[joycons[i].GetPlayerNo()].Joycon = joycons[i];
+                continue;
+            }
+
+            for(var i=0;i<playerIcons.Length;i++)
+            {
+                if (!playerIcons[i].IsJoin)
+                {
+                    playerIcons[i].Joycon = joycon;
+                    joycon.BindPlayer(i);
+                    break;
+                }
             }
         }
 
-        CountPlayer = playerIcon.Sum(p => p.IsJoin ? 1 : 0);
+        CountPlayer = playerIcons.Sum(p => p.IsJoin ? 1 : 0);
 
-        bool startButtonDown = Input.GetKeyDown(KeyCode.Return) || playerIcon.Any(p => p.Joycon?.GetButtonDown(GameSetting.JoyconButton.Start) ?? false);
+        bool startButtonDown = Input.GetKeyDown(KeyCode.Return) || playerIcons.Any(p => p.Joycon?.GetButtonDown(GameSetting.JoyconButton.Start) ?? false);
 
         if (CanStart && startButtonDown && !FadeInOut.Instance.enabled)
         {
             GameSetting.PlayerCount = CountPlayer;
+
+            var activePlayerIcon = playerIcons.Where(pi => pi.IsJoin);
+            GameSetting.PlayerColors = activePlayerIcon.Select(pi=>pi.Color).ToArray();
+            GameSetting.PlayerColorIndex = activePlayerIcon.Select(pi => pi.ColorIndex).ToArray();
+
             BGMPlayer.Instance.Fade.Out();
             FadeInOut.Instance.FadeOut(() => {
                 BGMPlayer.Instance.Destroy();
@@ -88,7 +107,7 @@ public class SettingManager : MonoBehaviour {
             });
         }
 
-        var rot = Input.GetAxisRaw("KeyMoveX") + 2.0f*playerIcon.Sum(p => -p.Joycon?.GetStick()[0] ?? 0.0f);
+        var rot = Input.GetAxisRaw("KeyMoveX") + 2.0f*playerIcons.Sum(p => -p.Joycon?.GetStick()[0] ?? 0.0f);
 
         if (Mathf.Abs(rot) > 0.1f)
         {

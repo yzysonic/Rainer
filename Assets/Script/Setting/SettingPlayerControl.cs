@@ -2,19 +2,10 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SettingPlayerControl : Rainer {
+public class SettingPlayerControl : PlayerController {
 
-    public PlayerIcon playerIcon;
+    public bool IsJoin;
     private Vector3 resetPosition;
-
-    [Range(1.0f, 30.0f)]
-    public float max_speed = 10.0f;
-    [Range(10.0f, 90.0f)]
-    public float max_angle = 40.0f;
-    [Range(0.0f, 0.1f)]
-    public float dead_zone = 0.08f;
-
-    private Joycon joycon;
 
     // Use this for initialization
     protected override void Start()
@@ -27,15 +18,14 @@ public class SettingPlayerControl : Rainer {
     // Update is called once per frame
     protected override void Update()
     {
-        if (Model.gameObject.activeSelf != playerIcon.IsJoin)
+        if (Model.gameObject.activeSelf != IsJoin)
         {
-            if (playerIcon.IsJoin)
+            if (IsJoin)
             {
                 Model.gameObject.SetActive(true);
                 Model.rotation = Quaternion.identity;
                 CharacterController.enabled = true;
                 transform.position = resetPosition;
-                joycon = playerIcon.Joycon;
             }
             else
             {
@@ -49,36 +39,25 @@ public class SettingPlayerControl : Rainer {
             }
         }
 
-        if (playerIcon.IsJoin)
+        if (IsJoin)
         {
-            var vector = Vector3.zero;
+            UpdateInput();
 
-            if (joycon != null)
+            // 移動する
+            CharacterController.Move(Vector3.down);
+            CharacterController.SimpleMove(MoveInputLocal * max_speed);
+
+            if (GetActionDown(ActionButton.PopRainer))
             {
-                // Joyconの向きのベクトルを計算
-                var raw_vector = joycon.GetAccel();
-
-                // 移動方向に適用
-                vector = new Vector3(-raw_vector.y, 0.0f, -raw_vector.z);
-
-                // 最大角度を制限
-                var max_value = Mathf.Sin(max_angle * Mathf.Deg2Rad);
-                vector = Vector3.ClampMagnitude(vector, max_value) / max_value;
-
-                // DeadZoneのチェック
-                if (vector.sqrMagnitude <= dead_zone * dead_zone)
-                {
-                    vector = Vector3.zero;
-                }
+                PopRainer();
+            }
+            if (GetActionDown(ActionButton.PushRainer))
+            {
+                PushRainer();
             }
 
-            CharacterController.Move(Vector3.down);
-            CharacterController.SimpleMove(vector * max_speed);
-        }
+            UpdateModel();
 
-        if (Model.gameObject.activeSelf)
-        {
-            base.Update();
         }
     }
 }

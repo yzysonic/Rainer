@@ -21,7 +21,8 @@ GameObject:
   - component: {fileID: 4924087091716386}
   - component: {fileID: 33678527067712642}
   - component: {fileID: 23135520721109198}
-  m_Layer: 0
+  - component: {fileID: 114610455318322444}
+  m_Layer: 11
   m_Name: joycon
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -34,9 +35,9 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1272415385362994}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0, y: -0, z: 3.4}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalRotation: {x: 0, y: 1, z: 0, w: 0}
+  m_LocalPosition: {x: -1.25, y: 0.22, z: 1}
+  m_LocalScale: {x: 5, y: 5, z: 5}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -83,3 +84,15 @@ MeshFilter:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1272415385362994}
   m_Mesh: {fileID: 4300000, guid: 3869ca2f17d196f44876acd2b5aef97b, type: 3}
+--- !u!114 &114610455318322444
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1272415385362994}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 281133ca0e74789438b52ae4721967a3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  show_debug_info: 0

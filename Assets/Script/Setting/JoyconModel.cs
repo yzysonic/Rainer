@@ -6,8 +6,6 @@ using UnityEngine.UI;
 
 public class JoyconModel : MonoBehaviour {
 
-    public PlayerIcon playerIcon;
-    private Renderer model;
     private float lpf = 10.0f;
 
     public bool show_debug_info = false;
@@ -15,44 +13,27 @@ public class JoyconModel : MonoBehaviour {
     private static readonly Joycon.Button[] m_buttons =
         Enum.GetValues(typeof(Joycon.Button)) as Joycon.Button[];
     
-    private Joycon m_joycon;
     private Joycon.Button? m_pressedButton;
-
-    // Use this for initialization
-    void Start()
-    {
-        model = GetComponent<Renderer>();
-        model.enabled = false;
-    }
+    public Joycon Joycon { get; set; }
 
     // Update is called once per frame
     void Update()
     {
-        if(model.enabled != playerIcon.IsJoin)
-        {
-            model.enabled = playerIcon.IsJoin;
-            m_joycon = playerIcon.Joycon;
-        }
 
-        if (m_joycon == null) return;
+        if (Joycon == null) return;
 
         m_pressedButton = null;
 
         foreach (var button in m_buttons)
         {
-            if (m_joycon.GetButton(button))
+            if (Joycon.GetButton(button))
             {
                 m_pressedButton = button;
             }
         }
 
-        //if (m_joycon.GetButton(Joycon.Button.SHOULDER_2))
-        //{
-        //    m_joycon.Recenter();
-        //}
-
         // Joyconの向きのベクトルを計算
-        var raw_vector = m_joycon.GetAccel();
+        var raw_vector = Joycon.GetAccel();
 
         var targetRotation = Quaternion.Euler(raw_vector.z * 60.0f, 180.0f, -raw_vector.y * 60.0f);
 
@@ -70,7 +51,7 @@ public class JoyconModel : MonoBehaviour {
         var style = GUI.skin.GetStyle("label");
         style.fontSize = 24;
 
-        if (m_joycon == null)
+        if (Joycon == null)
         {
             GUILayout.Label("Joy-Con が未設定です");
             return;
@@ -78,13 +59,13 @@ public class JoyconModel : MonoBehaviour {
 
         GUILayout.BeginHorizontal(GUILayout.Width(960));
 
-        var isLeft = m_joycon.isLeft;
+        var isLeft = Joycon.isLeft;
         var name = isLeft ? "Joy-Con (L)" : "Joy-Con (R)";
         var button = m_pressedButton;
-        var stick = m_joycon.GetStick();
-        var gyro = m_joycon.GetGyro();
-        var accel = m_joycon.GetAccel();
-        var orientation = m_joycon.GetVector();
+        var stick = Joycon.GetStick();
+        var gyro = Joycon.GetGyro();
+        var accel = Joycon.GetAccel();
+        var orientation = Joycon.GetVector();
 
         GUILayout.BeginVertical(GUILayout.Width(480));
         GUILayout.Label(name);

@@ -193,6 +193,9 @@ public class Joycon
     private byte global_count = 0;
     private string debug_str;
 
+    public Color Color { get; private set; }
+    public int ColorIndex { get; private set; }
+
 	public Joycon(IntPtr handle_, bool imu, bool localize, float alpha, bool left, string serialNum)
     {
 		handle = handle_;
@@ -206,9 +209,14 @@ public class Joycon
         {
             if(serialNum == GameSetting.JoyconSerialNumbers[i])
             {
-                this.BindPlayer(i);
+                ColorIndex = i;
+                Color = GameSetting.DefaultPlayerColors[i];
+                return;
             }
         }
+
+        ColorIndex = -1;
+        Color = Color.gray;
     }
     public void DebugPrint(String s, DebugType d)
     {

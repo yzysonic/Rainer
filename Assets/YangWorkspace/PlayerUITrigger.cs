@@ -21,10 +21,13 @@ public class PlayerUITrigger : MonoBehaviour
     private void Update()
     {
         NearestRainer = FindNearest(NearRainers);
-        uiManager.GetRainer.Target = NearestRainer?.transform;
+
+        if(uiManager != null)
+        {
+            uiManager.UIGetRainer.Target = NearestRainer?.transform;
+        }
 
         NearestTree = FindNearest(NearTrees);
-        //uiManager.UITreeProgress.Target = (uiManager.RainerCount.Value > 0) ? NearestTree?.transform : null;
     }
 
     private void OnTriggerEnter(Collider other)
