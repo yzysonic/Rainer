@@ -107,7 +107,12 @@ public class SettingManager : MonoBehaviour {
             });
         }
 
-        var rot = Input.GetAxisRaw("KeyMoveX") + 2.0f*playerIcons.Sum(p => -p.Joycon?.GetStick()[0] ?? 0.0f);
+        var rot = 2.0f*playerIcons.Sum(p => -p.Joycon?.GetStick()[0] ?? 0.0f);
+
+        if (Input.GetKey(KeyCode.LeftShift) || Input.GetKey(KeyCode.RightShift))
+        {
+            rot += Input.GetAxis("KeyMoveX");
+        }
 
         if (Mathf.Abs(rot) > 0.1f)
         {

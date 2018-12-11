@@ -1,11 +1,13 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Tree = RainerLib.Tree;
 
 public class SettingPlayerControl : PlayerController {
 
     public bool IsJoin;
     private Vector3 resetPosition;
+    private Seed lastSeed;
 
     // Use this for initialization
     protected override void Start()
@@ -35,6 +37,10 @@ public class SettingPlayerControl : PlayerController {
                 if (transform.position.y > resetPosition.y)
                 {
                     Model.gameObject.SetActive(false);
+                    while(followers.Count > 0)
+                    {
+                        followers.Pop().SetFree();
+                    }
                 }
             }
         }
@@ -59,5 +65,15 @@ public class SettingPlayerControl : PlayerController {
             UpdateModel();
 
         }
+    }
+
+    protected override Seed ThrowSeed()
+    {
+        if (lastSeed != null)
+        {
+            PlayerUITrigger.RemoveFromList(uiTrigger.NearTrees, lastSeed?.Tree.gameObject);
+            lastSeed.StartFadeOut();
+        }
+        return lastSeed = base.ThrowSeed();
     }
 }

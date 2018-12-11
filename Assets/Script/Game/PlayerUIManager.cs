@@ -38,16 +38,31 @@ public class PlayerUIManager : MonoBehaviour
     {
         RectTransform   = GetComponent<RectTransform>();
         Canvas          = GetComponent<Canvas>();
-        UIRainerCount     = transform.Find("RainerCount").GetComponent<RainerCount>();
-        UIGrowTreeFixed   = transform.Find("GrowTreeFixed").GetComponent<RectTransform>();
-        UITreeProgress  = transform.Find("TreeProgress").GetComponent<UITreeProgress>();
-        UIGetRainer       = transform.Find("GetRainer").GetComponent<UIFallow>();
+        UIRainerCount     = transform.Find("RainerCount")?.GetComponent<RainerCount>();
+        UIGrowTreeFixed   = transform.Find("GrowTreeFixed")?.GetComponent<RectTransform>();
+        UITreeProgress  = transform.Find("TreeProgress")?.GetComponent<UITreeProgress>();
+        UIGetRainer       = transform.Find("GetRainer")?.GetComponent<UIFallow>();
     }
 
     void Start ()
     {
-        UITreeProgress.camera = Canvas.worldCamera;
-        UIGetRainer.camera = Canvas.worldCamera;
+        if(UITreeProgress != null)
+        {
+            UITreeProgress.camera = Canvas.worldCamera;
+        }
+
+        if(UIGetRainer != null)
+        {
+            UIGetRainer.camera = Canvas.worldCamera;
+        }
+    }
+
+    private void Update()
+    {
+        if(UIGetRainer != null)
+        {
+
+        }
     }
 
 }

@@ -36,10 +36,10 @@ public class PlayerController : Rainer {
     [Range(10.0f, 90.0f)]
     public float max_angle = 40.0f;
 
-    private Stack<RainerController> followers;
+    protected Stack<RainerController> followers;
+    protected PlayerUITrigger uiTrigger;
     private byte buttonBuffer;
     private Action startAction;
-    private PlayerUITrigger uiTrigger;
 
     public Joycon Joycon { get; set; }
     public Vector3 MoveInput { get; private set; }
@@ -58,7 +58,10 @@ public class PlayerController : Rainer {
     {
         base.Start();
         Joycon      = GameSetting.PlayerJoycons[PlayerNo] ?? (JoyconManager.Instance.j.Count > PlayerNo ? JoyconManager.Instance.j[PlayerNo] : null);
-        MinimapIcon.GetComponent<Renderer>().material.color = GameSetting.PlayerColors[PlayerNo];
+        if(MinimapIcon != null)
+        {
+            MinimapIcon.GetComponent<Renderer>().material.color = GameSetting.PlayerColors[PlayerNo];
+        }
         uiTrigger   = GetComponentInChildren<PlayerUITrigger>();
         uiTrigger.enabled = true;
         startAction?.Invoke();
@@ -212,7 +215,7 @@ public class PlayerController : Rainer {
 
         followers.Push(rainer);
 
-        if(uiManager != null)
+        if(uiManager?.UIRainerCount != null)
         {
             uiManager.UIRainerCount.Value++;
         }
@@ -241,7 +244,7 @@ public class PlayerController : Rainer {
         var rainer = followers.Pop();
         rainer.SetGrowTree(tree);
 
-        if (uiManager != null)
+        if (uiManager?.UIRainerCount != null)
         {
             uiManager.UIRainerCount.Value--;
         }
@@ -254,9 +257,10 @@ public class PlayerController : Rainer {
         buttonBuffer |= (byte)action;
     }
 
-    private Seed ThrowSeed()
+    protected virtual Seed ThrowSeed()
     {
         var seed = Instantiate(seedPerfab, transform.position - Model.forward * 0.5f, Quaternion.identity).GetComponent<Seed>();
+        seed.transform.parent = transform.parent;
         seed.GetComponent<Rigidbody>().AddForce(CharacterController.velocity + Model.rotation * new Vector3(1.0f, 1.0f, -1.0f) * seedSpeed, ForceMode.VelocityChange);
         return seed;
     }

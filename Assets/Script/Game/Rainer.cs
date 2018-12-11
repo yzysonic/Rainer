@@ -8,7 +8,7 @@ public class Rainer : MonoBehaviour {
     public float rotateThreshold = 0.1f;
     public GameObject cloudPrefab;
 
-    public virtual int PlayerNo { get; protected set; }
+    public virtual int PlayerNo { get; set; }
     public Transform Model { get; protected set; }
     public Transform MinimapIcon { get; protected set; }
     public CharacterController CharacterController { get; protected set; }

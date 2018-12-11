@@ -6,11 +6,20 @@ using UnityEngine.SceneManagement;
 
 public class DebugManager : Singleton<DebugManager>
 {
+
+#if UNITY_EDITOR
+
     [RuntimeInitializeOnLoadMethod]
     static void Create()
     {
-        var instance = Instance;
+
+        if (Application.isEditor)
+        {
+            var instance = Instance;
+        }
     }
+
+#endif
 
     BGMPlayer BGMPlayer
     {

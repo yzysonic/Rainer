@@ -11,10 +11,6 @@ public class RainerManager : Singleton<RainerManager> {
     [SerializeField]
     GameObject rainerPrefab;
 
-    [SerializeField]
-    GameObject cloudPrefab;
-
-
     [Range(5.0f, 20.0f)]
     public float max_speed = 10.0f;
     [Range(10.0f, 200.0f)]
@@ -42,8 +38,10 @@ public class RainerManager : Singleton<RainerManager> {
 
         foreach (var color in GameSetting.PlayerColors)
         {
-            var material = new Material(materials[0]);
-            material.color = Color.Lerp(Color.white * 0.7f, color, 0.4f);
+            var material = new Material(materials[0])
+            {
+                color = Color.Lerp(Color.white * 0.7f, color, 0.4f)
+            };
             materials.Add(material);
         }
     }

@@ -64,16 +64,21 @@ namespace RainerLib
 
             if (scoreTimer.TimesUp())
             {
-                scoreTimer.Reset();
-                ScoreManager.Instance.AddScore(PlayerNo, normalScore);
                 //スコア更新
-
+                scoreTimer.Reset();
+                if (ScoreManager.IsCreated)
+                {
+                    ScoreManager.Instance.AddScore(PlayerNo, normalScore);
+                }
             }
 
             if (growTimer.TimesUp())
             {
                 //ボーナススコア更新
-                ScoreManager.Instance.AddScore(PlayerNo, bonusScore);
+                if (ScoreManager.IsCreated)
+                {
+                    ScoreManager.Instance.AddScore(PlayerNo, bonusScore);
+                }
                 IsEndGrow = true;
                 IsGrowing = false;
                 enabled = false;
@@ -99,6 +104,7 @@ namespace RainerLib
             IsGrowing = false;
             enabled = false;
         }
+
     }
 
 }
