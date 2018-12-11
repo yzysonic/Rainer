@@ -8,6 +8,8 @@ public class RainerManager : Singleton<RainerManager> {
     public static int LayerRainerIdle { get; private set; }
     public static int LayerRainerFollow { get; private set; }
 
+    public bool createCloud;
+
     [SerializeField]
     GameObject rainerPrefab;
 
@@ -84,7 +86,10 @@ public class RainerManager : Singleton<RainerManager> {
     {
         var rainerObj = Instantiate(rainerPrefab, position, Quaternion.identity, transform);
         var rainer = rainerObj.GetComponent<RainerController>();
-        rainer.CreateCloud();
+        if (createCloud)
+        {
+            rainer.CreateCloud();
+        }
         rainer.SetFree();
         rainers.Add(rainer);
         return rainer;
