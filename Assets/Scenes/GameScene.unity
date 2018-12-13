@@ -538,7 +538,7 @@ MonoBehaviour:
   startLogo: {fileID: 1524776869}
   endLogo: {fileID: 442224050}
   moveRange: {fileID: 149962369}
-  startState: 4
+  startState: 1
   playerCountSet: 0
 --- !u!4 &51701762
 Transform:
