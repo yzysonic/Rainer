@@ -6,8 +6,8 @@ using UnityEngine.UI;
 public class Graph : MonoBehaviour
 {
 
-    public float myscore;
-    private float mySclZ;
+    public float myScore;
+    private Vector3 myScale;
     public RawImage myMedal;
     public bool endGrowup;
     public Text txtScore;
@@ -19,43 +19,36 @@ public class Graph : MonoBehaviour
 	// Use this for initialization
 	void Start ()
     {
-        mySclZ = transform.localScale.z;
+        myScale = transform.localScale;
         endGrowup = false;
         countScore = 0;
         lank = GetComponentInParent<Lank>();
-        growSpeed = 500.0f / lank.graphFrame;
-
+        growSpeed = 4.75f / lank.graphFrame;
     }
 	
-	// Update is called once per frame
-	void Update ()
+    // Update is called once per frame
+    void Update ()
     {
-       
-		if(transform.localScale.z <= (myscore / lank.scoreTop) *500)
+        if(transform.localScale.z <= (myScore / lank.scoreTop) * 4.75f)
         {
-            mySclZ += growSpeed;
+            myScale.z += growSpeed;
 
-            transform.localScale = new Vector3(transform.localScale.x, transform.localScale.y, mySclZ);
+            transform.localScale = myScale;
         }
         else
         {
             endGrowup = true;
         }
-        if(countScore < myscore)
+
+        if(countScore < myScore)
         {
-            countScore += lank.scoreUnit;
+            countScore += lank.scoreTop / lank.graphFrame;
         }
         else
         {
-            countScore = myscore;
+            countScore = myScore;
         }
-        CountScore();
-
-    }
-
-    public void CountScore()
-    {
-        int viewScore = (int)countScore;
-        txtScore.text = viewScore.ToString();
+        
+        txtScore.text = ((int)countScore).ToString();
     }
 }

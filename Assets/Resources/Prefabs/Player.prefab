@@ -657,7 +657,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4512012253574760}
   - component: {fileID: 137208281530966894}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Fantasy_Wizard
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -688,7 +688,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4294552347624134}
   - component: {fileID: 137814409936464576}
-  m_Layer: 0
+  m_Layer: 13
   m_Name: Fantasy_Wizard_Cape
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -779,6 +779,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4494766594568288}
   - component: {fileID: 95200451094473766}
+  - component: {fileID: 111669867774721704}
   m_Layer: 0
   m_Name: model
   m_TagString: Untagged
@@ -1849,6 +1850,24 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!111 &111669867774721704
+Animation:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1877463995195866}
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Animation: {fileID: 7400000, guid: a492cbabea1026348ab6b7956b4e782f, type: 3}
+  m_Animations:
+  - {fileID: 7400000, guid: a492cbabea1026348ab6b7956b4e782f, type: 3}
+  - {fileID: 7400000, guid: e8b4947a8d66a124cbab1176113a8d3c, type: 3}
+  - {fileID: 7400000, guid: c752fd911695adc4c8bb169517da3d25, type: 3}
+  - {fileID: 7400000, guid: b5eb55c4323fdcf40a059a60bb0aa32f, type: 3}
+  m_WrapMode: 0
+  m_PlayAutomatically: 0
+  m_AnimatePhysics: 0
+  m_CullingType: 0
 --- !u!114 &114445810483842752
 MonoBehaviour:
   m_ObjectHideFlags: 1
