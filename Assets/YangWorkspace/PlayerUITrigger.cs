@@ -22,7 +22,7 @@ public class PlayerUITrigger : MonoBehaviour
     {
         NearestRainer = FindNearest(NearRainers);
 
-        if(uiManager != null)
+        if(uiManager?.UIGetRainer != null)
         {
             uiManager.UIGetRainer.Target = NearestRainer?.transform;
         }
@@ -60,7 +60,7 @@ public class PlayerUITrigger : MonoBehaviour
         }
     }
 
-    private T FindNearest<T>(List<T> list) where T : MonoBehaviour
+    public T FindNearest<T>(List<T> list) where T : MonoBehaviour
     {
         var minSqrDistance = Mathf.Infinity;
         T nearest = null;
@@ -80,7 +80,7 @@ public class PlayerUITrigger : MonoBehaviour
         return nearest;
     }
 
-    private static void RemoveFromList<T>(List<T> list, GameObject gameObject) where T : MonoBehaviour
+    public static void RemoveFromList<T>(List<T> list, GameObject gameObject) where T : MonoBehaviour
     {
         var index = list.FindIndex(t => t.gameObject == gameObject);
         if (index >= 0)

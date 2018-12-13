@@ -48,6 +48,7 @@ public class PlayerIcon : MonoBehaviour {
             playerModel.Joycon = joycon;
             IsJoin = joycon != null;
             ColorIndex = joycon?.ColorIndex ?? -1;
+            playerModel.PlayerNo = joycon?.ColorIndex ?? int.Parse(playerModel.gameObject.name.Substring(6, 1)) - 1;
         }
     }
 

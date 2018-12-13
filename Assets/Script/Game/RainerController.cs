@@ -222,6 +222,7 @@ public class RainerController : Rainer
         CoatRenderer.material = manager.GetDefaultMaterial();
         Leader = null;
         MinimapIcon.gameObject.SetActive(true);
+        move = Vector3.zero;
     }
 
     public void SetGrowTree(Tree tree)
