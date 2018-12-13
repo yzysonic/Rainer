@@ -1053,6 +1053,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 569a439ad35e1a04d9aaad82727e4edd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  createCloud: 0
   rainerPrefab: {fileID: 1984977183495734, guid: 4cc367557c7898f4abd1ae68009e9d0f,
     type: 2}
   max_speed: 10
@@ -3124,7 +3125,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4086649691327620, guid: c6d85624e7e0a244f8b24ef079cd745c, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 2.2999878
+      value: 2.3
       objectReference: {fileID: 0}
     - target: {fileID: 4086649691327620, guid: c6d85624e7e0a244f8b24ef079cd745c, type: 2}
       propertyPath: m_LocalPosition.y
@@ -5404,7 +5405,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4086649691327620, guid: c6d85624e7e0a244f8b24ef079cd745c, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 6.700012
+      value: 6.7
       objectReference: {fileID: 0}
     - target: {fileID: 4086649691327620, guid: c6d85624e7e0a244f8b24ef079cd745c, type: 2}
       propertyPath: m_LocalPosition.y
@@ -6107,7 +6108,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4086649691327620, guid: c6d85624e7e0a244f8b24ef079cd745c, type: 2}
       propertyPath: m_LocalPosition.x
-      value: -2.2999878
+      value: -6.7
       objectReference: {fileID: 0}
     - target: {fileID: 4086649691327620, guid: c6d85624e7e0a244f8b24ef079cd745c, type: 2}
       propertyPath: m_LocalPosition.y
@@ -6364,7 +6365,7 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4086649691327620, guid: c6d85624e7e0a244f8b24ef079cd745c, type: 2}
       propertyPath: m_LocalPosition.x
-      value: -2.2999878
+      value: -2.3
       objectReference: {fileID: 0}
     - target: {fileID: 4086649691327620, guid: c6d85624e7e0a244f8b24ef079cd745c, type: 2}
       propertyPath: m_LocalPosition.y
