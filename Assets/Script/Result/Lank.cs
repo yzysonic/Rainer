@@ -59,7 +59,8 @@ public class Lank : MonoBehaviour {
             data.player = GameSceneManager.Instance.PlayerList[i].GetComponent<PlayerController>();
             data.player.Model.transform.rotation = Quaternion.identity;
             data.player.DestroyCloud();
-            data.player.transform.position = data.graph.transform.position + Vector3.up * 3;
+            data.player.transform.position = data.graph.transform.position + Vector3.up * 25;
+            data.player.Animator.SetBool("fall", true);
 
             data.isFinished = false;
         }
@@ -102,6 +103,13 @@ public class Lank : MonoBehaviour {
             Data data = dataList[i];
 
             data.player.CharacterController.SimpleMove(Vector3.zero);
+            data.player.CharacterController.SimpleMove(Vector3.zero);
+
+            if (data.player.CharacterController.velocity == Vector3.zero)
+            {
+                data.graph.readyGraph = true;
+                data.player.Animator.SetBool("fall", false);
+            }
 
             if (!data.isFinished)
             {
