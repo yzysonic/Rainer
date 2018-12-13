@@ -9,6 +9,7 @@ public class Graph : MonoBehaviour
     public float myScore;
     private Vector3 myScale;
     public RawImage myMedal;
+    public bool readyGraph;
     public bool endGrowup;
     public Text txtScore;
     private float countScore;
@@ -20,35 +21,51 @@ public class Graph : MonoBehaviour
 	void Start ()
     {
         myScale = transform.localScale;
+        readyGraph = false;
         endGrowup = false;
         countScore = 0;
         lank = GetComponentInParent<Lank>();
-        growSpeed = 4.75f / lank.graphFrame;
+        growSpeed = -0.04f;
     }
 	
     // Update is called once per frame
     void Update ()
     {
-        if(transform.localScale.z <= (myScore / lank.scoreTop) * 4.75f)
+        if (readyGraph)
         {
-            myScale.z += growSpeed;
+            if (!endGrowup)
+            {
+                myScale.z += growSpeed;
+                growSpeed += 0.0016f;
+                transform.localScale = myScale;
 
-            transform.localScale = myScale;
+                if (growSpeed >= 0
+                    && transform.localScale.z >= (myScore / lank.scoreTop) * 4.75f)
+                {
+                    myScale.z = (myScore / lank.scoreTop) * 4.75f;
+                    transform.localScale = myScale;
+
+                    txtScore.text = ((int)myScore).ToString();
+                    endGrowup = true;
+                }
+            }
+            //if (countScore < myScore)
+            //{
+            //    countScore += lank.scoreTop / lank.graphFrame;
+            //}
+            //else
+            //{
+            //    countScore = myScore;
+            //}
         }
         else
         {
-            endGrowup = true;
-        }
+            if (transform.localScale.z < 0.5f)
+            {
+                myScale.z += 0.025f;
 
-        if(countScore < myScore)
-        {
-            countScore += lank.scoreTop / lank.graphFrame;
+                transform.localScale = myScale;
+            }
         }
-        else
-        {
-            countScore = myScore;
-        }
-        
-        txtScore.text = ((int)countScore).ToString();
     }
 }
