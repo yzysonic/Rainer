@@ -38,14 +38,6 @@ public class RainerManager : Singleton<RainerManager> {
 
         materials.Add(Resources.Load<Material>("Materials/Rainer_coat"));
 
-        foreach (var color in GameSetting.PlayerColors)
-        {
-            var material = new Material(materials[0])
-            {
-                color = Color.Lerp(Color.white * 0.7f, color, 0.4f)
-            };
-            materials.Add(material);
-        }
     }
 
     // Use this for initialization
@@ -61,6 +53,15 @@ public class RainerManager : Singleton<RainerManager> {
         {
             rainer.enabled = true;
         }
+        foreach (var color in GameSetting.PlayerColors)
+        {
+            var material = new Material(materials[0])
+            {
+                color = Color.Lerp(Color.white * 0.7f, color, 0.4f)
+            };
+            materials.Add(material);
+        }
+
     }
 
     // Update is called once per frame

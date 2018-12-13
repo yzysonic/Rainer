@@ -34,13 +34,13 @@ public class SettingPlayerControl : PlayerController {
                 CharacterController.SimpleMove(Vector3.zero);
                 //CharacterController.Move(Vector3.zero);
                 transform.Translate(Vector3.up);
+                while (followers.Count > 0)
+                {
+                    followers.Pop().SetFree();
+                }
                 if (transform.position.y > resetPosition.y)
                 {
                     Model.gameObject.SetActive(false);
-                    while(followers.Count > 0)
-                    {
-                        followers.Pop().SetFree();
-                    }
                 }
             }
         }
@@ -71,7 +71,8 @@ public class SettingPlayerControl : PlayerController {
     {
         if (lastSeed != null)
         {
-            PlayerUITrigger.RemoveFromList(uiTrigger.NearTrees, lastSeed?.Tree.gameObject);
+            lastSeed.Tree.GetComponent<Collider>().enabled = false;
+            //PlayerUITrigger.RemoveFromList(uiTrigger.NearTrees, lastSeed?.Tree.gameObject);
             lastSeed.StartFadeOut();
         }
         return lastSeed = base.ThrowSeed();

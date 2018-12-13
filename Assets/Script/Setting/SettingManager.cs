@@ -29,9 +29,8 @@ public class SettingManager : MonoBehaviour {
     public bool CanStart { get; private set; }
     private float intensity;
 
-    // Use this for initialization
-    void Start () {
-
+    private void Awake()
+    {
         joycons = JoyconManager.Instance.j;
 
         playerIcons = new PlayerIcon[4];
@@ -41,6 +40,19 @@ public class SettingManager : MonoBehaviour {
         playerIcons[2] = GameObject.Find("3P").GetComponent<PlayerIcon>();
         playerIcons[3] = GameObject.Find("4P").GetComponent<PlayerIcon>();
         intensity = spotLight.intensity;
+
+        foreach (var joycon in joycons)
+        {
+            joycon.UnbindPlayer();
+        }
+
+        GameSetting.PlayerColors = new Color[GameSetting.DefaultPlayerColors.Length];
+        System.Array.Copy(GameSetting.DefaultPlayerColors, GameSetting.PlayerColors, GameSetting.DefaultPlayerColors.Length);
+
+    }
+
+    // Use this for initialization
+    void Start () {
 
         FadeInOut.Instance.FadeIn();
 
