@@ -280,6 +280,12 @@ public class GameSceneManager : Singleton<GameSceneManager>
         if (Application.isPlaying)
         {
             var players = activePlayers.Select(p => p.GetComponent<PlayerController>()).ToList();
+
+            if (playerCount == 2)
+            {
+                players[1].transform.position = this.players[3].transform.position;
+            }
+
             var rainerCoat = Resources.Load<Material>("Materials/Rainer_coat");
             foreach (var player in players)
             {
