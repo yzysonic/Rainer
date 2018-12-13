@@ -60,7 +60,7 @@ public class PlayerIcon : MonoBehaviour {
         set
         {
             color = value;
-            GetComponentInChildren<Text>().color = isJoin ? color : Color.black;
+            GetComponentInChildren<Text>().color = isJoin ? color : Color.Lerp(Color.gray, Color.black, 0.3f);
             joyconModel.GetComponent<Renderer>().material.color = color;
             playerModel.Color = color;
         }

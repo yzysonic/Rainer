@@ -8,26 +8,26 @@ public class Lank : MonoBehaviour {
 
     class Data
     {
-        public GameObject player;
         public Graph graph;
         public float score;
         public RawImage medal;
-        public bool endGrowup;
-        public string setWinner;
+        public Color medalColor;
+        public int index;
+        public PlayerController player;
+        public bool isFinished;
     }
 
-
-    private RawImage endLogo;
-    public Texture []texMedal;
-    private Data[] dataList;
-    private int playerCount;
+    public Texture[] texMedal;
+    public Text txtWinner;
+    public GameObject endLogo;
     public int graphFrame;
     public bool IsFinish { get; private set; }
 
-    [HideInInspector] public string setWinner;
-    [HideInInspector] public float scoreTop;
-    [HideInInspector] public float scoreUnit;
+    private Data[] dataList;
+    private int playerCount;
+    private bool isFinished;
 
+    [HideInInspector] public float scoreTop;
 
     private void Awake()
     {
@@ -43,78 +43,107 @@ public class Lank : MonoBehaviour {
         {
             Data data = dataList[i] = new Data();
 
-            data.player = transform.Find("Player" + (i+1)).gameObject;
-            data.player.GetComponent<Renderer>().material.color = GameSetting.PlayerColors[i];
+            data.index = i + 1;
 
-            data.medal = GameObject.Find("Medal" + (i+1)).GetComponent<RawImage>();
+            data.medal = GameObject.Find("Medal" + data.index).GetComponent<RawImage>();
+            data.medalColor = data.medal.color;
+            data.medalColor.a = 0;
+            data.medal.color = data.medalColor;
 
-            data.graph = data.player.GetComponent<Graph>();
-
+            data.graph = transform.Find("PlayerGraph" + data.index).GetComponent<Graph>();
+            data.graph.GetComponent<Renderer>().material.color = Color.Lerp(GameSetting.PlayerColors[i], Color.white, 0.2f);
             data.graph.gameObject.SetActive(true);
 
-            data.score = data.graph.myscore = ScoreManager.IsCreated ? ScoreManager.Instance.GetScore(i) : data.graph.myscore;
+            data.score = data.graph.myScore = ScoreManager.IsCreated ? ScoreManager.Instance.GetScore(i) : data.graph.myScore;
 
-            data.setWinner = (i+1) +"P WIN";
+            data.player = GameSceneManager.Instance.PlayerList[i].GetComponent<PlayerController>();
+            data.player.Model.transform.rotation = Quaternion.identity;
+            data.player.DestroyCloud();
+            data.player.transform.position = data.graph.transform.position + Vector3.up * 3;
 
-            data.medal.color = new Color(data.medal.color.r, data.medal.color.g, data.medal.color.b, 0);
-            
-        }
-
-        endLogo = GameObject.Find("EndLogo").GetComponent<RawImage>();
-
-        FadeInOut.Instance.Alpha = 0.0f;
-    }
-
-    // Update is called once per frame
-    void Update () {
-
-        for (int i = 0; i < playerCount; i++)
-        {
-            dataList[i].endGrowup = dataList[i].graph.endGrowup;
+            data.isFinished = false;
         }
 
         System.Array.Sort(dataList, (data1, data2) =>
         {
-            if (data1.score > data2.score)
-                return 1;
             if (data1.score < data2.score)
+                return 1;
+            if (data1.score > data2.score)
                 return -1;
 
             return 0;
         });
 
-
         for (int i = 0; i < playerCount; i++)
         {
-            dataList[i].medal.texture = texMedal[i + (4 - playerCount)];
+            Data data = dataList[i];
+
+            data.medal.texture = texMedal[i];
         }
 
-        if (dataList[playerCount - 1].endGrowup)
+        for(int i = playerCount - 1; i > 0; i--)
         {
-            setWinner = dataList[playerCount - 1].setWinner;
-        }
-
-        scoreTop = dataList[playerCount - 1].score;
-        scoreUnit = dataList[playerCount - 1].score / graphFrame;
-
-        if (!IsFinish)
-        {
-            IsFinish = dataList[playerCount - 1].endGrowup;
-            if (IsFinish)
+            while((int)dataList[i].graph.myScore >= (int) dataList[i-1].graph.myScore)
             {
-                BGMPlayer.Instance.AudioSources[1].Play();
-                endLogo.color = new Color(1, 1, 1, 1);
+                dataList[i - 1].score++;
+                dataList[i - 1].graph.myScore++;
             }
         }
 
-        myAlpha();
+        scoreTop = dataList[0].score;
+        FadeInOut.Instance.Alpha = 0.0f;
+    }
 
+    // Update is called once per frame
+    void Update()
+    {
+        for (int i = 0; i < playerCount; i++)
+        {
+            Data data = dataList[i];
 
-        if ((Input.GetButtonDown("Submit") || JoyconManager.GetButtonDown(GameSetting.JoyconButton.Start)) && !FadeInOut.Instance.enabled && IsFinish)
+            data.player.CharacterController.SimpleMove(Vector3.zero);
+
+            if (!data.isFinished)
+            {
+                if (data.graph.endGrowup)
+                {
+                    data.medalColor.a = 1;
+                    data.medal.color = data.medalColor;
+                    data.player.Animator.enabled = false;
+                    data.player.Model.Rotate(Vector3.up * 180);
+
+                    switch(i)
+                    {
+                        case 0:
+                            data.player.GetComponentInChildren<Animation>().Play("Wizard_Run");
+
+                            dataList[playerCount - 1].player.GetComponentInChildren<Animation>().Play("Wizard_Death");
+                            BGMPlayer.Instance.AudioSources[1].Play();
+                            endLogo.SetActive(true);
+                            txtWinner.text = dataList[0].index + "Pのかち";
+
+                            break;
+
+                        default:
+                            data.player.GetComponentInChildren<Animation>().Play("Wizard_Stun");
+
+                            break;
+                    }
+
+                    data.isFinished = true;
+                }
+            }
+        }
+
+        if ((dataList[0].isFinished
+            && Input.GetButtonDown("Submit")
+            || JoyconManager.GetButtonDown(GameSetting.JoyconButton.Start))
+            && !FadeInOut.Instance.enabled)
         {
             endLogo.GetComponent<Animation>().Play();
             BGMPlayer.Instance.Fade.Out();
-            FadeInOut.Instance.FadeOut(() => {
+            FadeInOut.Instance.FadeOut(() =>
+            {
                 if (Ground.IsCreated)
                 {
                     Ground.Instance.Destroy();
@@ -123,18 +152,5 @@ public class Lank : MonoBehaviour {
                 SceneManager.LoadScene("TitleScene");
             });
         }
-
     }
-
-    void myAlpha()
-    {
-        for (int i = 0; i < playerCount; i++)
-        {
-            if (dataList[i].endGrowup)
-            {
-                dataList[i].medal.color = new Color(dataList[i].medal.color.r, dataList[i].medal.color.g, dataList[i].medal.color.b, 1);
-            }
-        }
-    }
-
 }

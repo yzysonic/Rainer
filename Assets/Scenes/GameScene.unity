@@ -1404,6 +1404,11 @@ Prefab:
       propertyPath: uiManager
       value: 
       objectReference: {fileID: 758838164}
+    - target: {fileID: 114445810483842752, guid: 4b0e0927f6631cd41a88eec52072302f,
+        type: 2}
+      propertyPath: controllType
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4b0e0927f6631cd41a88eec52072302f, type: 2}
   m_IsPrefabAsset: 0
@@ -1543,14 +1548,14 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 157882473}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 37ceeb2276cddfe46b3c2ffc696aed82, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   lerpSpeed: 10
-  radius: 0.375
-  width: 0.015
+  radius: 0.256
+  width: 0.02
   colors:
   - {r: 1, g: 0, b: 0.40392157, a: 1}
   - {r: 0, g: 1, b: 0.64102554, a: 1}
@@ -1569,13 +1574,13 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 157882473}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: -98529514, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 2100000, guid: bb7ddb7b3ec08034f8b051499c9106e3, type: 2}
-  m_Color: {r: 1, g: 0.8254717, b: 0.9962773, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -3115,7 +3120,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -3253,7 +3258,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   initTime: 120
-  startTime: 120
+  startTime: 0
   gauge: {fileID: 1516738653}
 --- !u!222 &661120765
 CanvasRenderer:
@@ -5744,6 +5749,7 @@ GameObject:
   - component: {fileID: 1269818212}
   - component: {fileID: 1269818211}
   - component: {fileID: 1269818210}
+  - component: {fileID: 1269818214}
   m_Layer: 5
   m_Name: RemainingTimeWarning
   m_TagString: Untagged
@@ -5818,7 +5824,7 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
-    m_Font: {fileID: 12800000, guid: d3ff670489c2df143837daeab10c1b7d, type: 3}
+    m_Font: {fileID: 12800000, guid: 20ddf1c8d722cb142bb621a0bc7885e6, type: 3}
     m_FontSize: 82
     m_FontStyle: 1
     m_BestFit: 0
@@ -5838,6 +5844,20 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1269818208}
   m_CullTransparentMesh: 0
+--- !u!114 &1269818214
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 1269818208}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -900027084, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
+  m_EffectDistance: {x: 1, y: -1}
+  m_UseGraphicAlpha: 1
 --- !u!1 &1317140470
 GameObject:
   m_ObjectHideFlags: 0
@@ -6068,6 +6088,15 @@ Prefab:
       objectReference: {fileID: 262907489}
     - target: {fileID: 4259269926089914, guid: 4b0e0927f6631cd41a88eec52072302f, type: 2}
       propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114445810483842752, guid: 4b0e0927f6631cd41a88eec52072302f,
+        type: 2}
+      propertyPath: controllType
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 0}
+      propertyPath: m_PlayAutomatically
       value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
@@ -6350,8 +6379,8 @@ MonoBehaviour:
   radius: 0.35
   width: 0.1
   colors:
-  - {r: 0.26415092, g: 0.26415092, b: 0.26415092, a: 1}
   - {r: 1, g: 1, b: 1, a: 1}
+  - {r: 0.2264151, g: 0.2264151, b: 0.2264151, a: 1}
   - {r: 1, g: 1, b: 1, a: 1}
   - {r: 1, g: 1, b: 1, a: 1}
   values:
@@ -7957,10 +7986,6 @@ Prefab:
       propertyPath: controllType
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4259269926089914, guid: 4b0e0927f6631cd41a88eec52072302f, type: 2}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4b0e0927f6631cd41a88eec52072302f, type: 2}
   m_IsPrefabAsset: 0
@@ -8421,7 +8446,7 @@ Camera:
   far clip plane: 101
   field of view: 60
   orthographic: 1
-  orthographic size: 132.5
+  orthographic size: 150
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
