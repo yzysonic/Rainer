@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using RainerLib;
+using UnityEngine.Audio;
 
 public class BGMPlayer : Singleton<BGMPlayer>
 {
+    [SerializeField] private AudioMixerGroup audioMixerGroup;
     [SerializeField] private List<AudioClip> audioClips;
     [SerializeField] private List<AudioSource> audioSources;
 
@@ -49,6 +51,7 @@ public class BGMPlayer : Singleton<BGMPlayer>
             var source = gameObject.AddComponent<AudioSource>();
             source.clip = clip;
             source.playOnAwake = false;
+            source.outputAudioMixerGroup = audioMixerGroup;
             AudioSources.Add(source);
             InitVolumes.Add(source.volume);
             AddFade(source);
