@@ -25,7 +25,7 @@ public class Graph : MonoBehaviour
         endGrowup = false;
         countScore = 0;
         lank = GetComponentInParent<Lank>();
-        growSpeed = -0.04f;
+        growSpeed = -0.03f;
     }
 	
     // Update is called once per frame
@@ -36,7 +36,7 @@ public class Graph : MonoBehaviour
             if (!endGrowup)
             {
                 myScale.z += growSpeed;
-                growSpeed += 0.0016f;
+                growSpeed += 0.0009f;
                 transform.localScale = myScale;
 
                 if (growSpeed >= 0

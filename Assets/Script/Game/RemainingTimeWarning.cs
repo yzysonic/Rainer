@@ -7,21 +7,24 @@ public class RemainingTimeWarning : MonoBehaviour {
     public float startTime = 30.0f;
     public float period = 10.0f;
     public float keepShowTime = 10.0f;
+    public Texture[] textures;
 
     private GameTimer gameTimer;
-    private Text text;
     private new Animation animation;
     private bool timeTrigger;
+    private RawImage image;
+    private int textureId;
 
     void Start()
     {
-        text = GetComponent<Text>();
         gameTimer = GameTimer.Instance;
         animation = GetComponent<Animation>();
+        image = gameObject.GetComponent<RawImage>();
+        textureId = 0;
 
         gameTimer.AddEvent(startTime, () =>
         {
-            text.enabled = true;
+            image.enabled = true;
             transform.localScale = Vector3.zero;
             SetTrigger();
         });
@@ -33,8 +36,7 @@ public class RemainingTimeWarning : MonoBehaviour {
         gameTimer.AddEvent(keepShowTime+0.5f, () =>
         {
             transform.localScale = Vector3.zero;
-            text.color = Color.red;
-            text.fontSize = 172;
+            image.color = Color.red;
         });
 
         SetTriggerEvent(gameTimer.initTime - keepShowTime);
@@ -43,7 +45,6 @@ public class RemainingTimeWarning : MonoBehaviour {
     // Update is called once per frame
     void Update ()
     {
-
         if (!timeTrigger)
         {
             return;
@@ -51,20 +52,21 @@ public class RemainingTimeWarning : MonoBehaviour {
 
         timeTrigger = false;
         var time = (int)gameTimer.RemainingTime + 1;
+        image.texture = textures[textureId];
+        image.SetNativeSize();
 
         if (gameTimer.RemainingTime > keepShowTime)
         {
-            text.text = $"残り {time} 秒";
             SetTriggerEvent(period);
         }
         else
         {
-            text.text = $"{time}";
             SetTriggerEvent(1.0f);
         }
 
         animation.Stop();
         animation.Play();
+        textureId++;
     }
 
     void SetTrigger()
