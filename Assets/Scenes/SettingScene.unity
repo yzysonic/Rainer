@@ -1059,7 +1059,7 @@ MonoBehaviour:
   max_speed: 10
   unity_range: 200
   avoid_range: 3
-  pop_interval: 100
+  pop_interval: 0
   spawnGroup: {fileID: 1440468338}
 --- !u!4 &342199892
 Transform:
