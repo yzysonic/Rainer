@@ -112,7 +112,8 @@ public class SettingManager : MonoBehaviour {
             GameSetting.PlayerColors = activePlayerIcon.Select(pi=>pi.Color).ToArray();
             GameSetting.PlayerColorIndex = activePlayerIcon.Select(pi => pi.ColorIndex).ToArray();
 
-            BGMPlayer.Instance.Fade.Out();
+            BGMPlayer.Instance.AudioFades[0].Out();
+            BGMPlayer.Instance.AudioFades[1].Out();
             FadeInOut.Instance.FadeOut(() => {
                 BGMPlayer.Instance.Destroy();
                 SceneManager.LoadScene(nextScene);
