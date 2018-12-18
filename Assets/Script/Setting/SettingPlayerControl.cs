@@ -7,7 +7,6 @@ public class SettingPlayerControl : PlayerController {
 
     public bool IsJoin;
     private Vector3 resetPosition;
-    private Seed lastSeed;
 
     // Use this for initialization
     protected override void Start()
@@ -69,12 +68,7 @@ public class SettingPlayerControl : PlayerController {
 
     protected override Seed ThrowSeed()
     {
-        if (lastSeed != null)
-        {
-            lastSeed.Tree.GetComponent<Collider>().enabled = false;
-            //PlayerUITrigger.RemoveFromList(uiTrigger.NearTrees, lastSeed?.Tree.gameObject);
-            lastSeed.StartFadeOut();
-        }
-        return lastSeed = base.ThrowSeed();
+        transform.parent.GetComponentInChildren<Seed>()?.StartFadeOut();
+        return base.ThrowSeed();
     }
 }
