@@ -20,6 +20,17 @@ public class PlayerUITrigger : MonoBehaviour
 
     private void Update()
     {
+        for (var i = 0; i < NearTrees.Count;)
+        {
+            if (NearTrees[i] == null)
+            {
+                NearTrees.RemoveAt(i);
+                continue;
+            }
+
+            i++;
+        }
+
         NearestRainer = FindNearest(NearRainers);
 
         if(uiManager?.UIGetRainer != null)
