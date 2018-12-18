@@ -34,7 +34,9 @@ public class Ground : Singleton<Ground> {
     }
 
     // Use this for initialization
-    void Start () {
+    void Start ()
+    {
+        PaintGrass.InitRenderTexture();
 
         Material.shader = Shader.Find("Custom/Ground");
         Material.SetTexture("_GrassMask", PaintGrass.RenderTex);
