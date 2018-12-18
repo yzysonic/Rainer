@@ -51,7 +51,6 @@ public class RemainingTimeWarning : MonoBehaviour {
         }
 
         timeTrigger = false;
-        var time = (int)gameTimer.RemainingTime + 1;
         image.texture = textures[textureId];
         image.SetNativeSize();
 
