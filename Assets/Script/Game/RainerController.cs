@@ -45,20 +45,26 @@ public class RainerController : Rainer
         switch (state)
         {
             case State.Follow:
+                // プレイヤーと離れすぎているときは、プレイヤーの近くにワープさせる
+                if ((gameObject.transform.position - Leader.transform.position).magnitude > manager.unity_range)
+                {
+                    gameObject.transform.position = Leader.transform.position + Leader.Model.forward * 10;
+                }
+                else
+                {
+                    // 周辺のrainer.gameObjectをboidsに設定
+                    boids = manager.GetBoidsNearby(this);
 
-                // 周辺のrainer.gameObjectをboidsに設定
-                boids = manager.GetBoidsNearby(this);
+                    move +=
+                        MoveSeparate(manager.avoid_range) * 1.4f
+                        + MoveAlign()
+                        + MoveConhesion()
+                        + MoveChase(manager.avoid_range);
 
-                move +=
-                    MoveSeparate(manager.avoid_range) * 1.4f
-                    + MoveAlign()
-                    + MoveConhesion()
-                    + MoveChase(manager.avoid_range);
+                    move = Vector3.ClampMagnitude(move, manager.max_speed);
 
-                move = Vector3.ClampMagnitude(move, manager.max_speed);
-
-                SetSpeed(Vector3.Lerp(move, Leader.CharacterController.velocity, 0.1f).magnitude);
-
+                    SetSpeed(Vector3.Lerp(move, Leader.CharacterController.velocity, 0.1f).magnitude);
+                }
                 break;
 
 
