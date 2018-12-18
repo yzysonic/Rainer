@@ -153,6 +153,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1a8184e5713a604c9a06f217500e77f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioMixerGroup: {fileID: 0}
   audioClips:
   - {fileID: 8300000, guid: 6a1885b8ad1de68488636001c91578a2, type: 3}
   - {fileID: 8300000, guid: 4c47bdc1721cd9f4ca2af430c598d1ae, type: 3}
@@ -5754,10 +5755,9 @@ GameObject:
   m_Component:
   - component: {fileID: 1269818209}
   - component: {fileID: 1269818213}
-  - component: {fileID: 1269818212}
   - component: {fileID: 1269818211}
   - component: {fileID: 1269818210}
-  - component: {fileID: 1269818214}
+  - component: {fileID: 1269818212}
   m_Layer: 5
   m_Name: RemainingTimeWarning
   m_TagString: Untagged
@@ -5797,6 +5797,15 @@ MonoBehaviour:
   startTime: 30
   period: 10
   keepShowTime: 5
+  textures:
+  - {fileID: 2800000, guid: 0e174b2c978754a4bbbf3cb0e6b9c903, type: 3}
+  - {fileID: 2800000, guid: 5b55b0d613f906040bba37092aa68f59, type: 3}
+  - {fileID: 2800000, guid: 6481a7b85fa06764ebaca3f81b7696de, type: 3}
+  - {fileID: 2800000, guid: 27eccc231c1919146af92fe420263a8e, type: 3}
+  - {fileID: 2800000, guid: 208df95e7a7b3974f812e22752585913, type: 3}
+  - {fileID: 2800000, guid: 40e2a02bdc03f9b4c9a331c4abe866b2, type: 3}
+  - {fileID: 2800000, guid: 9bb8b4db27ed75044ae6cbf8d14b8ef8, type: 3}
+  - {fileID: 2800000, guid: b2aa52d638be00e4dbb5e7b9b1de8992, type: 3}
 --- !u!111 &1269818211
 Animation:
   m_ObjectHideFlags: 0
@@ -5820,31 +5829,24 @@ MonoBehaviour:
   m_GameObject: {fileID: 1269818208}
   m_Enabled: 0
   m_EditorHideFlags: 0
-  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Script: {fileID: -98529514, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 0
+  m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_FontData:
-    m_Font: {fileID: 12800000, guid: 20ddf1c8d722cb142bb621a0bc7885e6, type: 3}
-    m_FontSize: 82
-    m_FontStyle: 1
-    m_BestFit: 0
-    m_MinSize: 0
-    m_MaxSize: 300
-    m_Alignment: 4
-    m_AlignByGeometry: 0
-    m_RichText: 1
-    m_HorizontalOverflow: 0
-    m_VerticalOverflow: 0
-    m_LineSpacing: 1
-  m_Text: "\u6B8B\u308A 30 \u79D2"
+  m_Texture: {fileID: 0}
+  m_UVRect:
+    serializedVersion: 2
+    x: 0
+    y: 0
+    width: 1
+    height: 1
 --- !u!222 &1269818213
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -5852,20 +5854,6 @@ CanvasRenderer:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1269818208}
   m_CullTransparentMesh: 0
---- !u!114 &1269818214
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1269818208}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: -900027084, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_EffectColor: {r: 0, g: 0, b: 0, a: 0.5}
-  m_EffectDistance: {x: 1, y: -1}
-  m_UseGraphicAlpha: 1
 --- !u!1 &1317140470
 GameObject:
   m_ObjectHideFlags: 0

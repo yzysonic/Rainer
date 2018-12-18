@@ -30,7 +30,7 @@ public class StartButton : MonoBehaviour {
         }
         else
         {
-            color.r = color.g = color.b = 0.8f;
+            color.r = color.g = color.b = 0.5f;
             startText.text = "プレイヤーの参加を待っています";
         }
 
