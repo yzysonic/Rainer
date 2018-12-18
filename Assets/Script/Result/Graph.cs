@@ -2,30 +2,33 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using RainerLib;
 
 public class Graph : MonoBehaviour
 {
 
     public float myScore;
-    private Vector3 myScale;
     public RawImage myMedal;
     public bool readyGraph;
     public bool endGrowup;
     public Text txtScore;
-    private float countScore;
     public Lank lank;
+
+    private Vector3 myScale;
+    private float countScore;
     private float growSpeed;
+    private Timer timer;
 
-
-	// Use this for initialization
-	void Start ()
+    // Use this for initialization
+    void Start ()
     {
         myScale = transform.localScale;
         readyGraph = false;
         endGrowup = false;
         countScore = 0;
-        lank = GetComponentInParent<Lank>();
         growSpeed = -0.03f;
+        lank = GetComponentInParent<Lank>();
+        timer = new Timer(lank.graphTime);
     }
 	
     // Update is called once per frame
@@ -35,14 +38,14 @@ public class Graph : MonoBehaviour
         {
             if (!endGrowup)
             {
-                myScale.z += growSpeed;
-                growSpeed += 0.0009f;
+                timer++;
+                myScale.z = 8 * (timer.Progress - 0.25f) * (timer.Progress - 0.25f);
                 transform.localScale = myScale;
 
-                if (growSpeed >= 0
-                    && transform.localScale.z >= (myScore / lank.scoreTop) * 4.75f)
+                if (timer.Progress > 0.25f
+                    && myScale.z >= (myScore / lank.scoreTop) * 4.5f)
                 {
-                    myScale.z = (myScore / lank.scoreTop) * 4.75f;
+                    myScale.z = (myScore / lank.scoreTop) * 4.5f;
                     transform.localScale = myScale;
 
                     txtScore.text = ((int)myScore).ToString();
@@ -62,7 +65,7 @@ public class Graph : MonoBehaviour
         {
             if (transform.localScale.z < 0.5f)
             {
-                myScale.z += 0.025f;
+                myScale.z += 0.05f;
 
                 transform.localScale = myScale;
             }

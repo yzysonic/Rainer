@@ -20,12 +20,10 @@ public class Lank : MonoBehaviour {
     public Texture[] texMedal;
     public Text txtWinner;
     public GameObject endLogo;
-    public int graphFrame;
-    public bool IsFinish { get; private set; }
+    public float graphTime;
 
     private Data[] dataList;
     private int playerCount;
-    private bool isFinished;
 
     [HideInInspector] public float scoreTop;
 

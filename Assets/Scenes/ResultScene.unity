@@ -1189,7 +1189,7 @@ MonoBehaviour:
   - {fileID: 2800000, guid: a9f6f63b05fd75546aecb61c204fe635, type: 3}
   txtWinner: {fileID: 752006219}
   endLogo: {fileID: 784703925}
-  graphFrame: 200
+  graphTime: 2
   scoreTop: 0
 --- !u!4 &1426593816
 Transform:
@@ -1220,6 +1220,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1a8184e5713a604c9a06f217500e77f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioMixerGroup: {fileID: 0}
   audioClips: []
   audioSources:
   - {fileID: 1426593819}
