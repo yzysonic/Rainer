@@ -284,6 +284,7 @@ public class GameSceneManager : Singleton<GameSceneManager>
             if (playerCount == 2)
             {
                 players[1].transform.position = this.players[3].transform.position;
+                players[1].transform.rotation = this.players[3].transform.rotation;
             }
 
             var rainerCoat = Resources.Load<Material>("Materials/Rainer_coat");
