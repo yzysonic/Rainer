@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 using Tree = RainerLib.Tree;
 
 public class SettingPlayerControl : PlayerController {
@@ -68,7 +69,7 @@ public class SettingPlayerControl : PlayerController {
 
     protected override Seed ThrowSeed()
     {
-        transform.parent.GetComponentInChildren<Seed>()?.StartFadeOut();
+        transform.parent.GetComponentsInChildren<Seed>()?.ToList().ForEach(s => s.StartFadeOut());
         return base.ThrowSeed();
     }
 }

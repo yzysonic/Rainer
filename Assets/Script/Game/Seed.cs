@@ -32,6 +32,7 @@ public class Seed : MonoBehaviour {
     public void StartFadeOut()
     {
         Tree.enabled = false;
+        Tree.GetComponent<CapsuleCollider>().center = Vector3.down * 1000.0f;
         transform.Find("Icon").gameObject.SetActive(false);
         StartCoroutine(FadeOut());
     }
