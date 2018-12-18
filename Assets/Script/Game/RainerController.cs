@@ -241,7 +241,12 @@ public class RainerController : Rainer
             return false;
         }
 
-        targetTree?.StopGrow();
+        if(targetTree != null)
+        {
+            targetTree.StopGrow();
+            targetTree = null;
+        }
+        
         Leader = player;
         state = State.Follow;
         gameObject.layer = RainerManager.LayerRainerFollow;
