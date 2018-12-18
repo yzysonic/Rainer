@@ -15,8 +15,7 @@ public class Graph : MonoBehaviour
     public Lank lank;
 
     private Vector3 myScale;
-    private float countScore;
-    private float growSpeed;
+    //private float countScore;
     private Timer timer;
 
     // Use this for initialization
@@ -25,8 +24,7 @@ public class Graph : MonoBehaviour
         myScale = transform.localScale;
         readyGraph = false;
         endGrowup = false;
-        countScore = 0;
-        growSpeed = -0.03f;
+        //countScore = 0;
         lank = GetComponentInParent<Lank>();
         timer = new Timer(lank.graphTime);
     }
