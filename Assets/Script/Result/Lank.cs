@@ -43,12 +43,21 @@ public class Lank : MonoBehaviour {
 
             data.index = i + 1;
 
-            data.medal = GameObject.Find("Medal" + data.index).GetComponent<RawImage>();
+            if (playerCount == 2 && i == 1)
+            {
+                data.medal = GameObject.Find("Medal4").GetComponent<RawImage>();
+                data.graph = transform.Find("PlayerGraph4").GetComponent<Graph>();
+            }
+            else
+            {
+                data.medal = GameObject.Find("Medal" + data.index).GetComponent<RawImage>();
+                data.graph = transform.Find("PlayerGraph" + data.index).GetComponent<Graph>();
+            }
+
             data.medalColor = data.medal.color;
             data.medalColor.a = 0;
             data.medal.color = data.medalColor;
 
-            data.graph = transform.Find("PlayerGraph" + data.index).GetComponent<Graph>();
             data.graph.GetComponent<Renderer>().material.color = Color.Lerp(GameSetting.PlayerColors[i], Color.white, 0.2f);
             data.graph.gameObject.SetActive(true);
 

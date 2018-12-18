@@ -64,6 +64,12 @@ public class RainerController : Rainer
 
             case State.MoveToTree:
 
+                if(targetTree == null)
+                {
+                    SetFree();
+                    return;
+                }
+
                 move = targetTree.Seed.transform.position - transform.position;
 
                 if(move.sqrMagnitude < 4.0f)
