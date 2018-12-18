@@ -30,27 +30,33 @@ public class PlayerUITrigger : MonoBehaviour
         NearestTree = FindNearest(NearTrees);
     }
 
-    private void FixedUpdate()
+    private void OnTriggerEnter(Collider other)
     {
-        NearRainers.Clear();
-        NearTrees.Clear();
-    }
-
-    private void OnTriggerStay(Collider other)
-    {
-        if (other.tag == "Rainer")
+        if(other.tag == "Rainer")
         {
             var rainer = other.GetComponent<RainerController>();
             NearRainers.Add(rainer);
         }
-        else if (other.tag == "Tree")
+        else if(other.tag == "Tree")
         {
             var tree = other.GetComponent<Tree>();
 
-            if (tree.PlayerNo < 0)
+            if(tree.PlayerNo < 0)
             {
                 NearTrees.Add(tree);
             }
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.tag == "Rainer")
+        {
+            RemoveFromList(NearRainers, other.gameObject);
+        }
+        else if(other.tag == "Tree")
+        {
+            RemoveFromList(NearTrees, other.gameObject);
         }
     }
 
