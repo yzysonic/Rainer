@@ -20,15 +20,15 @@ public class RainerManager : Singleton<RainerManager> {
     [Range(1.0f, 10.0f)]
     public float avoid_range = 3.0f;
 
-    [Range(0, 1000)]
-    public int pop_interval = 100;
-
-    List<RainerController> rainers = new List<RainerController>();
+    [Range(0, 20)]
+    public float pop_interval = 5;
 
     public Transform spawnGroup;
-    List<Material> materials = new List<Material>();
-    List<Transform> spawnList = new List<Transform>();
-    int timer;
+
+    private List<Material> materials = new List<Material>();
+    private List<Transform> spawnList = new List<Transform>();
+    private List<RainerController> rainers = new List<RainerController>();
+    private Timer timer;
 
     protected override void Awake()
     {
@@ -38,17 +38,16 @@ public class RainerManager : Singleton<RainerManager> {
 
         materials.Add(Resources.Load<Material>("Materials/Rainer_coat"));
 
-    }
-
-    // Use this for initialization
-    void Start()
-    {
-        timer = 0;
         for (int i = 0; i < spawnGroup.childCount; i++)
         {
             spawnList.Add(spawnGroup.GetChild(i));
             spawnList[i].gameObject.SetActive(false);
         }
+    }
+
+    // Use this for initialization
+    void Start()
+    {
         foreach (var rainer in rainers)
         {
             rainer.enabled = true;
@@ -62,15 +61,16 @@ public class RainerManager : Singleton<RainerManager> {
             materials.Add(material);
         }
 
+        timer = new Timer(pop_interval);
     }
 
     // Update is called once per frame
     void Update()
     {
         timer++;
-        if (timer > pop_interval)
+        if (timer.TimesUp())
         {
-            timer = 0;
+            timer.Reset();
 
             if (spawnList.Count > 0)
             {
