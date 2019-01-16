@@ -51,6 +51,14 @@ public class Ground : Singleton<Ground> {
             Material.SetFloat("_RangeRadius", 0.0f);
             Material.SetFloat("_RangeLineWidth", 0.0f);
         }
+        StartCoroutine(InitGrass());
+    }
+
+    IEnumerator InitGrass()
+    {
+        yield return new WaitForEndOfFrame();
+        PaintGrass.Init();
+        Material.SetTexture("_GrassMask", PaintGrass.RenderTex);
     }
 
     public void GrowGrass(Vector2 uv, int playerNo)
@@ -86,8 +94,13 @@ public class Ground : Singleton<Ground> {
     public void ResetGrass()
     {
         GrassField.Awake();
-        PaintGrass.Start();
+        PaintGrass.Init();
         Material.SetTexture("_GrassMask", PaintGrass.RenderTex);
+    }
+
+    public void SetGrassMask(Texture texture)
+    {
+        Material.SetTexture("_GrassMask", texture);
     }
 
     public float CastToGetLengthInUV(float length)

@@ -19,7 +19,7 @@ public class PaintGrass : MonoBehaviour {
 
     public RenderTexture RenderTex { get; private set; }
 
-    public void Start()
+    public void Init()
     {
         lengthToUV = Ground.Instance.LengthToUV;
         blushSizeNormalized = grassBlushSize * lengthToUV;
@@ -46,7 +46,6 @@ public class PaintGrass : MonoBehaviour {
         paintMat.SetTexture("_MainTex", RenderTex);
         paintMat.SetFloat(blushSizePropertyID, blushSizeNormalized);
         paintMat.SetFloat(fadeOutRadiusPropertyID, fadeOutRadiusNormalized);
-        Ground.Instance.Material.SetTexture("_GrassMask", RenderTex);
     }
 
 
