@@ -560,10 +560,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f15f6a8d713369b47b59a73a4c80f3a8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  normalScore: 2
-  bonusScore: 500
-  scoreTime: 1
   growTime: 10
+  miniGrassRadius: 4
+  grassRadius: 30
+  miniGrassSpwanInterval: 0.3
+  grassSpawnInterval: 1
 --- !u!114 &114382118877680064
 MonoBehaviour:
   m_ObjectHideFlags: 1

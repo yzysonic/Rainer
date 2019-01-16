@@ -94,10 +94,4 @@ public class Rainer : MonoBehaviour {
         }
     }
 
-    public Tree FindTree()
-    {
-        var uv = Ground.Instance.GetUV(transform.position - Model.forward * 3.0f);
-        return Ground.Instance.GetTree(uv, PlayerNo);
-    }
-
 }

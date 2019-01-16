@@ -7,14 +7,14 @@ namespace RainerLib
 
     public class Tree : MonoBehaviour
     {
-
-        public int normalScore = 2;
-        public int bonusScore = 50;
-        public float scoreTime = 0.5f;
         public float growTime = 10;
+        public float miniGrassRadius = 4;
+        public float grassRadius = 16;
+        public float miniGrassSpwanInterval = 0.3f;
+        public float grassSpawnInterval = 1.0f;
 
-        private Timer scoreTimer;
         private Timer growTimer;
+        private Timer grassTimer;
         private Vector3 treeMaxScl;
 
         public bool IsEndGrow { get; private set; }
@@ -33,8 +33,8 @@ namespace RainerLib
 
         private void Awake()
         {
-            scoreTimer = new Timer(scoreTime);
             growTimer = new Timer(growTime);
+            grassTimer = new Timer();
             treeMaxScl = transform.localScale;
             transform.localScale = Vector3.zero;
             IsEndGrow = false;
@@ -49,6 +49,11 @@ namespace RainerLib
             Seed.enabled = false;
         }
 
+        private void OnEnable()
+        {
+            StartCoroutine(SpawnGrass(miniGrassRadius, miniGrassSpwanInterval));
+        }
+
         // Update is called once per frame
         void Update()
         {
@@ -59,25 +64,14 @@ namespace RainerLib
             }
 
             growTimer.Step(Speed);
-            scoreTimer.Step(Speed);
             transform.localScale = Vector3.Lerp(Vector3.zero, treeMaxScl, growTimer.Progress);
-
-            if (scoreTimer.TimesUp())
-            {
-                //スコア更新
-                scoreTimer.Reset();
-                if (ScoreManager.IsCreated)
-                {
-                    ScoreManager.Instance.AddScore(PlayerNo, normalScore);
-                }
-            }
 
             if (growTimer.TimesUp())
             {
                 //ボーナススコア更新
-                if (ScoreManager.IsCreated)
+                if (Ground.IsCreated)
                 {
-                    ScoreManager.Instance.AddScore(PlayerNo, bonusScore);
+                    StartCoroutine(SpawnGrass(grassRadius, grassSpawnInterval));
                 }
                 IsEndGrow = true;
                 IsGrowing = false;
@@ -105,6 +99,18 @@ namespace RainerLib
             enabled = false;
         }
 
+        IEnumerator SpawnGrass(float radius, float time)
+        {
+            var ground = Ground.Instance;
+            var uv = Ground.Instance.GetUV(transform.position, 1.0f);
+            grassTimer.Reset(time);
+            while (!grassTimer.TimesUp())
+            {
+                grassTimer++;
+                ground.GrowGrass(uv, PlayerNo, Mathf.Lerp(0.0f, radius, grassTimer.Progress));
+                yield return null;
+            }
+        }
     }
 
 }

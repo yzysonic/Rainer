@@ -1,5 +1,8 @@
 ﻿Shader "Custom/PaintGrass"
 {
+	Properties{
+		_FadeOutRadius ("FadeOutRadius", Float) = 0.01
+	}
 	SubShader
 	{
 		Tags { "RenderType"="Opaque" }
@@ -29,6 +32,7 @@
 			float4 _MainTex_ST;
 			float4 _CenterUV;
 			float _BlushSize;
+			float _FadeOutRadius;
 			
 			v2f vert (appdata v)
 			{
@@ -41,13 +45,18 @@
 			fixed4 frag (v2f i) : SV_Target
 			{
 				float2 r = i.uv-_CenterUV.xy;
-				float r2 = dot(r, r);
+				float r2 = sqrt(dot(r, r));
 				fixed4 source = tex2D(_MainTex, i.uv);
 
-				if(r2 > _BlushSize * _BlushSize)
+				if(r2 > _BlushSize )
 					return source;
 
-				float a = 1-r2/(_BlushSize * _BlushSize);
+				float a = 1.0f;
+
+				if (r2 >= _FadeOutRadius)
+				{
+					a = 1-(r2-_FadeOutRadius)/(_BlushSize-_FadeOutRadius);
+				}
 
 				if(source.a > a)
 					return source;

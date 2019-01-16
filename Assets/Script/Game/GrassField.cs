@@ -18,6 +18,7 @@ public class GrassField : MonoBehaviour {
     private ScoreManager scoreManager;
     private Terrain terrain;
     private int[,] detailValue;
+    private int[,] clearDetailValue;
     private int opacityPropertyID;
     private Timer timer;
 
@@ -46,6 +47,11 @@ public class GrassField : MonoBehaviour {
         for(var i=0;i<blockDivision;i++)
         {
             grassMap[i] = new byte[blockDivision];
+
+            for(var j = 0; j < blockDivision; j++)
+            {
+                grassMap[i][j] = 0xFF;
+            }
         }
 
         // 半径の計算
@@ -57,6 +63,7 @@ public class GrassField : MonoBehaviour {
         terrain = GetComponentInChildren<Terrain>();
         terrain.terrainData.SetDetailResolution(blockDivision, 16);
         detailValue = new int[1, 1] { { grassDensity } };
+        clearDetailValue = new int[1, 1] { { 0 } };
         CleanDetailMap();
 
         // 表示用テクスチャーの初期化
@@ -103,7 +110,7 @@ public class GrassField : MonoBehaviour {
                     continue;
                 }
 
-                if (grassMap[x][z] > 0)
+                if (grassMap[x][z] != 0xFF)
                 {
                     continue;
                 }
@@ -116,7 +123,52 @@ public class GrassField : MonoBehaviour {
                 }
                 var layer = playerNo < GameSetting.PlayerColorIndex.Length ? GameSetting.PlayerColorIndex[playerNo] : playerNo;
                 terrain.terrainData.SetDetailLayer(x, z, layer, detailValue);
-                grassMap[x][z] = (byte)(playerNo + 1);
+                grassMap[x][z] = (byte)playerNo;
+                scoreManager?.AddScore(playerNo, grassScore);
+            }
+        }
+
+    }
+
+    public void SetGrass(Vector2 uv, int playerNo, float radius)
+    {
+        var posBlock = UVToBlockPos(uv);
+
+        radius = radius / fieldSize * blockDivision;
+        var radiusBlock = Mathf.RoundToInt(radius);
+
+        for (int x = posBlock.x - radiusBlock; x <= posBlock.x + radiusBlock; x++)
+        {
+            for (int z = posBlock.y - radiusBlock; z <= posBlock.y + radiusBlock; z++)
+            {
+
+                if (x < 0 || x >= blockDivision || z < 0 || z >= blockDivision)
+                {
+                    continue;
+                }
+
+                if (grassMap[x][z] == playerNo)
+                {
+                    continue;
+                }
+
+                var sqrLength = (x - posBlock.x) * (x - posBlock.x) + (z - posBlock.y) * (z - posBlock.y);
+                var sqrRadius = Mathf.RoundToInt(radius * radius);
+
+                if (sqrLength > sqrRadius)
+                {
+                    continue;
+                }
+
+                if(grassMap[x][z] != 0xFF)
+                {
+                    terrain.terrainData.SetDetailLayer(x, z, grassMap[x][z], clearDetailValue);
+                    scoreManager?.AddScore(grassMap[x][z], -grassScore);
+                }
+
+                var layer = playerNo < GameSetting.PlayerColorIndex.Length ? GameSetting.PlayerColorIndex[playerNo] : playerNo;
+                terrain.terrainData.SetDetailLayer(x, z, layer, detailValue);
+                grassMap[x][z] = (byte)playerNo;
                 scoreManager?.AddScore(playerNo, grassScore);
             }
         }
@@ -135,7 +187,7 @@ public class GrassField : MonoBehaviour {
 
     public int GetPlayerNoOfGrass(int x, int y)
     {
-        return grassMap[x][y] - 1;
+        return grassMap[x][y] != 0xFF ? grassMap[x][y] : -1;
     }
 
     public Int2 UVToBlockPos(Vector2 uv)
@@ -154,8 +206,8 @@ public class GrassField : MonoBehaviour {
         {
             for(var y= 0; y<blockDivision; y++)
             {
-                var no = grassMap[x][y]-1;
-                if (no >= 0)
+                var no = grassMap[x][y];
+                if (no != 0xFF)
                 {
                     Texture.SetPixel(x, y, GameSetting.PlayerColors[no]);
                 }

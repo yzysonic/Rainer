@@ -9,7 +9,6 @@ public class Ground : Singleton<Ground> {
 
     [SerializeField] private Texture2D grassTex;
     [SerializeField, Range(0.1f, 10.0f)] private float tilingScale = 1.0f;
-    [SerializeField] private GameObject treePrefab;
     [SerializeField, Range(0.001f, 0.01f)] private float redLineWidth = 0.003f;
 
     private new Renderer renderer;
@@ -21,6 +20,7 @@ public class Ground : Singleton<Ground> {
     public MoveRange MoveRange { get; private set; }
     public int LayerMask { get; private set; }
     public Material Material { get; private set; }
+    public float LengthToUV { get; private set; }
 
     protected override void Awake()
     {
@@ -31,15 +31,13 @@ public class Ground : Singleton<Ground> {
         MoveRange = GetComponentInChildren<MoveRange>();
         LayerMask = UnityEngine.LayerMask.GetMask(UnityEngine.LayerMask.LayerToName(gameObject.layer));
         Material = renderer.material;
+        LengthToUV = CastToGetLengthInUV(1.0f);
     }
 
     // Use this for initialization
     void Start ()
     {
-        PaintGrass.InitRenderTexture();
-
         Material.shader = Shader.Find("Custom/Ground");
-        Material.SetTexture("_GrassMask", PaintGrass.RenderTex);
         Material.SetTexture("_GrassTex", grassTex);
         Material.SetTexture("_GrassField", GrassField.Texture);
         Material.SetFloat("_GrassTilingScale", tilingScale);
@@ -53,8 +51,6 @@ public class Ground : Singleton<Ground> {
             Material.SetFloat("_RangeRadius", 0.0f);
             Material.SetFloat("_RangeLineWidth", 0.0f);
         }
-
-
     }
 
     public void GrowGrass(Vector2 uv, int playerNo)
@@ -63,21 +59,10 @@ public class Ground : Singleton<Ground> {
         PaintGrass.Paint(uv);
     }
 
-    public Tree GetTree(Vector2 uv, int playerNo)
+    public void GrowGrass(Vector2 uv, int playerNo, float radius)
     {
-        var pos = GrassField.UVToBlockPos(uv);
-
-        // 既存の木を返す
-        if(treeMap.ContainsKey(pos))
-        {
-            return treeMap[pos];
-        }
-
-        // 新しい木を返す
-        var tree = Instantiate(treePrefab, GrassField.BlockPosToWorldPos(pos), Quaternion.identity, transform).GetComponent<Tree>();
-        treeMap.Add(pos, tree);
-        return tree;
-
+        GrassField.SetGrass(uv, playerNo, radius);
+        PaintGrass.Paint(uv, radius);
     }
 
     /// <summary>
@@ -101,16 +86,19 @@ public class Ground : Singleton<Ground> {
     public void ResetGrass()
     {
         GrassField.Awake();
-        PaintGrass.Awake();
+        PaintGrass.Start();
         Material.SetTexture("_GrassMask", PaintGrass.RenderTex);
+    }
+
+    public float CastToGetLengthInUV(float length)
+    {
+        var rayPos = transform.position + transform.rotation * new Vector3(length, 1.0f, 0.0f);
+        return Mathf.Abs(GetUV(rayPos).x - 0.5f);
     }
 
     private float GetMoveRangeRadiusInUV()
     {
-        var rayPos = transform.position + transform.rotation * new Vector3(MoveRange.radius, 1.0f, 0.0f);
-
-        return Mathf.Abs(GetUV(rayPos).x - 0.5f);
-
+        return CastToGetLengthInUV(MoveRange.radius);
     }
 
 }
