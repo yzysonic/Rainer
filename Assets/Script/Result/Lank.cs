@@ -15,21 +15,33 @@ public class Lank : MonoBehaviour {
         public int index;
         public PlayerController player;
         public bool isFinished;
+        public AudioSource audio;
+    }
+
+    enum State
+    {
+        Fall,
+        GaugeGrow,
+
     }
 
     public Texture[] texMedal;
     public Text txtWinner;
     public GameObject endLogo;
     public float graphTime;
+    public List<AudioClip> SEAudioClips;
 
     private Data[] dataList;
     private int playerCount;
+    private int state;
 
     [HideInInspector] public float scoreTop;
 
     private void Awake()
     {
         playerCount = GameSetting.PlayerCount;
+        AudioMixerFade.Instance.Set(1.0f);
+        state = 0;
     }
 
     // Use this for initialization
@@ -69,6 +81,8 @@ public class Lank : MonoBehaviour {
             data.player.transform.position = data.graph.transform.position + Vector3.up * 25;
             data.player.Animator.SetBool("fall", true);
 
+            data.audio = data.player.gameObject.AddComponent<AudioSource>();
+
             data.isFinished = false;
         }
 
@@ -87,6 +101,7 @@ public class Lank : MonoBehaviour {
             Data data = dataList[i];
 
             data.medal.texture = texMedal[i];
+            data.audio.clip = SEAudioClips[i + 3];
         }
 
         for(int i = playerCount - 1; i > 0; i--)
@@ -100,6 +115,7 @@ public class Lank : MonoBehaviour {
 
         scoreTop = dataList[0].score;
         FadeInOut.Instance.Alpha = 0.0f;
+        BGMPlayer.Instance.AudioSources[2].PlayOneShot(SEAudioClips[0]);
     }
 
     // Update is called once per frame
@@ -116,6 +132,13 @@ public class Lank : MonoBehaviour {
             {
                 data.graph.readyGraph = true;
                 data.player.Animator.SetBool("fall", false);
+                if(state < 1)
+                {
+                    BGMPlayer.Instance.AudioSources[2].PlayOneShot(SEAudioClips[1]);
+                    BGMPlayer.Instance.AudioSources[3].clip = SEAudioClips[2];
+                    BGMPlayer.Instance.AudioSources[3].PlayDelayed(0.6f);
+                    state++;
+                }
             }
 
             if (!data.isFinished)
@@ -126,6 +149,7 @@ public class Lank : MonoBehaviour {
                     data.medal.color = data.medalColor;
                     data.player.Animator.enabled = false;
                     data.player.Model.Rotate(Vector3.up * 180);
+                    data.audio.Play();
 
                     switch(i)
                     {
@@ -134,6 +158,7 @@ public class Lank : MonoBehaviour {
 
                             dataList[playerCount - 1].player.GetComponentInChildren<Animation>().Play("Wizard_Death");
                             BGMPlayer.Instance.AudioSources[1].Play();
+                            BGMPlayer.Instance.AudioSources[3].PlayOneShot(SEAudioClips[7]);
                             endLogo.SetActive(true);
                             txtWinner.text = dataList[0].index + "Pのかち";
 
@@ -145,6 +170,7 @@ public class Lank : MonoBehaviour {
                             break;
                     }
 
+
                     data.isFinished = true;
                 }
             }
@@ -155,8 +181,9 @@ public class Lank : MonoBehaviour {
             || JoyconManager.GetButtonDown(GameSetting.JoyconButton.Start))
             && !FadeInOut.Instance.enabled)
         {
+            BGMPlayer.Instance.AudioSources[2].PlayOneShot(SEAudioClips[8]);
             endLogo.GetComponent<Animation>().Play();
-            BGMPlayer.Instance.Fade.Out();
+            AudioMixerFade.Instance.Out();
             FadeInOut.Instance.FadeOut(() =>
             {
                 if (Ground.IsCreated)

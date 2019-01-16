@@ -8,6 +8,7 @@ public class ScoreManager : Singleton<ScoreManager>
 {
     public float showPeriod = 10.0f;
     public float showInterval = 3.0f;
+    public bool useTestScore = false;
 
     private int[] scores = new int[4];
     private CircularGauge circularGauge;
@@ -18,6 +19,13 @@ public class ScoreManager : Singleton<ScoreManager>
         circularGauge = GetComponent<CircularGauge>();
         InitGauge();
         GameTimer.Instance.AddPeriodEvent(showPeriod, ShowScoreGauge);
+        if (useTestScore)
+        {
+            scores[0] = 1000;
+            scores[1] = 2000;
+            scores[2] = 3000;
+            scores[3] = 4000;
+        }
     }
 
     public int GetScore(int playerNo)

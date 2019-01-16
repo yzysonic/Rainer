@@ -17,15 +17,14 @@ public class Title : MonoBehaviour
     private void Awake()
     {
         fadeInOut = FadeInOut.Instance;
-
         oldPlayerPos = titlePlayer.transform.position;
+        AudioMixerFade.Instance.Set(1.0f);
     }
 
     // Use this for initialization
     void Start ()
     {
         fadeInOut.FadeIn();
-
     }
 
 	// Update is called once per frame
@@ -35,10 +34,10 @@ public class Title : MonoBehaviour
         if ((Input.GetButtonDown("Submit") || JoyconManager.GetButtonDown(GameSetting.JoyconButton.Start)) && !fadeInOut.enabled)
         {
             cameraFallow.target = null;
-            BGMPlayer.Instance.AudioFades[0].Out();
-            BGMPlayer.Instance.AudioFades[1].Out();
+            AudioMixerFade.Instance.Out();
+            GetComponent<AudioSource>().Play();
             startAnimation.Play("TitleStart");
-            fadeInOut.FadeOut(() =>
+            fadeInOut.FadeOut(3.0f, () =>
             {
                 BGMPlayer.Instance.Destroy();
                 SceneManager.LoadScene("SettingScene");

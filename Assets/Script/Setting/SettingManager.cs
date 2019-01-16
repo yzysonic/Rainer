@@ -48,7 +48,7 @@ public class SettingManager : MonoBehaviour {
 
         GameSetting.PlayerColors = new Color[GameSetting.DefaultPlayerColors.Length];
         System.Array.Copy(GameSetting.DefaultPlayerColors, GameSetting.PlayerColors, GameSetting.DefaultPlayerColors.Length);
-
+        AudioMixerFade.Instance.Set(1.0f);
     }
 
     // Use this for initialization
@@ -112,8 +112,8 @@ public class SettingManager : MonoBehaviour {
             GameSetting.PlayerColors = activePlayerIcon.Select(pi=>pi.Color).ToArray();
             GameSetting.PlayerColorIndex = activePlayerIcon.Select(pi => pi.ColorIndex).ToArray();
 
-            BGMPlayer.Instance.AudioFades[0].Out();
-            BGMPlayer.Instance.AudioFades[1].Out();
+            GetComponent<AudioSource>().Play();
+            AudioMixerFade.Instance.Out();            
             FadeInOut.Instance.FadeOut(() => {
                 BGMPlayer.Instance.Destroy();
                 SceneManager.LoadScene(nextScene);

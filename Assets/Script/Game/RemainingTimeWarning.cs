@@ -14,6 +14,7 @@ public class RemainingTimeWarning : MonoBehaviour {
     private bool timeTrigger;
     private RawImage image;
     private int textureId;
+    private AudioSource audioSource;
 
     void Start()
     {
@@ -21,6 +22,7 @@ public class RemainingTimeWarning : MonoBehaviour {
         animation = GetComponent<Animation>();
         image = gameObject.GetComponent<RawImage>();
         textureId = 0;
+        audioSource = GetComponent<AudioSource>();
 
         gameTimer.AddEvent(startTime, () =>
         {
@@ -61,6 +63,7 @@ public class RemainingTimeWarning : MonoBehaviour {
         else
         {
             SetTriggerEvent(1.0f);
+            audioSource.Play();
         }
 
         animation.Stop();
