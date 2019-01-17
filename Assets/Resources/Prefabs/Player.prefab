@@ -1885,7 +1885,7 @@ MonoBehaviour:
   seedPerfab: {fileID: 1843108298129858, guid: 436c840f306679246ba20e9d10d798d2, type: 2}
   seedSpeed: 3
   uiManager: {fileID: 0}
-  controllType: 0
+  controllType: 1
   max_speed: 10
   rotation_speed: 3
   auto_rotation_speed: 1
@@ -2026,7 +2026,7 @@ SkinnedMeshRenderer:
   m_ReflectionProbeUsage: 1
   m_RenderingLayerMask: 4294967295
   m_Materials:
-  - {fileID: 2100000, guid: aa8958122a47d474d85551e6b31619a2, type: 2}
+  - {fileID: 2100000, guid: a3e44e4318a9e3645b24452d3cbb6157, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0

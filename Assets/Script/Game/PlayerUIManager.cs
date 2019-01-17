@@ -9,37 +9,18 @@ public class PlayerUIManager : MonoBehaviour
     public RectTransform RectTransform { get; private set; }
     public Canvas Canvas { get; private set; }
 	public RainerCount UIRainerCount { get; private set; }
-	public RectTransform UIGrowTreeFixed { get; private set; }
 	public UITreeProgress UITreeProgress { get; private set; }
+	public UIFallow UIGrowTree { get; private set; }
 	public UIFallow UIGetRainer { get; private set; }
-
-    public int RainerCount
-    {
-        get
-        {
-            return UIRainerCount.Value;
-        }
-        set
-        {
-            UIRainerCount.Value = value;
-            if (value == 1)
-            {
-                UIGrowTreeFixed.gameObject.SetActive(true);
-            }
-            else if(value == 0)
-            {
-                UIGrowTreeFixed.gameObject.SetActive(false);
-            }
-
-        }
-    }
+    public UIFallow UIGrowTreeBubble { get; private set; }
 
     private void Awake()
     {
         RectTransform   = GetComponent<RectTransform>();
         Canvas          = GetComponent<Canvas>();
         UIRainerCount     = transform.Find("RainerCount")?.GetComponent<RainerCount>();
-        UIGrowTreeFixed   = transform.Find("GrowTreeFixed")?.GetComponent<RectTransform>();
+        UIGrowTree   = transform.Find("GrowTree")?.GetComponent<UIFallow>();
+        UIGrowTreeBubble   = transform.Find("GrowTreeBubble")?.GetComponent<UIFallow>();
         UITreeProgress  = transform.Find("TreeProgress")?.GetComponent<UITreeProgress>();
         UIGetRainer       = transform.Find("GetRainer")?.GetComponent<UIFallow>();
     }
@@ -54,6 +35,16 @@ public class PlayerUIManager : MonoBehaviour
         if(UIGetRainer != null)
         {
             UIGetRainer.camera = Canvas.worldCamera;
+        }
+
+        if (UIGrowTree != null)
+        {
+            UIGrowTree.camera = Canvas.worldCamera;
+        }
+
+        if (UIGrowTreeBubble != null)
+        {
+            UIGrowTreeBubble.camera = Canvas.worldCamera;
         }
     }
 

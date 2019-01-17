@@ -7,6 +7,7 @@ using Tree = RainerLib.Tree;
 public class PlayerUITrigger : MonoBehaviour
 {
     private PlayerUIManager uiManager;
+    private Ground ground;
 
     public List<RainerController> NearRainers { get; private set; } = new List<RainerController>();
     public List<Tree> NearTrees { get; private set; } = new List<Tree>();
@@ -16,6 +17,7 @@ public class PlayerUITrigger : MonoBehaviour
 	// Use this for initialization
 	void Start () {
         uiManager = transform.parent.GetComponent<PlayerController>().uiManager;
+        ground = Ground.Instance;
 	}
 
     private void Update()
@@ -36,6 +38,27 @@ public class PlayerUITrigger : MonoBehaviour
         if(uiManager?.UIGetRainer != null)
         {
             uiManager.UIGetRainer.Target = NearestRainer?.transform;
+        }
+
+        if (uiManager?.UIRainerCount.Value > 0 && uiManager?.UIGrowTree != null && uiManager?.UIGrowTreeBubble != null)
+        {
+            int grassNo = ground.GrassField.GetPlayerNoOfGrass(ground.GetUV(transform.position));
+            if (grassNo != -1
+                && grassNo != GetComponentInParent<PlayerController>().PlayerNo)
+            {
+                uiManager.UIGrowTreeBubble.Target = null;
+                uiManager.UIGrowTree.Target = transform;
+            }
+            else
+            {
+                uiManager.UIGrowTree.Target = null;
+                uiManager.UIGrowTreeBubble.Target = transform;
+            }
+        }
+        else
+        {
+            uiManager.UIGrowTree.Target = null;
+            uiManager.UIGrowTreeBubble.Target = null;
         }
 
         NearestTree = FindNearest(NearTrees);
