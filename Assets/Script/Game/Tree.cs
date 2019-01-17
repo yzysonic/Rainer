@@ -51,7 +51,10 @@ namespace RainerLib
 
         private void OnEnable()
         {
-            StartCoroutine(SpawnGrass(miniGrassRadius, miniGrassSpwanInterval));
+            if (Ground.IsCreated)
+            {
+                StartCoroutine(SpawnGrass(miniGrassRadius, miniGrassSpwanInterval));
+            }
         }
 
         // Update is called once per frame

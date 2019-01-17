@@ -115,7 +115,7 @@ public class Lank : MonoBehaviour {
 
         scoreTop = dataList[0].score;
         FadeInOut.Instance.Alpha = 0.0f;
-        BGMPlayer.Instance.AudioSources[2].PlayOneShot(SEAudioClips[0]);
+        //BGMPlayer.Instance.AudioSources[2].PlayOneShot(SEAudioClips[0]);
     }
 
     // Update is called once per frame
@@ -135,8 +135,8 @@ public class Lank : MonoBehaviour {
                 if(state < 1)
                 {
                     BGMPlayer.Instance.AudioSources[2].PlayOneShot(SEAudioClips[1]);
-                    BGMPlayer.Instance.AudioSources[3].clip = SEAudioClips[2];
-                    BGMPlayer.Instance.AudioSources[3].PlayDelayed(0.6f);
+                    //BGMPlayer.Instance.AudioSources[3].clip = SEAudioClips[2];
+                    //BGMPlayer.Instance.AudioSources[3].PlayDelayed(0.6f);
                     state++;
                 }
             }

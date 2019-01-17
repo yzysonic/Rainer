@@ -36,12 +36,16 @@ public class PlayerUITrigger : MonoBehaviour
         NearestRainer = FindNearest(NearRainers);
         NearestTree = FindNearest(NearTrees);
 
+        if(uiManager != null)
+        {
+            uiManager.UIGetRainer.Target = NearestRainer?.transform;
+        }
+
         if (!GameSceneManager.IsCreated)
         {
             return;
         }
 
-        uiManager.UIGetRainer.Target = NearestRainer?.transform;
         if(uiManager.UIRainerCount.Value > 0)
         {
             int grassNo = ground.GrassField.GetPlayerNoOfGrass(ground.GetUV(transform.position));
