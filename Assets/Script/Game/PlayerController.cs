@@ -66,9 +66,15 @@ public class PlayerController : Rainer {
         uiTrigger.enabled = true;
         startAction?.Invoke();
     }
-	
-	// Update is called once per frame
-	protected virtual void Update ()
+
+    protected override void OnDisable()
+    {
+        base.OnDisable();
+        uiTrigger.enabled = false;
+    }
+
+    // Update is called once per frame
+    protected virtual void Update ()
     {
         UpdateInput();
 

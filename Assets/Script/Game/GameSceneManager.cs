@@ -13,7 +13,6 @@ public class GameSceneManager : Singleton<GameSceneManager>
         Init,
         FadeIn,
         CameraworkStart,
-        //StartLogo,
         Game,
         EndLogo,
         CameraworkEnd,
@@ -133,7 +132,7 @@ public class GameSceneManager : Singleton<GameSceneManager>
 
                 SetPlayer();
                 SetCamera();
-
+                AudioMixerFade.Instance.Set(1.0f);
                 CurrentState = startState;
                 return;
 
@@ -146,11 +145,6 @@ public class GameSceneManager : Singleton<GameSceneManager>
                 activeCameras.ForEach(c => c.GetComponent<Animation>().Play("CameraStart"));
                 startLogo.gameObject.SetActive(true);
                 return;
-
-            //case State.StartLogo:
-            //    startLogo.gameObject.SetActive(true);
-            //    startLogo.callback = () => CurrentState++;
-            //    return;
 
             case State.Game:
                 timer.enabled = true;
@@ -176,7 +170,7 @@ public class GameSceneManager : Singleton<GameSceneManager>
                 activeCanvas.ForEach(c => c.gameObject.SetActive(false));
                 activeCameras.ForEach(c => c.GetComponent<CameraTopViewAnimation>().enabled = true);
                 activeCameras.ForEach(c => c.GetComponent<CameraFallow>().enabled = false);
-                BGMPlayer.Instance.Fade.Out(7.0f);
+                AudioMixerFade.Instance.Out(3.0f);
                 return;
 
             case State.EnterResult:
@@ -185,6 +179,7 @@ public class GameSceneManager : Singleton<GameSceneManager>
                 return;
 
             case State.Result:
+                AudioMixerFade.Instance.Destroy();
                 BGMPlayer.Instance.Destroy();
                 SceneManager.LoadSceneAsync("ResultScene", LoadSceneMode.Additive);
                 activeCameras.GetRange(1, playerCount - 1).ForEach(c => c.SetActive(false));

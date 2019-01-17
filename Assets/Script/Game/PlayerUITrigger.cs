@@ -17,7 +17,7 @@ public class PlayerUITrigger : MonoBehaviour
 	// Use this for initialization
 	void Start () {
         uiManager = transform.parent.GetComponent<PlayerController>().uiManager;
-        ground = Ground.Instance;
+        ground = Ground.IsCreated ? Ground.Instance : null;
 	}
 
     private void Update()
@@ -34,13 +34,15 @@ public class PlayerUITrigger : MonoBehaviour
         }
 
         NearestRainer = FindNearest(NearRainers);
+        NearestTree = FindNearest(NearTrees);
 
-        if(uiManager?.UIGetRainer != null)
+        if (!GameSceneManager.IsCreated)
         {
-            uiManager.UIGetRainer.Target = NearestRainer?.transform;
+            return;
         }
 
-        if (uiManager?.UIRainerCount.Value > 0 && uiManager?.UIGrowTree != null && uiManager?.UIGrowTreeBubble != null)
+        uiManager.UIGetRainer.Target = NearestRainer?.transform;
+        if(uiManager.UIRainerCount.Value > 0)
         {
             int grassNo = ground.GrassField.GetPlayerNoOfGrass(ground.GetUV(transform.position));
             if (grassNo != -1
@@ -61,7 +63,6 @@ public class PlayerUITrigger : MonoBehaviour
             uiManager.UIGrowTreeBubble.Target = null;
         }
 
-        NearestTree = FindNearest(NearTrees);
     }
 
     private void OnTriggerEnter(Collider other)
