@@ -45,6 +45,14 @@ public class RainerManager : Singleton<RainerManager> {
         }
     }
 
+    private void OnDisable()
+    {
+        foreach(var rainer in rainers)
+        {
+            rainer.enabled = false;
+        }
+    }
+
     // Use this for initialization
     void Start()
     {

@@ -39,6 +39,12 @@ public class RainerController : Rainer
         CoatRenderer = Model.GetChild(1).GetComponent<Renderer>();
     }
 
+    protected override void OnDisable()
+    {
+        base.OnDisable();
+        targetTree?.StopGrow();
+    }
+
     protected void Update()
     {
 
