@@ -239,7 +239,10 @@ public class RainerController : Rainer
         gameObject.layer = RainerManager.LayerRainerIdle;
         CoatRenderer.material = manager.GetDefaultMaterial();
         Leader = null;
-        Cloud.RainRayCast.enabled = false;
+        if (Ground.IsCreated)
+        {
+            Cloud.RainRayCast.enabled = false;
+        }
         MinimapIcon.gameObject.SetActive(true);
         move = Vector3.zero;
     }
@@ -271,7 +274,10 @@ public class RainerController : Rainer
         gameObject.layer = RainerManager.LayerRainerFollow;
         CoatRenderer.material = manager.GetMaterial(PlayerNo);
         MinimapIcon.gameObject.SetActive(false);
-        Cloud.RainRayCast.enabled = true;
+        if (Ground.IsCreated)
+        {
+            Cloud.RainRayCast.enabled = true;
+        }
         return true;
     }
 

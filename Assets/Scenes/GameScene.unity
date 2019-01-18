@@ -7873,7 +7873,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 569a439ad35e1a04d9aaad82727e4edd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  createCloud: 0
+  createCloud: 1
   rainerPrefab: {fileID: 1984977183495734, guid: 4cc367557c7898f4abd1ae68009e9d0f,
     type: 2}
   max_speed: 10
