@@ -97,7 +97,7 @@ public class RainerManager : Singleton<RainerManager> {
         var rainer = rainerObj.GetComponent<RainerController>();
         if (createCloud)
         {
-            rainer.CreateCloud();
+            rainer.CreateCloud(false);
         }
         rainer.SetFree();
         rainers.Add(rainer);
