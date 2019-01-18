@@ -35,8 +35,14 @@ public class RainerController : Rainer
     protected override void Awake()
     {
         base.Awake();
-        manager = RainerManager.Instance;        
+        manager = RainerManager.Instance;
         CoatRenderer = Model.GetChild(1).GetComponent<Renderer>();
+    }
+
+    protected override void OnDisable()
+    {
+        base.OnDisable();
+        targetTree?.StopGrow();
     }
 
     protected void Update()
@@ -233,6 +239,10 @@ public class RainerController : Rainer
         gameObject.layer = RainerManager.LayerRainerIdle;
         CoatRenderer.material = manager.GetDefaultMaterial();
         Leader = null;
+        if (Ground.IsCreated)
+        {
+            Cloud.RainRayCast.enabled = false;
+        }
         MinimapIcon.gameObject.SetActive(true);
         move = Vector3.zero;
     }
@@ -264,6 +274,10 @@ public class RainerController : Rainer
         gameObject.layer = RainerManager.LayerRainerFollow;
         CoatRenderer.material = manager.GetMaterial(PlayerNo);
         MinimapIcon.gameObject.SetActive(false);
+        if (Ground.IsCreated)
+        {
+            Cloud.RainRayCast.enabled = true;
+        }
         return true;
     }
 

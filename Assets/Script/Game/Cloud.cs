@@ -8,6 +8,13 @@ public class Cloud : MonoBehaviour {
     public float fallow_speed = 2.0f;
     public float height = 7.0f;
 
+    public RainRayCast RainRayCast { get; set; }
+
+    private void Awake()
+    {
+        RainRayCast = GetComponentInChildren<RainRayCast>();
+    }
+
     private void OnEnable()
     {
         transform.position = new Vector3(target.position.x, height, target.position.z);
@@ -17,4 +24,6 @@ public class Cloud : MonoBehaviour {
 	void Update () {
         transform.position = Vector3.Lerp(transform.position, target.position + new Vector3(0.0f, height, 0.0f), Time.deltaTime*fallow_speed);
 	}
+
+
 }

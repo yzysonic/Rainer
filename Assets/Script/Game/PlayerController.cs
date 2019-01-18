@@ -267,7 +267,7 @@ public class PlayerController : Rainer {
     {
         var seed = Instantiate(seedPerfab, transform.position - Model.forward * 0.5f, Quaternion.identity).GetComponent<Seed>();
         seed.transform.parent = transform.parent;
-        //seed.GetComponent<Rigidbody>().AddForce(CharacterController.velocity + Model.rotation * new Vector3(1.0f, 1.0f, -1.0f) * seedSpeed, ForceMode.VelocityChange);
+
         return seed;
     }
 

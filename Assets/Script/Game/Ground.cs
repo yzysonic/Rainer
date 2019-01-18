@@ -12,7 +12,6 @@ public class Ground : Singleton<Ground> {
     [SerializeField, Range(0.001f, 0.01f)] private float redLineWidth = 0.003f;
 
     private new Renderer renderer;
-    private Dictionary<Int2, Tree> treeMap = new Dictionary<Int2, Tree>();
     private RaycastHit hitInfo;
 
     public GrassField GrassField { get; private set; }

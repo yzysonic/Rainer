@@ -45,6 +45,14 @@ public class RainerManager : Singleton<RainerManager> {
         }
     }
 
+    private void OnDisable()
+    {
+        foreach(var rainer in rainers)
+        {
+            rainer.enabled = false;
+        }
+    }
+
     // Use this for initialization
     void Start()
     {
@@ -89,7 +97,7 @@ public class RainerManager : Singleton<RainerManager> {
         var rainer = rainerObj.GetComponent<RainerController>();
         if (createCloud)
         {
-            rainer.CreateCloud();
+            rainer.CreateCloud(false);
         }
         rainer.SetFree();
         rainers.Add(rainer);
