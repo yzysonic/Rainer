@@ -266,7 +266,7 @@ public class PlayerController : Rainer {
     protected virtual Seed ThrowSeed()
     {
         var seed = Instantiate(seedPerfab, transform.position - Model.forward * 0.5f, Quaternion.identity).GetComponent<Seed>();
-        seed.transform.parent = Ground.Instance.transform;
+        seed.transform.parent = transform.parent;
 
         return seed;
     }
