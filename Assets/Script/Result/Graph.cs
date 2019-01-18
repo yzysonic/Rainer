@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using RainerLib;
+using System;
 
 public class Graph : MonoBehaviour
 {
@@ -13,10 +14,12 @@ public class Graph : MonoBehaviour
     public bool endGrowup;
     public Text txtScore;
     public Lank lank;
+    public float percentage;
 
     private Vector3 myScale;
     //private float countScore;
     private Timer timer;
+
 
     // Use this for initialization
     void Start ()
@@ -40,13 +43,22 @@ public class Graph : MonoBehaviour
                 myScale.z = 8 * (timer.Progress - 0.25f) * (timer.Progress - 0.25f);
                 transform.localScale = myScale;
 
+                if (timer.Progress > 0.25f)
+                {
+                    percentage = (myScore / lank.sumScore) * (myScale.z / ((myScore / lank.scoreTop) * 4.5f));
+                    //percentage = (float)Math.Round(percentage, 4);
+                    txtScore.text = $"{(Math.Round(percentage, 3) * 100):f1}%";
+                }
+
                 if (timer.Progress > 0.25f
                     && myScale.z >= (myScore / lank.scoreTop) * 4.5f)
                 {
                     myScale.z = (myScore / lank.scoreTop) * 4.5f;
                     transform.localScale = myScale;
 
-                    txtScore.text = ((int)myScore).ToString();
+                    percentage = (myScore / lank.sumScore) * (myScale.z / ((myScore / lank.scoreTop) * 4.5f));
+                    percentage = (float)Math.Round(percentage, 4);
+                    txtScore.text = $"{(Math.Round(percentage, 3) * 100):f1}%";
                     endGrowup = true;
                 }
             }

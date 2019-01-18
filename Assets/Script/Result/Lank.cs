@@ -36,6 +36,8 @@ public class Lank : MonoBehaviour {
     private int state;
 
     [HideInInspector] public float scoreTop;
+    [HideInInspector] public float sumScore = 0;
+
 
     private void Awake()
     {
@@ -111,6 +113,12 @@ public class Lank : MonoBehaviour {
                 dataList[i - 1].score++;
                 dataList[i - 1].graph.myScore++;
             }
+        }
+
+        for (int i = 0; i < playerCount; i++)
+        {
+
+            sumScore = sumScore + dataList[i].score;
         }
 
         scoreTop = dataList[0].score;
