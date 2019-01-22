@@ -37,6 +37,7 @@ public class Title : MonoBehaviour
             AudioMixerFade.Instance.Out();
             GetComponent<AudioSource>().Play();
             startAnimation.Play("TitleStart");
+            JoyconManager.Instance.Destroy();
             fadeInOut.FadeOut(3.0f, () =>
             {
                 BGMPlayer.Instance.Destroy();
@@ -54,6 +55,11 @@ public class Title : MonoBehaviour
                 Ground.Instance.ResetGrass();
                 fadeInOut.FadeIn();
             });
+        }
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            JoyconManager.Instance.Destroy();
         }
 
 

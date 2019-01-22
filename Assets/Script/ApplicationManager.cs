@@ -45,9 +45,5 @@ public class ApplicationManager : Singleton<ApplicationManager>
 
 #endif
 
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            JoyconManager.Instance.Destroy();
-        }
     }
 }
