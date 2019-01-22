@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 using RainerLib;
+using UnityEngine.SceneManagement;
+
 
 #if UNITY_EDITOR
 using UnityEditor;
@@ -33,5 +35,19 @@ public class ApplicationManager : Singleton<ApplicationManager>
             Application.Quit();
 #endif
         }
-	}
+
+#if !UNITY_EDITOR
+
+        if (Input.GetKeyDown(KeyCode.F1))
+        {
+            SceneManager.LoadScene("TitleScene");
+        }
+
+#endif
+
+        if (Input.GetKeyDown(KeyCode.R))
+        {
+            JoyconManager.Instance.Destroy();
+        }
+    }
 }

@@ -95,12 +95,12 @@ public class JoyconManager: Singleton<JoyconManager>
 		}
     }
 
-    void OnApplicationQuit()
+    protected override void OnDestroy()
     {
-		for (int i = 0; i < j.Count; ++i)
-		{
-			j[i].Detach ();
-		}
+        for (int i = 0; i < j.Count; ++i)
+        {
+            j[i].Detach();
+        }
     }
 
     public static bool GetButton(Joycon.Button button)

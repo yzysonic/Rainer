@@ -31,6 +31,10 @@ public class SettingManager : MonoBehaviour {
 
     private void Awake()
     {
+        if (JoyconManager.IsCreated)
+        {
+            JoyconManager.Instance.Destroy();
+        }
         joycons = JoyconManager.Instance.j;
 
         playerIcons = new PlayerIcon[4];

@@ -82,6 +82,7 @@ public class Lank : MonoBehaviour {
             data.player.DestroyCloud();
             data.player.transform.position = data.graph.transform.position + Vector3.up * 25;
             data.player.Animator.SetBool("fall", true);
+            data.player.gameObject.layer = LayerMask.NameToLayer("PlayerResult");
 
             data.audio = data.player.gameObject.AddComponent<AudioSource>();
 
